@@ -1,14 +1,16 @@
-@startuml Api Management in front of AKS
+```plantuml
+@startuml
 
-title High Level Architecture - API Management in front of AKS
+node node1
+node node2
+node node3
+node node4
+node node5
+node1 -- node2 : label1
+node1 .. node3 : label2
+node1 ~~ node4 : label3
+node1 == node5
 
-frame VNET{
-    frame APIM-subnet{
-        node "API Management"
-    }
-    frame AKS-subnet{
-        node "ILB"
-        node "AKS Cluster"
-    }
-}
 @enduml
+
+```
