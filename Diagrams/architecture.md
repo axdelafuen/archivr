@@ -22,7 +22,7 @@ artifact datas
 
 
 webApp --> api
-webApp --> generator
+webApp -> generator
 api --> datas
 
 }
