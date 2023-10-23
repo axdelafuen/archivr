@@ -5,31 +5,24 @@ left to right direction
 
 frame "ArchiVR" {
 
-node web as "Web Page" #lightgrey
 
-node mobile as "Mobile App" #lightgrey
 
 cloud Server #aliceblue;line:blue;line.dotted;text:blue{
 
-node modelApi as "Web API - Model"#lightgrey{
-artifact Model
-}
+node webApp as "Web Page" #lightgrey
 
-node datasApi as "Web API - Datas" #lightgrey
+node api as "Web API" #lightgrey
 
 database db as "Database"#lightgray{
-artifact Datas
+artifact datas
 }
 }
 
 
-web --> Model
-mobile --> Model
+webApp --> api
+mobile --> api
 
-web --> datasApi
-mobile --> datasApi
-
-datasApi --> Datas
+api --> datas
 
 }
 ```
