@@ -1,28 +1,35 @@
 ```plantuml
-@startuml
-
 title "Architecture :"
+
+left to right direction
 
 frame "ArchiVR" {
 
-node web as "Web Page"
+node web as "Web Page" #lightgrey
 
-node mobile as "Mobile App"
+node mobile as "Mobile App" #lightgrey
 
-database db as "Database"{
-artifact Datas
-}
+cloud Server #aliceblue;line:blue;line.dotted;text:blue{
 
-cloud api as "Web API"{
+node modelApi as "Web API - Model"#lightgrey{
 artifact Model
 }
 
-web -> Model
-mobile -> Model
+node datasApi as "Web API - Datas" #lightgrey
 
-Model -> Datas
-
+database db as "Database"#lightgray{
+artifact Datas
+}
 }
 
-@enduml
+
+web --> Model
+mobile --> Model
+
+web --> datasApi
+mobile --> datasApi
+
+datasApi --> Datas
+
+}
 ```
