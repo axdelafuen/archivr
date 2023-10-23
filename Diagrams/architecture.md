@@ -9,7 +9,9 @@ frame "ArchiVR" {
 
 cloud Server #aliceblue;line:blue;line.dotted;text:blue{
 
-node webApp as "Web Page" #lightgrey
+node webApp as "Web App" #lightgrey
+
+node generator as "Generator" #lightgrey
 
 node api as "Web API" #lightgrey
 
@@ -20,8 +22,7 @@ artifact datas
 
 
 webApp --> api
-mobile --> api
-
+webApp --> generator
 api --> datas
 
 }
