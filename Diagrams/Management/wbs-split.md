@@ -20,10 +20,10 @@ wbsDiagram {
 *_ wbs
 **_ 1. Gestion de projet
 ***_ 1.1 Premier rapport
-****_ 1.1.1 WBS
-****_ 1.1.2 Gantt
-****_ 1.1.3 PERT
-****_ 1.1.4 Transcription des besoins
+****_ 1.1.1 Transcription des besoins
+****_ 1.1.2 WBS
+****_ 1.1.3 Gantt
+****_ 1.1.4 PERT
 ****_ 1.1.5 Indicateur de suivi de projet 
 ****_ 1.1.6 Précision des coûts
 ***_ 1.2 Rapport final
