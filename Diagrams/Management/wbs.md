@@ -14,7 +14,7 @@ wbsDiagram {
   } 
 }
 </style>
-*_ WBS 
+* WBS 
 **_ 1. Gestion de projet
 ***_ 1.1 Premier rapport
 ****_ 1.1.1 WBS
