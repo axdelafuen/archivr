@@ -8,6 +8,7 @@ wbsDiagram {
   }
   :depth(0) {
       LineColor transparent
+      FontColor transparent
   }
   arrow {
     :depth(2) {
@@ -16,7 +17,7 @@ wbsDiagram {
   } 
 }
 </style>
-*_ WBS 
+*_ wbs
 **_ 1. Gestion de projet
 ***_ 1.1 Premier rapport
 ****_ 1.1.1 WBS
