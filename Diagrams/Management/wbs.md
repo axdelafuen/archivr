@@ -24,15 +24,20 @@ wbsDiagram {
 ****_ 1.1.2 Gantt
 ****_ 1.1.3 PERT
 ****_ 1.1.4 Transcription des besoins
-****_ 1.1.5 Indicateur de suivi de projet (temps et qualité)
+****_ 1.1.5 Indicateur de suivi de projet 
 ****_ 1.1.6 Précision des coûts
 ***_ 1.2 Rapport final
-****_ 1.2.1 Mise en parrallèle de prévisionel et du réel
+****_ 1.2.1 Comparaison du prévisionel et du réel
 ***_ 1.3 Soutenance
 
 **_ 2. Analyse de l'existant
 ***_ 2.1 Prise en main de //A-frame//
+****_ 2.1.1 Lecture de la documentation
+****_ 2.1.2 Premiers tests
 ***_ 2.2 Reverse engineering
+****_ 2.2.1 Lecture du rapport
+****_ 2.2.2 Analyse des diagrammes
+****_ 2.2.3 Analyse du code
 ***_ 2.3 Tests de //A-frame//
 
 **_ 3. Réalisation de l'application
