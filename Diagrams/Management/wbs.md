@@ -59,6 +59,8 @@ wbsDiagram {
 
 @endwbs
 
+```
+```plantuml
 
 @startwbs
 
