@@ -25,7 +25,7 @@ wbsDiagram {
 ****_ 1.1.3 PERT
 ****_ 1.1.4 Gantt
 ****_ 1.1.5 Indicateur de suivi de projet 
-****_ 1.1.6 Précision des coûts
+****_ 1.1.6 Estimation des coûts
 ***_ 1.2 Rapport final
 ****_ 1.2.1 Comparaison du prévisionel et du réel
 ***_ 1.3 Soutenance
