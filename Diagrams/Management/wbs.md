@@ -26,7 +26,7 @@ wbsDiagram {
 ****_ 1.1.3 Faire le PERT
 ****_ 1.1.4 Faire le Gantt
 ****_ 1.1.5 Rédiger les indicateurs de suivi de projet 
-****_ 1.1.6 Faire un estimation des coûts
+****_ 1.1.6 Faire une estimation des coûts
 ***_ 1.2 Faire le rapport final
 ****_ 1.2.1 Comparer le prévisionel et le réel
 ***_ 1.3 Préparer la soutenance
