@@ -2,8 +2,6 @@
 
 classDiagram
 
-direction RL
-
 namespace config {
     class Validation
     class Controller
