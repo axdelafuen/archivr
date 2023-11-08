@@ -1,68 +1,68 @@
 ```mermaid
 classDiagram
     
-namespace config{
-    class Validation
-    class Controller
-}
-Validation <-- Controller
+    namespace config{
+        class Validation
+        class Controller
+    }
+    Validation <-- Controller
 
-namespace model{
-    class User{
+    namespace model{
+        class User{
 
-    }
-    class Panorama{
+        }
+        class Panorama{
 
+        }
+        class Image{
+            <<abstract>>
+            - id
+            - path
+        }
+        class View{
+            - date
+        }
+        class Timeline{
+            - id
+        }
+        class Map{
+            -position
+        }
+        class Element{
+            <<abstract>>
+            - id
+            - position
+        }
+        class Waypoint{
+            - path
+        }
+        class Sign{
+            - content
+        }
     }
-    class Image{
-        <<abstract>>
-        - id
-        - path
-    }
-    class View{
-        - date
-    }
-    class Timeline{
-        - id
-    }
-    class Map{
-        -position
-    }
-    class Element{
-        <<abstract>>
-        - id
-        - position
-    }
-    class Waypoint{
-        - path
-    }
-    class Sign{
-        - content
-    }
-}
-User --> Panorama:*panoramas
+    User --> Panorama:*panoramas
 
-View --|> Image
-Map --|> Image
-Waypoint --|> Element
-Sign --|> Element
+    View --|> Image
+    Map --|> Image
+    Waypoint --|> Element
+    Sign --|> Element
 
-Image --> Element : *elements
+    Image --> Element : *elements
 
-Panorama --> Map: map
-Timeline --> View : *views
-Panorama --> Timeline : *timelines
+    Panorama --> Map: map
+    Timeline --> View : *views
+    Panorama --> Timeline : *timelines
 
-Controller --> Panorama : selectedPanorama
+    Controller --> Panorama : selectedPanorama
 
-namespace generator{
-    class Generator{
-        + download
-        + upload
-        + save
+    namespace generator{
+        class Generator{
+            + download
+            + upload
+            + save
+        }
     }
-}
 
-Controller --> Generator : generator
+    Controller --> Generator : generator
 
 ```
