@@ -1,7 +1,6 @@
 ```mermaid
 
 classDiagram
-
-class a
+    class a
 
 ```
