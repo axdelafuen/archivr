@@ -1,5 +1,5 @@
 ```mermaid
 
-classDiagram
+stateDiagram
 
 ```
