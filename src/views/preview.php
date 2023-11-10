@@ -5,34 +5,7 @@
 </head>
 
 <body>
-<h1>Preview</h1>
-
-<ul>
-    <li>
-        <form>
-            <input type="submit" value="Home">
-            <input type="hidden" name="action" value=<?php NULL?>>
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="Load an image">
-            <input type="hidden" name="action" value="goToLoadImages">
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="Tutorial">
-            <input type="hidden" name="action" value="goToTutorial">
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="About">
-            <input type="hidden" name="action" value="goToAbout">
-        </form>
-    </li>
-</ul>
+<h3>Preview</h3>
 
 <form>
     <input type="submit" value="Go back">

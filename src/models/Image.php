@@ -8,6 +8,15 @@ abstract class Image
 
     protected array $elements; // list of elements
 
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
+
+    public function getPath(){
+        return $this->path;
+    }
+
 }
 
 ?>

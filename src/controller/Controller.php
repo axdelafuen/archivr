@@ -37,6 +37,10 @@ class Controller
 					$this->StartPreview();
 					break;
 
+				case "changeMap":
+					$this->ChangeMap();
+					break;
+
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
@@ -59,8 +63,8 @@ class Controller
 	function Reinit()
 	{
 		global $rep, $views; // nécessaire pour utiliser variables globales
-		if(isset($_SESSION['views'])){
-			unset($_SESSION['views']);
+		if(isset($_SESSION['panorama'])){
+			unset($_SESSION['panorama']);
 		}
 		require($rep . $views['home']);
 	}
@@ -68,8 +72,8 @@ class Controller
 	function GoToLoadImages(array $dVueEreur)
 	{
 		global $rep, $views;
-		if(isset($_SESSION['views'])){
-			unset($_SESSION['views']);
+		if(isset($_SESSION['panorama'])){
+			unset($_SESSION['panorama']);
 		}
 		require($rep . $views['upload']);
 	}
@@ -81,20 +85,24 @@ class Controller
 			mkdir("./.datas");
 		}
 
-		if(isset($_SESSION['views'])){
-			$uploadedViews = $_SESSION['views'];
-			unset($_SESSION['views']);
+		if(isset($_SESSION['panorama'])){
+			$panorama = $_SESSION['panorama'];
+			unset($_SESSION['panorama']);
 		}
 		else{
-			$uploadedViews = array();
-		}
-		$currentAmountViews = count($uploadedViews);
-		for($i = 0; $i < count($_FILES['views']['name']); $i++){
-			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/" . $_FILES['views']['name'][$i]);
-			$uploadedViews[$i+$currentAmountViews] = $_FILES['views']['name'][$i];
+			$panorama = new Panorama();
+			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/" . $_FILES['map']['name']);
+			$panorama->setMap(new Map($_FILES['map']['name']));
 		}
 
-		$_SESSION['views'] = $uploadedViews;
+		$currentAmountViews = count($panorama->getViews());
+
+		for($i = 0; $i < count($_FILES['views']['name']); $i++){
+			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/" . $_FILES['views']['name'][$i]);
+			$panorama->addView($i+$currentAmountViews, new View($_FILES['views']['name'][$i]));
+		}
+
+		$_SESSION['panorama'] = $panorama;
 
 		require($rep . $views['dashboard']);
 	}
@@ -107,6 +115,18 @@ class Controller
 
 		require ($rep.$views['preview']);
 	}
+
+	function ChangeMap()
+	{
+		global $rep, $views;
+
+		$panorama = $_SESSION['panorama'];
+		move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/" . $_FILES['map']['name']);
+		$panorama->setMap(new Map($_FILES['map']['name']));
+
+		require($rep . $views['dashboard']);
+	}
+
 }//fin class
 
 ?>

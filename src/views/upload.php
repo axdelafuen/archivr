@@ -4,39 +4,18 @@
 </head>
 
 <body>
-    <h1>Load an image</h1>
-
-    <ul>
-        <li>
-            <form>
-                <input type="submit" value="Home">
-                <input type="hidden" name="action" value=<?php NULL?>>
-            </form>
-        </li>
-        <li>
-            <form>
-                <input type="submit" value="Load an image">
-                <input type="hidden" name="action" value="goToLoadImages">
-            </form>
-        </li>
-        <li>
-            <form>
-                <input type="submit" value="Tutorial">
-                <input type="hidden" name="action" value="goToTutorial">
-            </form>
-        </li>
-        <li>
-            <form>
-                <input type="submit" value="About">
-                <input type="hidden" name="action" value="goToAbout">
-            </form>
-        </li>
-    </ul>
-
-    Sélectionner vos images :
+    <h3>Load an image</h3>
 
     <form method="post" enctype="multipart/form-data">
-        <input type="file" name="views[]" required multiple>
+
+        Select your 360 images :
+        <input type="file" name="views[]" required multiple accept="image/*">
+    <br> <!-- A RETIRER QUAND LE CSS SERA FAIT -->
+    <br> <!-- A RETIRER QUAND LE CSS SERA FAIT -->
+        Select your map :
+        <input type="file" name="map" required accept="image/*">
+    <br> <!-- A RETIRER QUAND LE CSS SERA FAIT -->
+    <br> <!-- A RETIRER QUAND LE CSS SERA FAIT -->
         <input type="submit" value="Upload">
         <input type="hidden" name="action" value="viewsUploaded">
     </form>

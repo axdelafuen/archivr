@@ -4,39 +4,12 @@
 </head>
 
 <body>
-<h1>Dashboard</h1>
+<h3>Dashboard</h3>
 
-<ul>
-    <li>
-        <form>
-            <input type="submit" value="Home">
-            <input type="hidden" name="action" value=<?php NULL?>>
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="Load an image">
-            <input type="hidden" name="action" value="goToLoadImages">
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="Tutorial">
-            <input type="hidden" name="action" value="goToTutorial">
-        </form>
-    </li>
-    <li>
-        <form>
-            <input type="submit" value="About">
-            <input type="hidden" name="action" value="goToAbout">
-        </form>
-    </li>
-</ul>
-
-Ajouter de nouvelles images :
+Add new images :
 
 <form method="post" enctype="multipart/form-data">
-    <input type="file" name="views[]" required multiple>
+    <input type="file" name="views[]" required multiple accept="image/*">
     <input type="submit" value="Upload">
     <input type="hidden" name="action" value="viewsUploaded">
 </form>
@@ -44,16 +17,39 @@ Ajouter de nouvelles images :
 
 
 <?php
-$uploadedViews = $_SESSION['views'];
-foreach ($uploadedViews as $view){
+$panorama = $_SESSION['panorama'];
+
+echo "Edit your images :";
+
+foreach ($panorama->getViews() as $view){
     echo '
-        <form method="post">
-            <input src=./.datas/'.$view.' type="image">
-            <input type="hidden" name="selected_view" value="'.$view.'">
+        <form method="post">        
+            <input src="./.datas/'. $view->getPath() .'" type="image">
+            <input type="hidden" name="selected_view" value="'.$view->getPath().'">
             <input type="hidden" name="action" value="previewView">
         </form>
     ';
 }
+?>
+
+Change the map :
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="map" required multiple accept="image/*">
+    <input type="submit" value="Upload">
+    <input type="hidden" name="action" value="changeMap">
+</form>
+
+<?php
+echo "Edit your map :";
+
+echo '
+        <form method="post">
+            <input src="./.datas/'. $panorama->getMap()->getPath() .'" type="image">
+            <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
+            <input type="hidden" name="action" value="previewView">
+        </form>
+    ';
 
 ?>
 
