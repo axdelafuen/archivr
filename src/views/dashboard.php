@@ -48,7 +48,7 @@ $uploadedViews = $_SESSION['views'];
 foreach ($uploadedViews as $view){
     echo '
         <form method="post">
-            <input src=../.datas/'.$view.' type="image">
+            <input src=./.datas/'.$view.' type="image">
             <input type="hidden" name="selected_view" value="'.$view.'">
             <input type="hidden" name="action" value="previewView">
         </form>

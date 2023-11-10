@@ -41,7 +41,7 @@
 
 <div>
     <a-scene embedded>
-        <?php echo "<a-sky src=../.datas/".$_SESSION['selected_view']."></a-sky>"?>
+        <?php echo "<a-sky src=./.datas/".$_SESSION['selected_view']."></a-sky>"?>
     </a-scene>
 </div>
 

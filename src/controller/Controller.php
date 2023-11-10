@@ -77,8 +77,8 @@ class Controller
 	function UploadViews()
 	{
 		global $rep, $views;
-		if (!file_exists("../.datas")) {
-			mkdir("../.datas");
+		if (!file_exists("./.datas")) {
+			mkdir("./.datas");
 		}
 
 		if(isset($_SESSION['views'])){
@@ -90,7 +90,7 @@ class Controller
 		}
 		$currentAmountViews = count($uploadedViews);
 		for($i = 0; $i < count($_FILES['views']['name']); $i++){
-			move_uploaded_file($_FILES['views']['tmp_name'][$i], "../.datas/" . $_FILES['views']['name'][$i]);
+			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/" . $_FILES['views']['name'][$i]);
 			$uploadedViews[$i+$currentAmountViews] = $_FILES['views']['name'][$i];
 		}
 
