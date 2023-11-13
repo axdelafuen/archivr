@@ -24,9 +24,9 @@ echo "Edit your images :";
 foreach ($panorama->getViews() as $view){
     echo '
         <form method="post">        
-            <input src="./.datas/'. $view->getPath() .'" type="image">
+            <input src="./.datas/'.$panorama->getId() ."/". $view->getPath() .'" type="image">
             <input type="hidden" name="selected_view" value="'.$view->getPath().'">
-            <input type="hidden" name="action" value="previewView">
+            <input type="hidden" name="action" value="editView">
         </form>
     ';
 }
@@ -45,7 +45,7 @@ echo "Edit your map :";
 
 echo '
         <form method="post">
-            <input src="./.datas/'. $panorama->getMap()->getPath() .'" type="image">
+            <input src="./.datas/'. $panorama->getId() ."/". $panorama->getMap()->getPath() .'" type="image">
             <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
             <input type="hidden" name="action" value="editMap">
         </form>

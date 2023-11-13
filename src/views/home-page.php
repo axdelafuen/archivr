@@ -1,4 +1,4 @@
-<html>
+<html>datas
     <head>
         <title>Panorama Generator</title>
     </head>
