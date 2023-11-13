@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h3>Preview</h3>
+<h3>Edit your view</h3>
 
 <form>
     <input type="submit" value="Go back">
@@ -14,7 +14,7 @@
 
 <div>
     <a-scene embedded>
-        <?php echo "<a-sky src=./.datas/".$_SESSION['selected_view']."></a-sky>"?>
+        <?php echo "<a-sky src=./.datas/". $_SESSION['panorama']->getId(). "/" .$_SESSION['selected_view']."></a-sky>"?>
     </a-scene>
 </div>
 

@@ -13,7 +13,7 @@
 </form>
 
 <div>
-        <?php echo '<img src="./.datas/'. $_SESSION["panorama"]->getMap()->getPath() .'" alt="map">'?>
+        <?php echo '<img src="./.datas/'. $_SESSION["panorama"]->getId() ."/". $_SESSION["selected_view"] .'" alt="map">'?>
 </div>
 
 </body>

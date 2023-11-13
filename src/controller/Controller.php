@@ -33,12 +33,12 @@ class Controller
 					require ($rep.$views['dashboard']);
 					break;
 
-				case "previewView":
-					$this->StartPreview();
+				case "editView":
+					$this->EditView();
 					break;
 
 				case "editMap":
-					require ($rep.$views['editMap']);
+					$this->editMap();
 					break;
 
 				case "changeMap":
@@ -95,15 +95,21 @@ class Controller
 		}
 		else{
 			$panorama = new Panorama();
-			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/" . $_FILES['map']['name']);
 			$panorama->setMap(new Map($_FILES['map']['name']));
 			$panorama->setId($panorama->getMap()->getPath());
+			if (!file_exists("./.datas/".$panorama->getId())) {
+				mkdir("./.datas/".$panorama->getId());
+			}
+			else{
+				require $rep.$views['error'];
+			}
+			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/".$panorama->getId()."/". $_FILES['map']['name']);
 		}
 
 		$currentAmountViews = count($panorama->getViews());
 
 		for($i = 0; $i < count($_FILES['views']['name']); $i++){
-			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/" . $_FILES['views']['name'][$i]);
+			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/". $panorama->getId()."/". $_FILES['views']['name'][$i]);
 			$panorama->addView($i+$currentAmountViews, new View($_FILES['views']['name'][$i]));
 		}
 
@@ -112,13 +118,21 @@ class Controller
 		require($rep . $views['dashboard']);
 	}
 
-	function StartPreview()
+	function EditView()
 	{
 		global $rep, $views;
 
 		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
-		require ($rep.$views['preview']);
+		require ($rep.$views['editView']);
+	}
+
+	function EditMap(){
+		global $rep, $views;
+
+		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
+
+		require ($rep.$views['editMap']);
 	}
 
 	function ChangeMap()
@@ -126,7 +140,7 @@ class Controller
 		global $rep, $views;
 
 		$panorama = $_SESSION['panorama'];
-		move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/" . $_FILES['map']['name']);
+		move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/". $panorama->getId() ."/". $_FILES['map']['name']);
 		$panorama->setMap(new Map($_FILES['map']['name']));
 
 		require($rep . $views['dashboard']);
