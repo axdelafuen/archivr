@@ -97,6 +97,7 @@ class Controller
 			$panorama = new Panorama();
 			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/" . $_FILES['map']['name']);
 			$panorama->setMap(new Map($_FILES['map']['name']));
+			$panorama->setId($panorama->getMap()->getPath());
 		}
 
 		$currentAmountViews = count($panorama->getViews());

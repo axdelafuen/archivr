@@ -11,6 +11,10 @@ class Panorama
 
     private array $views = array();
 
+    public function setId(string $id){
+        $this->id = Utils::idGenerator($id);
+    }
+
     public function getId()
     {
         return $this->id;
@@ -48,7 +52,6 @@ class Panorama
 
     public function __construct()
     {
-        $this->id = 0;
     }
 
 }
