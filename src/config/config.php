@@ -22,6 +22,7 @@ $views['home']='views/home-page.php';
 $views['upload']='views/upload.php';
 $views['dashboard']='views/dashboard.php';
 $views['preview']='views/preview.php';
+$views['editMap']='views/edit-map.php';
 
 
 ?>

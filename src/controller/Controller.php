@@ -37,6 +37,10 @@ class Controller
 					$this->StartPreview();
 					break;
 
+				case "editMap":
+					require ($rep.$views['editMap']);
+					break;
+
 				case "changeMap":
 					$this->ChangeMap();
 					break;

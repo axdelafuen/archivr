@@ -47,7 +47,7 @@ echo '
         <form method="post">
             <input src="./.datas/'. $panorama->getMap()->getPath() .'" type="image">
             <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
-            <input type="hidden" name="action" value="previewView">
+            <input type="hidden" name="action" value="editMap">
         </form>
     ';
 
