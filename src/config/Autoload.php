@@ -13,7 +13,7 @@ class Autoload
         self::$_instance = new self();
 
 
-        if (!spl_autoload_register(array(self::$_instance, '_autoload'), false)) {
+        if (!spl_autoload_register(array(self::$_instance, '_autoload'))) {
             throw RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
         }
     }
