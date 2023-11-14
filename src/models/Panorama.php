@@ -50,6 +50,11 @@ class Panorama
         $this->views[$i] = $view;
     }
 
+    public function removeViewById($view)
+    {
+        array_splice($this->views, array_search($view, $this->views), 1);
+    }
+
     public function __construct()
     {
     }

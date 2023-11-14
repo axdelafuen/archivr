@@ -37,6 +37,10 @@ class Controller
 					$this->EditView();
 					break;
 
+				case "deleteView":
+					$this->DeleteView();
+					break;
+
 				case "editMap":
 					$this->editMap();
 					break;
@@ -122,9 +126,36 @@ class Controller
 	{
 		global $rep, $views;
 
-		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
+		$selected_view = $_REQUEST['selected_view'];
+
+		foreach($_SESSION['panorama']->getViews() as $view)
+		{
+			if($view->getPath() === $selected_view)
+			{
+				$_SESSION['selected_view'] = $view;
+			}
+		}
+
+		//$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
 		require ($rep.$views['editView']);
+	}
+
+	function DeleteView(){
+		global $rep, $views;
+
+		if(count($_SESSION['panorama']->getViews()) <= 1){
+			echo "<script>alert(\"Upload at least two images, to delete one.\")</script>";
+			require ($rep.$views['dashboard']);
+		}
+		else {
+
+			$_SESSION['panorama']->removeViewById($_SESSION['selected_view']);
+
+			unset($_SESSION['selected_view']);
+
+			require($rep . $views['dashboard']);
+		}
 	}
 
 	function EditMap(){
