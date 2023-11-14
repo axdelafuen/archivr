@@ -42,6 +42,11 @@ class Panorama
         $this->map = $map;
     }
 
+    public function isMap():bool
+    {
+        return isset($this->map);
+    }
+
     public function getTimelines()
     {
         return $this->timelines;
@@ -70,6 +75,8 @@ class Panorama
     public function __construct($name)
     {
         $this->name = $name;
+        $this->setId($name);
+        unset($this->map);
     }
 
 }

@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="views/styles/home.css">
         <link rel="icon" type="image/*" href="views/assets/images/map.png">
+        <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     </head>
 <body>
 

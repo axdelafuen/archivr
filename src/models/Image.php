@@ -17,6 +17,10 @@ abstract class Image
         return $this->path;
     }
 
+    public function getName() : string
+    {
+        return substr($this->path, 0, strpos($this->path, "."));
+    }
 }
 
 ?>

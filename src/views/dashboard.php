@@ -1,9 +1,5 @@
-<html>
-<head>
-    <title>Panorama Generator</title>
-</head>
+<title>Dashboard : <?php echo $_SESSION['panorama']->getName(); ?></title>
 
-<body>
 <h3>Dashboard : <?php echo $_SESSION['panorama']->getName(); ?></h3>
 
 Add new images :
@@ -13,8 +9,6 @@ Add new images :
     <input type="submit" value="Upload">
     <input type="hidden" name="action" value="viewsUploaded">
 </form>
-
-
 
 <?php
 $panorama = $_SESSION['panorama'];
@@ -30,28 +24,28 @@ foreach ($panorama->getViews() as $view){
         </form>
     ';
 }
+
+if ($panorama->isMap())
+{
 ?>
+    Change the map :
 
-Change the map :
-
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="map" required multiple accept="image/*">
-    <input type="submit" value="Upload">
-    <input type="hidden" name="action" value="changeMap">
-</form>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="map" required multiple accept="image/*">
+        <input type="submit" value="Upload">
+        <input type="hidden" name="action" value="changeMap">
+    </form>
 
 <?php
-echo "Edit your map :";
 
-echo '
-        <form method="post">
-            <input src="./.datas/'. $panorama->getId() ."/". $panorama->getMap()->getPath() .'" type="image">
-            <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
-            <input type="hidden" name="action" value="editMap">
-        </form>
-    ';
+    echo "Edit your map :";
 
+    echo '
+            <form method="post">
+                <input src="./.datas/'. $panorama->getId() ."/". $panorama->getMap()->getPath() .'" type="image">
+                <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
+                <input type="hidden" name="action" value="editMap">
+            </form>
+        ';
+}
 ?>
-
-</body>
-</html>

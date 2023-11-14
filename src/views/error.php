@@ -1,8 +1,5 @@
-<html>
-<head><title>Erreur</title>
-</head>
 
-<body>
+<title>Erreur</title>
 
 <h1>ERROR !</h1>
 <?php
@@ -17,6 +14,3 @@ foreach ($dVueEreur as $value){
     <input type="submit" value="Go back home page...">
     <input type="hidden" name="action" value=<?php NULL?>>
 </form>
-
-
-</body> </html>

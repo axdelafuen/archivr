@@ -102,18 +102,17 @@ class Controller
 			if (!isset($projectName)) {
 				$dVueEreur[]='nom de projet invalide';
 				require($rep . $views['erreur']);
-				return;
 			}
 			$panorama = new Panorama($projectName);
-			$panorama->setMap(new Map($_FILES['map']['name']));
-			$panorama->setId($panorama->getMap()->getPath());
+
 			if (!file_exists("./.datas/".$panorama->getId())) {
 				mkdir("./.datas/".$panorama->getId());
 			}
-			else{
-				require $rep.$views['error'];
+
+			if(!empty($_FILES['map']['name'])){
+				move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/".$panorama->getId()."/". $_FILES['map']['name']);
+				$panorama->setMap(new Map($_FILES['map']['name']));
 			}
-			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/".$panorama->getId()."/". $_FILES['map']['name']);
 		}
 
 		$currentAmountViews = count($panorama->getViews());
@@ -134,6 +133,8 @@ class Controller
 
 		$selected_view = $_REQUEST['selected_view'];
 
+		unset($_SESSION['selected_view']);
+
 		foreach($_SESSION['panorama']->getViews() as $view)
 		{
 			if($view->getPath() === $selected_view)
@@ -142,9 +143,13 @@ class Controller
 			}
 		}
 
-		//$_SESSION['selected_view'] = $_REQUEST['selected_view'];
-
-		require ($rep.$views['editView']);
+		if(!isset($_SESSION['selected_view']))
+		{
+			require $rep.$views['error'];
+		}
+		else{
+			require ($rep.$views['editView']);
+		}
 	}
 
 	function DeleteView(){
@@ -166,6 +171,10 @@ class Controller
 
 	function EditMap(){
 		global $rep, $views;
+
+		$selected_view = $_REQUEST['selected_view'];
+
+
 
 		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
