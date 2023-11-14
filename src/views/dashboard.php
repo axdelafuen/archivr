@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<h3>Dashboard</h3>
+<h3>Dashboard : <?php echo $_SESSION['panorama']->getName(); ?></h3>
 
 Add new images :
 

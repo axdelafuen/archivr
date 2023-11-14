@@ -5,6 +5,8 @@ class Panorama
 
     private string $id; // string ? int ?
 
+    private string $name;
+
     private Map $map;
 
     private array $timelines = array(); // list de timeline, elle meme list de views
@@ -18,6 +20,16 @@ class Panorama
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 
     public function getMap():Map
@@ -55,8 +67,9 @@ class Panorama
         array_splice($this->views, array_search($view, $this->views), 1);
     }
 
-    public function __construct()
+    public function __construct($name)
     {
+        $this->name = $name;
     }
 
 }

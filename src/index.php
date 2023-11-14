@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="views/styles/home.css">
+        <link rel="icon" type="image/*" href="views/assets/images/map.png">
+    </head>
+<body>
+
 <?php
 //si controller pas objet
 //  header('Location: controller/controller.php');
@@ -11,41 +19,42 @@ require_once(__DIR__.'/config/config.php');
 require_once(__DIR__.'/config/Autoload.php');
 Autoload::load();
 
-echo '
-    <head>
-        <link rel="stylesheet" href="views/styles/home.css">
-    </head>
-    <div class="menu">
-        <h1>Panorama Generator</h1>
-        <nav>
-                <li>
-                    <form method="post">
-                        <input type="submit" value="Home">
-                        <input type="hidden" name="action">
-                    </form>
-                </li>
-                <li>
-                    <form method="post">
-                        <input type="submit" value="New project">
-                        <input type="hidden" name="action" value="goToLoadImages">
-                    </form>
-                </li>
-                <li>
-                    <form method="post">
-                        <input type="submit" value="Tutorial">
-                        <input type="hidden" name="action" value="goToTutorial">
-                    </form>
-                </li>
-                <li>
-                    <form method="post">
-                        <input type="submit" value="About">
-                        <input type="hidden" name="action" value="goToAbout">
-                    </form>
-                </li>
-        </nav>
-    </div>
-';
+?>
+
+<div class="menu">
+    <h1>Panorama Generator</h1>
+    <nav>
+            <li>
+                <form method="post">
+                    <input type="submit" value="Home">
+                    <input type="hidden" name="action">
+                </form>
+            </li>
+            <li>
+                <form method="post">
+                    <input type="submit" value="New project">
+                    <input type="hidden" name="action" value="goToLoadImages">
+                </form>
+            </li>
+            <li>
+                <form method="post">
+                    <input type="submit" value="Tutorial">
+                    <input type="hidden" name="action" value="goToTutorial">
+                </form>
+            </li>
+            <li>
+                <form method="post">
+                    <input type="submit" value="About">
+                    <input type="hidden" name="action" value="goToAbout">
+                </form>
+            </li>
+    </nav>
+</div>
+
+<?php
 
 $cont = new Controller();
 
-?> 
+?>
+</body>
+</html>

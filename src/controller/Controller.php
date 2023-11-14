@@ -26,7 +26,7 @@ class Controller
 					break;
 
 				case "viewsUploaded":
-					$this->UploadViews();
+					$this->UploadViews($dVueEreur);
 					break;
 
 				case "goBackToDashboard":
@@ -86,7 +86,7 @@ class Controller
 		require($rep . $views['upload']);
 	}
 
-	function UploadViews()
+	function UploadViews(array $dVueEreur)
 	{
 		global $rep, $views;
 		if (!file_exists("./.datas")) {
@@ -98,7 +98,13 @@ class Controller
 			unset($_SESSION['panorama']);
 		}
 		else{
-			$panorama = new Panorama();
+			$projectName=Validation::val_texte($_POST['projectName']);
+			if (!isset($projectName)) {
+				$dVueEreur[]='nom de projet invalide';
+				require($rep . $views['erreur']);
+				return;
+			}
+			$panorama = new Panorama($projectName);
 			$panorama->setMap(new Map($_FILES['map']['name']));
 			$panorama->setId($panorama->getMap()->getPath());
 			if (!file_exists("./.datas/".$panorama->getId())) {
