@@ -1,6 +1,9 @@
-<title>View edition</title>
+<head>
+    <title>View edition</title>
+    <link rel="stylesheet" href="views/styles/edit-view.css">
+</head>
 
-<h3>Edit your view : <?php $_SESSION['selected_view']->getName() ?></h3>
+<h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
 
 <form>
     <input type="submit" value="Go back">
@@ -12,7 +15,7 @@
     <input type="hidden" name="action" value="deleteView">
 </form>
 
-<div>
+<div class="preview">
     <a-scene embedded>
         <a-assets>
             <img id="arrow" src="views/assets/images/arrow.png">
@@ -25,6 +28,5 @@
                 <a-text value="Add a navigation point" align="center" width="3"></a-text>
             </a-entity>
         </a-entity>
-
     </a-scene>
 </div>

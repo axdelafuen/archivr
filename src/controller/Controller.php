@@ -30,7 +30,7 @@ class Controller
 					break;
 
 				case "goBackToDashboard":
-					require ($rep.$views['dashboard']);
+					$this->GoBackToDashboard();
 					break;
 
 				case "editView":
@@ -84,6 +84,14 @@ class Controller
 			unset($_SESSION['panorama']);
 		}
 		require($rep . $views['upload']);
+	}
+
+	function GoBackToDashboard()
+	{
+		global $rep, $views;
+
+		unset($_SESSION['selected_view']);
+		require ($rep.$views['dashboard']);
 	}
 
 	function UploadViews(array $dVueEreur)
@@ -143,7 +151,7 @@ class Controller
 			}
 		}
 
-		if(!isset($_SESSION['selected_view']))
+		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
 		{
 			require $rep.$views['error'];
 		}
