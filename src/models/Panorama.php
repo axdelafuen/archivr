@@ -5,19 +5,31 @@ class Panorama
 
     private string $id; // string ? int ?
 
+    private string $name;
+
     private Map $map;
 
     private array $timelines = array(); // list de timeline, elle meme list de views
 
     private array $views = array();
 
-    public function setId(string $id){
+    private function setId(string $id){
         $this->id = Utils::idGenerator($id);
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 
     public function getMap():Map
@@ -28,6 +40,11 @@ class Panorama
     public function setMap(Map $map)
     {
         $this->map = $map;
+    }
+
+    public function isMap():bool
+    {
+        return isset($this->map);
     }
 
     public function getTimelines()
@@ -50,8 +67,16 @@ class Panorama
         $this->views[$i] = $view;
     }
 
-    public function __construct()
+    public function removeViewById($view)
     {
+        array_splice($this->views, array_search($view, $this->views), 1);
+    }
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+        $this->setId($name);
+        unset($this->map);
     }
 
 }

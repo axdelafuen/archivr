@@ -13,7 +13,11 @@ class Controller
 		$dVueEreur = array();
 
 		try {
-			$action = $_REQUEST['action'];
+			if(isset($_REQUEST['action'])){
+				$action = $_REQUEST['action'];
+			}else{
+				$action = NULL;
+			}
 
 			switch ($action) {
 				//pas d'action, on r�initialise 1er appel
@@ -26,15 +30,19 @@ class Controller
 					break;
 
 				case "viewsUploaded":
-					$this->UploadViews();
+					$this->UploadViews($dVueEreur);
 					break;
 
 				case "goBackToDashboard":
-					require ($rep.$views['dashboard']);
+					$this->GoBackToDashboard();
 					break;
 
 				case "editView":
 					$this->EditView();
+					break;
+
+				case "deleteView":
+					$this->DeleteView();
 					break;
 
 				case "editMap":
@@ -43,6 +51,9 @@ class Controller
 
 				case "changeMap":
 					$this->ChangeMap();
+					break;
+				case "addSign":
+					$this->AddSign();
 					break;
 
 				//mauvaise action
@@ -82,7 +93,15 @@ class Controller
 		require($rep . $views['upload']);
 	}
 
-	function UploadViews()
+	function GoBackToDashboard()
+	{
+		global $rep, $views;
+
+		unset($_SESSION['selected_view']);
+		require ($rep.$views['dashboard']);
+	}
+
+	function UploadViews(array $dVueEreur)
 	{
 		global $rep, $views;
 		if (!file_exists("./.datas")) {
@@ -94,16 +113,21 @@ class Controller
 			unset($_SESSION['panorama']);
 		}
 		else{
-			$panorama = new Panorama();
-			$panorama->setMap(new Map($_FILES['map']['name']));
-			$panorama->setId($panorama->getMap()->getPath());
+			$projectName=Validation::val_texte($_POST['projectName']);
+			if (!isset($projectName)) {
+				$dVueEreur[]='nom de projet invalide';
+				require($rep . $views['erreur']);
+			}
+			$panorama = new Panorama($projectName);
+
 			if (!file_exists("./.datas/".$panorama->getId())) {
 				mkdir("./.datas/".$panorama->getId());
 			}
-			else{
-				require $rep.$views['error'];
+
+			if(!empty($_FILES['map']['name'])){
+				move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/".$panorama->getId()."/". $_FILES['map']['name']);
+				$panorama->setMap(new Map($_FILES['map']['name']));
 			}
-			move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/".$panorama->getId()."/". $_FILES['map']['name']);
 		}
 
 		$currentAmountViews = count($panorama->getViews());
@@ -113,7 +137,7 @@ class Controller
 			$panorama->addView($i+$currentAmountViews, new View($_FILES['views']['name'][$i]));
 		}
 
-		$_SESSION['panorama'] = $panorama;
+		$_SESSION['panorama'] = &$panorama;
 
 		require($rep . $views['dashboard']);
 	}
@@ -122,17 +146,65 @@ class Controller
 	{
 		global $rep, $views;
 
-		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
+		$selected_view = $_REQUEST['selected_view'];
 
-		require ($rep.$views['editView']);
+		unset($_SESSION['selected_view']);
+
+		foreach($_SESSION['panorama']->getViews() as $view)
+		{
+			if($view->getPath() === $selected_view)
+			{
+				$_SESSION['selected_view'] = $view;
+			}
+		}
+
+		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
+		{
+			require $rep.$views['error'];
+		}
+		else{
+			require ($rep.$views['editView']);
+		}
+	}
+
+	function DeleteView(){
+		global $rep, $views;
+
+		if(count($_SESSION['panorama']->getViews()) <= 1){
+			echo "<script>alert(\"Upload at least two images, to delete one.\")</script>";
+			require ($rep.$views['dashboard']);
+		}
+		else {
+
+			$_SESSION['panorama']->removeViewById($_SESSION['selected_view']);
+
+			unset($_SESSION['selected_view']);
+
+			require($rep . $views['dashboard']);
+		}
 	}
 
 	function EditMap(){
 		global $rep, $views;
 
+		//$selected_view = $_REQUEST['selected_view'];
+
 		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
 		require ($rep.$views['editMap']);
+	}
+
+	function AddSign()
+	{
+		global $rep, $views;
+
+		// $_SESSION['panorama']->addSignToView(new Sign(Utils::prompt("Enter the sign content : ")), $_SESSION['selected_view']);
+
+		$_SESSION['selected_view']->addElement(new Sign(Utils::prompt("Enter the sign content : ")));
+
+		//$sign = new Sign(Utils::prompt("Enter the sign content : "));
+
+		require ($rep.$views['editView']);
 	}
 
 	function ChangeMap()

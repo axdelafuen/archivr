@@ -1,10 +1,5 @@
-<html>
-<head>
-    <title>Panorama Generator</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-</head>
+<title>Map edition</title>
 
-<body>
 <h3>Edit your map</h3>
 
 <form>
@@ -15,6 +10,3 @@
 <div>
         <?php echo '<img src="./.datas/'. $_SESSION["panorama"]->getId() ."/". $_SESSION["selected_view"] .'" alt="map">'?>
 </div>
-
-</body>
-</html>
