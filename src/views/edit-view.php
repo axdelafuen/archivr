@@ -3,114 +3,125 @@
     <link rel="stylesheet" href="views/styles/edit-view.css">
 </head>
 
-<h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
-
-<!-- TEMP -->
-<br> DEBUG <br> --- <br> <br>
-
-<?php
-
-foreach ($_SESSION['selected_view']->getElements() as $element)
-{
-    if(get_class($element)=="Sign"){
-        echo "sign : ";
-        echo $element->getContent();
-        echo " / pos : ".$element->getPosition()->getPosition();
-    }
-    elseif(get_class($element)=="Waypoint"){
-        echo "waypoint : ";
-        echo $element->getViewName();
-        echo " / pos : ".$element->getPosition()->getPosition();
-    }
-    ?>
-    <div class="positionSliders">
-        <div>
-            <input type="range" min="-10" max="10" value="<?php echo $element->getPosition()->getX() ?>" step="0.1" class="slider" id="positionX" oninput="sliderChanged(this)">
-            <p>X: <span id="valueX"><?php echo $element->getPosition()->getX() ?></span></p>
-        </div>
-
-        <div>
-            <input type="range" min="-10" max="10" value="0" step="0.1" class="slider" id="positionY">
-            <p>Y: <span id="valueY">0</span></p>
-        </div>
-        <div>
-            <input type="range" min="-10" max="10" value="-10" step="0.1" class="slider" id="positionZ">
-            <p>Y: <span id="valueZ">-10</span></p>
-        </div>
+<!--<h3>Preview : </h3>-->
 
 
-    </div>
-<?php
+<div class="hud">
 
-    echo '<br><br>';
-}
+    <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
 
-?>
+    <!-- TEMP -->
+    --- <br>
 
-<br> --- <br> <br>
+    <?php
 
-<h4>Add a sign :</h4>
-
-<form>
-    <input type="text" placeholder="Your sign content" name="signContent" required/>
-    <input type="submit" value="Create !">
-    <input type="hidden" name="action" value="addSign">
-</form>
-
-<h4>Add a waypoint :</h4>
-
-Chose destination :
-
-<form>
-    <select name="destinationView" required>
-        <?php
-        foreach ($_SESSION['panorama']->getViews() as $view){
-            if($view != $_SESSION['selected_view']){
-                echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
-            }
+    foreach ($_SESSION['selected_view']->getElements() as $element)
+    {
+        if(get_class($element)=="Sign"){
+            echo "Sign : ";
+            echo $element->getContent();
+        }
+        elseif(get_class($element)=="Waypoint"){
+            echo "Waypoint : ";
+            echo $element->getViewName();
         }
         ?>
-    </select>
+        <div id="positionSliders">
+            <div>
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                X: <span><?php echo $element->getPosition()->getX() ?></span>
+            </div>
+            <div>
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getY() ?>" step="0.05" class="slider" id="positionY" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                Y: <span><?php echo $element->getPosition()->getY() ?></span>
+            </div>
+            <div>
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                Z: <span><?php echo $element->getPosition()->getZ() ?></span>
+            </div>
+        </div>
+        --- <br>
+    <?php }?>
 
-    <input type="submit" value="Create !">
-    <input type="hidden" name="action" value="addWaypoint">
-</form>
+    <h4>Add a sign :</h4>
 
-<h4>Save editions :</h4>
+    <form>
+        <input type="text" placeholder="Your sign content" name="signContent" required/>
+        <input type="submit" value="Create !">
+        <input type="hidden" name="action" value="addSign">
+    </form>
 
-<form>
-    <input type="submit" value="Save">
-    <input type="hidden" name="action" value="saveEdit">
-</form>
+    <h4>Add a waypoint :</h4>
 
-<h4>Delete this view :</h4>
+    Chose destination :
 
-<form>
-    <input type="submit" value="Delete">
-    <input type="hidden" name="action" value="deleteView">
-</form>
+    <form>
+        <select name="destinationView" required>
+            <?php
+            foreach ($_SESSION['panorama']->getViews() as $view){
+                if($view != $_SESSION['selected_view']){
+                    echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
+                }
+            }
+            ?>
+        </select>
 
-<h4>Cancel edition :</h4>
+        <input type="submit" value="Create !">
+        <input type="hidden" name="action" value="addWaypoint">
+    </form>
 
-<form>
-    <input type="submit" value="Go back">
-    <input type="hidden" name="action" value="goBackToDashboard">
-</form>
+    <h4>Save editions :</h4>
 
-<br>
+    <form>
+        <input type="submit" value="Save">
+        <input type="hidden" name="action" value="saveEdit">
+    </form>
 
-<h3>Preview : </h3>
+    <h4>Delete this view :</h4>
+
+    <form>
+        <input type="submit" value="Delete">
+        <input type="hidden" name="action" value="deleteView">
+    </form>
+
+    <h4>Cancel edition :</h4>
+
+    <form>
+        <input type="submit" value="Go back">
+        <input type="hidden" name="action" value="goBackToDashboard">
+    </form>
+
+</div>
 
 <a-scene id="preview" embedded>
     <a-assets>
         <img id="arrow" src="views/assets/images/arrow.png">
     </a-assets>
 
-    <?php echo "<a-sky src=./.datas/". $_SESSION['panorama']->getId(). "/" .$_SESSION['selected_view']->getPath()."></a-sky>";?>
+    <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'"></a-sky>'?>
 
-    <a-entity id="cam" camera position="0 0 0" wasd-controls look-controls>
-
+    <a-entity>
+        <a-camera id="camera" position="0 0 0" look-controls></a-camera>
     </a-entity>
+
+    <?php
+    foreach ($_SESSION['selected_view']->getElements() as $element) {
+        if (get_class($element) == "Sign") {
+            ?>
+             <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
+              look-at="[camera]"
+              text="value: <?php echo $element->getContent() ?>">
+            </a-entity>
+            <?php
+        } elseif (get_class($element) == "Waypoint") {
+            ?>
+             <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
+                look-at="#camera" text="value: <?php echo $element->getViewName()?>">
+            </a-entity>
+            <?php
+        }
+    }
+    ?>
 </a-scene>
 
 <script src="views/scripts/editView.js"></script>

@@ -14,9 +14,9 @@ class Waypoint extends Element
         return $this->destination->getName();
     }
 
-    public function __construct($destination)
+    public function __construct(View $destination)
     {
-        parent::__construct();
+        parent::__construct($destination->getName());
         $this->destination = $destination;
     }
 

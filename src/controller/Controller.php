@@ -151,7 +151,7 @@ class Controller
 
 		$selected_view = $_REQUEST['selected_view'];
 
-		unset($_SESSION['selected_view']);
+		//unset($_SESSION['selected_view']);
 
 		$_SESSION['selected_view'] = $_SESSION['panorama']->getViewByPath($selected_view);
 

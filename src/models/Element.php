@@ -36,10 +36,10 @@ abstract class Element
         $this->position->setZ($z);
     }
 
-    public function __construct()
+    public function __construct($id)
     {
-        $this->id = Utils::idGenerator("");
-        $this->position = new Position(6, 0, -10);
+        $this->id = Utils::idGenerator($id);
+        $this->position = new Position(0, 0, -1);
     }
 
 }
