@@ -2,6 +2,11 @@
 
 <h3>Dashboard : <?php echo $_SESSION['panorama']->getName(); ?></h3>
 
+<form method="post">
+    <input type="submit" value="Generate your diaporama">
+    <input type="hidden" name="action" value="generate">
+</form>
+
 Add new images :
 
 <form method="post" enctype="multipart/form-data">

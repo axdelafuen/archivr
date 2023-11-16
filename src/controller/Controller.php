@@ -1,5 +1,5 @@
 <?php
-
+include("./models/Generator.php");
 class Controller
 {
 	function __construct()
@@ -54,6 +54,9 @@ class Controller
 					break;
 				case "addSign":
 					$this->AddSign();
+					break;
+				case "generate":
+					$this->Generate();
 					break;
 
 				//mauvaise action
@@ -216,6 +219,12 @@ class Controller
 		$panorama->setMap(new Map($_FILES['map']['name']));
 
 		require($rep . $views['dashboard']);
+	}
+
+	function Generate(){
+		$panorama = $_SESSION['panorama'];
+
+		GeneratorTest::generateHtml($panorama);
 	}
 
 }//fin class
