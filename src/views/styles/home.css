@@ -19,3 +19,8 @@ body{
     text-align: center;
     list-style: none;
 }
+
+.logo{
+    height: 82px;
+    width: 82px;
+}
