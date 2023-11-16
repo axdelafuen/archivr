@@ -35,6 +35,21 @@ class Position
         $this->z = $z;
     }
 
+    public function getX():int
+    {
+        return $this->x;
+    }
+
+    public function getY():int
+    {
+        return $this->y;
+    }
+
+    public function getZ():int
+    {
+        return $this->z;
+    }
+
     public function __construct($x = 0, $y = 0, $z = 0)
     {
         $this->x = $x;

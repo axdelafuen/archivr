@@ -48,6 +48,9 @@ class Controller
 				case "changeMap":
 					$this->ChangeMap();
 					break;
+				case "addSign":
+					$this->AddSign();
+					break;
 
 				//mauvaise action
 				default:
@@ -130,7 +133,7 @@ class Controller
 			$panorama->addView($i+$currentAmountViews, new View($_FILES['views']['name'][$i]));
 		}
 
-		$_SESSION['panorama'] = $panorama;
+		$_SESSION['panorama'] = &$panorama;
 
 		require($rep . $views['dashboard']);
 	}
@@ -180,13 +183,24 @@ class Controller
 	function EditMap(){
 		global $rep, $views;
 
-		$selected_view = $_REQUEST['selected_view'];
-
-
+		//$selected_view = $_REQUEST['selected_view'];
 
 		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
 		require ($rep.$views['editMap']);
+	}
+
+	function AddSign()
+	{
+		global $rep, $views;
+
+		// $_SESSION['panorama']->addSignToView(new Sign(Utils::prompt("Enter the sign content : ")), $_SESSION['selected_view']);
+
+		$_SESSION['selected_view']->addElement(new Sign(Utils::prompt("Enter the sign content : ")));
+
+		//$sign = new Sign(Utils::prompt("Enter the sign content : "));
+
+		require ($rep.$views['editView']);
 	}
 
 	function ChangeMap()
