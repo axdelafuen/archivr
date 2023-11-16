@@ -48,24 +48,20 @@ class GeneratorTest{
       }
 
       $images = scandir('./.datas/'.$panorama->getId());
-      array_slice($images, 2, count($images));
+      $images = array_slice($images, 2, count($images));
       
       GeneratorTest::generateZip($page, $elements, $images, $panorama->getId());
     }
 
     static function generateZip($page, $elements, $images, $panoramaName){
       $basePath = "./.datas/out";
-      $folders = array('assets', 'assets/images', 'assets/images/sounds', '/script', '/templates');
+      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates');
 
       if(!file_exists($basePath)){
         mkdir($basePath);
       }else{
-        $files = glob($basePath); 
-        foreach($files as $file){ 
-          if(is_file($file)) {
-            unlink($file);
-          }
-        }
+        Utils::delete_directory($basePath);
+        mkdir($basePath);
       }
 
       foreach($folders as $folder){
@@ -81,8 +77,10 @@ class GeneratorTest{
       }
 
       foreach($images as $image){
-        copy('./datas/'.$panoramaName.'/'.$image, $image);
+        copy('./.datas/'.$panoramaName.'/'.$image, $basePath.'/assets/images/'.$image);
       }
+
+      copy('./.template/script.js', './.datas/out/script/script.js');
     }
 
     static function loadFromFile(){
@@ -117,6 +115,8 @@ class GeneratorTest{
 
       return $template;
     }
+
+    
 }
 
 ?>
