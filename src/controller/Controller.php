@@ -55,6 +55,9 @@ class Controller
 				case "addSign":
 					$this->AddSign();
 					break;
+				case "addWaypoint":
+					$this->AddWaypoint();
+					break;
 
 				//mauvaise action
 				default:
@@ -150,13 +153,7 @@ class Controller
 
 		unset($_SESSION['selected_view']);
 
-		foreach($_SESSION['panorama']->getViews() as $view)
-		{
-			if($view->getPath() === $selected_view)
-			{
-				$_SESSION['selected_view'] = $view;
-			}
-		}
+		$_SESSION['selected_view'] = $_SESSION['panorama']->getViewByPath($selected_view);
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
 		{
@@ -187,8 +184,6 @@ class Controller
 	function EditMap(){
 		global $rep, $views;
 
-		//$selected_view = $_REQUEST['selected_view'];
-
 		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
 
 		require ($rep.$views['editMap']);
@@ -198,12 +193,17 @@ class Controller
 	{
 		global $rep, $views;
 
-		// $_SESSION['panorama']->addSignToView(new Sign(Utils::prompt("Enter the sign content : ")), $_SESSION['selected_view']);
+		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
-		$_SESSION['selected_view']->addElement(new Sign(Utils::prompt("Enter the sign content : ")));
+		require ($rep.$views['editView']);
+	}
 
-		//$sign = new Sign(Utils::prompt("Enter the sign content : "));
+	function AddWaypoint()
+	{
+		global $rep,$views;
 
+		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+		//echo $_REQUEST['destinationView'];
 		require ($rep.$views['editView']);
 	}
 

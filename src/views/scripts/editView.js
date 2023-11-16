@@ -1,7 +1,5 @@
 
-function addSign() {
-    text = window.prompt("Enter the sign content : ");
-    text = text.trim();
+function addSign(text) {
     if (text != null) {
         newSign = document.createElement("a-entity");
         coord = {x: 0, y: 0, z: -10};
@@ -16,4 +14,22 @@ function addSign() {
     else{
         alert("Error: text isn't correct")
     }
+}
+
+// SLIDERS TEST
+/*
+var slider = document.getElementById("positionX");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    console.log(this.value);
+    output.innerHTML = this.value;
+}
+*/
+function sliderChanged(slider){
+
+    slider.parentNode.querySelector("span").innerHTML = slider.value;
+
 }

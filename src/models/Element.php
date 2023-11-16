@@ -39,7 +39,7 @@ abstract class Element
     public function __construct()
     {
         $this->id = Utils::idGenerator("");
-        $this->position = new Position(0, 0, -10);
+        $this->position = new Position(6, 0, -10);
     }
 
 }
