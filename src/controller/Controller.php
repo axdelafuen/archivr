@@ -13,7 +13,11 @@ class Controller
 		$dVueEreur = array();
 
 		try {
-			$action = $_REQUEST['action'];
+			if(isset($_REQUEST['action'])){
+				$action = $_REQUEST['action'];
+			}else{
+				$action = NULL;
+			}
 
 			switch ($action) {
 				//pas d'action, on r�initialise 1er appel

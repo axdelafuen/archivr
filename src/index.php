@@ -21,7 +21,6 @@ Autoload::load();
 require_once(__DIR__.'/views/templates/navbar.html');
 
 $cont = new Controller();
-
 ?>
 </body>
 </html>
