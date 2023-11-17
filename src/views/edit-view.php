@@ -23,6 +23,12 @@
                 ?>
             </select>
         </label>
+        <?php
+        if(isset($_SESSION['selected_element'])){
+        echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+        echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+        echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';}
+        ?>
         <input type="hidden" name="action" value="selectedElementChanged">
     </form>
 
@@ -46,15 +52,15 @@
         ?>
         <div id="positionSliders">
             <div>
-                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" name="positionX" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>'), sliderChangedX()">
                 X: <span><?php echo $element->getPosition()->getX() ?></span>
             </div>
             <div>
-                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getY() ?>" step="0.05" class="slider" id="positionY" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getY() ?>" step="0.05" class="slider" name="positionY" id="positionY" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>'), sliderChangedY()">
                 Y: <span><?php echo $element->getPosition()->getY() ?></span>
             </div>
             <div>
-                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" name="positionZ" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>'), sliderChangedZ()">
                 Z: <span><?php echo $element->getPosition()->getZ() ?></span>
             </div>
         </div>
@@ -62,7 +68,7 @@
         <div class="element-edit">
             <form  method="post">
                 <input type="submit" value="Delete">
-                <?php echo '<input type="hidden" name="selected_element" value="'.$element->getId().'">'?>
+                <?php echo '<input type="hidden" name="selected_element" value="'.$element->getId().'">';?>
                 <input type="hidden" name="action" value="deleteElement">
             </form>
         </div>
@@ -76,6 +82,13 @@
             <input type="text" placeholder="Your sign content" name="signContent" required/>
             <input type="submit" value="Create !">
             <input type="hidden" name="action" value="addSign">
+
+            <?php
+            if(isset($_SESSION['selected_element'])){
+                echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+                echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+                echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';}
+            ?>
         </form>
 
         <h4>Add a waypoint :</h4>
@@ -95,6 +108,13 @@
 
             <input type="submit" value="Create !">
             <input type="hidden" name="action" value="addWaypoint">
+
+            <?php
+            if(isset($_SESSION['selected_element'])){
+                echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+                echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+                echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';}
+            ?>
         </form>
 
     <h4>Delete this view :</h4>
@@ -111,9 +131,9 @@
         <?php
         if(isset($_SESSION['selected_element'])) {
             echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
-            echo '<input id="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
-            echo '<input id="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
-            echo '<input id="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
         }
         ?>
         <input type="hidden" name="action" value="goBackToDashboard">
@@ -137,7 +157,7 @@
             ?>
              <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
               look-at="[camera]"
-              text="value: <?php echo $element->getContent() ?>">
+              text="value: <?php echo $element->getContent() ?>; align:center">
             </a-entity>
             <?php
         } elseif (get_class($element) == "Waypoint") {

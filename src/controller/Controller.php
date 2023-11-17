@@ -113,7 +113,7 @@ class Controller
 	{
 		global $rep, $views;
 
-		if(isset($_REQUEST['selected_element'])){
+		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
 		}
 
@@ -219,6 +219,7 @@ class Controller
 			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
 
 			unset($_SESSION['selected_view']);
+			unset($_SESSION['selected_view']);
 
 			require($rep . $views['dashboard']);
 		}
@@ -247,6 +248,10 @@ class Controller
 
 		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
 		if(count($_SESSION['selected_view']->getElements()) > 0){
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 		}
@@ -262,6 +267,10 @@ class Controller
 		global $rep,$views;
 
 		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
 
 		if(count($_SESSION['selected_view']->getElements()) > 0){
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
@@ -305,6 +314,10 @@ class Controller
 	{
 		global $rep, $views;
 
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
 		require($rep.$views['editView']);
@@ -329,7 +342,6 @@ class Controller
 
 		require($rep . $views['dashboard']);
 	}
-
-}//fin class
+	}//fin class
 
 ?>
