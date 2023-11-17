@@ -79,7 +79,7 @@ class Panorama
         $this->views[$i] = $view;
     }
 
-    public function removeViewById($view)
+    public function removeView($view)
     {
         array_splice($this->views, array_search($view, $this->views), 1);
     }
