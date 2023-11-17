@@ -21,6 +21,11 @@ abstract class Element
         $this->position->setPosition($position->getX(), $position->getY(), $position->getZ());
     }
 
+    public function setPositionXYZ($x, $y, $z)
+    {
+        $this->position->setPosition($x,$y,$z);
+    }
+
     public function setPositionX(int $x)
     {
         $this->position->setX($x);
@@ -36,10 +41,10 @@ abstract class Element
         $this->position->setZ($z);
     }
 
-    public function __construct()
+    public function __construct($id)
     {
-        $this->id = Utils::idGenerator("");
-        $this->position = new Position(0, 0, -10);
+        $this->id = Utils::idGenerator($id);
+        $this->position = new Position(0, 0, -1);
     }
 
 }

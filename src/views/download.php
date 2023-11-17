@@ -2,4 +2,4 @@
 
 <h3>Download your Panorama</h3>
 
-<a href="./.datas/zip/vincent.zip" download>Click here to download<href>
+<a href="./.datas/zip/caca.zip" download>Click here to download<href>

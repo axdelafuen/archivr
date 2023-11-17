@@ -32,6 +32,23 @@ abstract class Image
         $this->elements[] = $element;
     }
 
+    public function removeElement($element)
+    {
+        array_splice($this->elements, array_search($element, $this->elements), 1);
+    }
+
+    public function getElementById($id)
+    {
+        foreach($this->elements as $element)
+        {
+            if($element->getId() === $id)
+            {
+                return $element;
+            }
+        }
+        return null;
+    }
+
 }
 
 ?>

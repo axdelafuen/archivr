@@ -147,7 +147,7 @@ class GeneratorPanorama{
             </a-entity>
           ';
         }else{
-          $path = explode('.', $element->getDestinationt()->getPath())[0].'.html';
+          $path = explode('.', $element->getView()->getPath())[0].'.html';
         
           $body .= '
             <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">

@@ -1,3 +1,11 @@
 #preview{
     height: 100vh;
 }
+
+.hud{
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    width: fit-content;
+    position: absolute;
+    z-index: 2
+}

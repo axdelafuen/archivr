@@ -41,6 +41,10 @@ class Controller
 					$this->EditView();
 					break;
 
+				case "updateProjectName":
+					$this->UpdateProjectName($dVueEreur);
+					break;
+
 				case "deleteView":
 					$this->DeleteView();
 					break;
@@ -57,6 +61,18 @@ class Controller
 					break;
 				case "generate":
 					$this->Generate();
+					break;
+				case "deleteElement":
+					$this->DeleteElement();
+					break;
+				case "selectedElementChanged":
+					$this->SelectedElementChanged();
+					break;
+				case "addWaypoint":
+					$this->AddWaypoint();
+					break;
+				case "addMapWaypoint":
+					$this->AddMapWaypoint();
 					break;
 
 				//mauvaise action
@@ -100,7 +116,12 @@ class Controller
 	{
 		global $rep, $views;
 
+		if(isset($_REQUEST['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
 		unset($_SESSION['selected_view']);
+
 		require ($rep.$views['dashboard']);
 	}
 
@@ -121,8 +142,10 @@ class Controller
 				$dVueEreur[]='nom de projet invalide';
 				require($rep . $views['erreur']);
 			}
-			$panorama = new Panorama($projectName);
+			else{
 
+				$panorama = new Panorama($projectName);
+			}
 			if (!file_exists("./.datas/".$panorama->getId())) {
 				mkdir("./.datas/".$panorama->getId());
 			}
@@ -151,23 +174,40 @@ class Controller
 
 		$selected_view = $_REQUEST['selected_view'];
 
-		unset($_SESSION['selected_view']);
+		//unset($_SESSION['selected_view']);
 
-		foreach($_SESSION['panorama']->getViews() as $view)
-		{
-			if($view->getPath() === $selected_view)
-			{
-				$_SESSION['selected_view'] = $view;
-			}
-		}
+		$_SESSION['selected_view'] = $_SESSION['panorama']->getViewByPath($selected_view);
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
 		{
 			require $rep.$views['error'];
 		}
 		else{
+			if(count($_SESSION['selected_view']->getElements()) > 0){
+				$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+			}
+			else{
+				unset($_SESSION['selected_element']);
+			}
 			require ($rep.$views['editView']);
 		}
+	}
+
+	function UpdateProjectName($dVueEreur)
+	{
+		global $rep, $views;
+
+		$projectName=Validation::val_texte($_POST['projectName']);
+
+		if (!isset($projectName)) {
+			$dVueEreur[]='nom de projet invalide';
+			require($rep . $views['erreur']);
+		}
+		else{
+			$_SESSION['panorama']->setName($projectName);
+			require ($rep.$views['dashboard']);
+		}
+
 	}
 
 	function DeleteView(){
@@ -175,11 +215,11 @@ class Controller
 
 		if(count($_SESSION['panorama']->getViews()) <= 1){
 			echo "<script>alert(\"Upload at least two images, to delete one.\")</script>";
-			require ($rep.$views['dashboard']);
+			require ($rep.$views['editView']);
 		}
 		else {
 
-			$_SESSION['panorama']->removeViewById($_SESSION['selected_view']);
+			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
 
 			unset($_SESSION['selected_view']);
 
@@ -190,24 +230,96 @@ class Controller
 	function EditMap(){
 		global $rep, $views;
 
-		//$selected_view = $_REQUEST['selected_view'];
+		$selected_view = $_REQUEST['selected_view'];
 
-		$_SESSION['selected_view'] = $_REQUEST['selected_view'];
+		//unset($_SESSION['selected_view']);
 
-		require ($rep.$views['editMap']);
+		if($selected_view == $_SESSION['panorama']->getMap()->getPath())
+		{
+			$_SESSION['selected_view'] = $_SESSION['panorama']->getMap();
+			require ($rep.$views['editMap']);
+		}
+		else{
+			require $rep.$views['error'];
+		}
 	}
 
 	function AddSign()
 	{
 		global $rep, $views;
 
-		// $_SESSION['panorama']->addSignToView(new Sign(Utils::prompt("Enter the sign content : ")), $_SESSION['selected_view']);
+		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
-		$_SESSION['selected_view']->addElement(new Sign(Utils::prompt("Enter the sign content : ")));
-
-		//$sign = new Sign(Utils::prompt("Enter the sign content : "));
+		if(count($_SESSION['selected_view']->getElements()) > 0){
+			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+		}
+		else{
+			unset($_SESSION['selected_element']);
+		}
 
 		require ($rep.$views['editView']);
+	}
+
+	function AddWaypoint()
+	{
+		global $rep,$views;
+
+		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+
+		if(count($_SESSION['selected_view']->getElements()) > 0){
+			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+		}
+		else{
+			unset($_SESSION['selected_element']);
+		}
+
+		//echo $_REQUEST['destinationView'];
+		require ($rep.$views['editView']);
+	}
+
+	function DeleteElement()
+	{
+		global $rep, $views;
+
+		$elementId = $_REQUEST['selected_element'];
+
+		if(!isset($elementId) or empty($elementId)){
+			require ($rep.$views['error']);
+		}
+		else{
+			$element = $_SESSION['selected_view']->getElementById($elementId);
+			if($element != null){
+				$_SESSION['selected_view']->removeElement($element);
+				if(count($_SESSION['selected_view']->getElements()) > 0){
+					$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+				}
+				else{
+					unset($_SESSION['selected_element']);
+				}
+				require($rep.$views['editView']);
+			}
+			else{
+				require ($rep.$views['error']);
+			}
+		}
+	}
+
+	function SelectedElementChanged()
+	{
+		global $rep, $views;
+
+		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
+
+		require($rep.$views['editView']);
+	}
+
+	function AddMapWaypoint()
+	{
+		global $rep,$views;
+
+		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+		//echo $_REQUEST['destinationView'];
+		require ($rep.$views['editMap']);
 	}
 
 	function ChangeMap()

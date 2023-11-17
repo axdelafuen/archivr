@@ -62,12 +62,24 @@ class Panorama
         return $this->views;
     }
 
+    public function getViewByPath($path)
+    {
+        foreach($this->getViews() as $view)
+        {
+            if($view->getPath() === $path)
+            {
+                return $view;
+            }
+        }
+        return null;
+    }
+
     public function addView($i,$view)
     {
         $this->views[$i] = $view;
     }
 
-    public function removeViewById($view)
+    public function removeView($view)
     {
         array_splice($this->views, array_search($view, $this->views), 1);
     }
