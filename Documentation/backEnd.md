@@ -52,6 +52,18 @@ __Projet à voir dans le repot *A-frame-training* -> *playground* dans la branch
 Permet de lire des fichiers mp3 lorsqu'on appuie sur un élément.
 
 
+## soundhandler(this,src)
+Doit-être ajouté à l'évènement `onclick` de l'élément. `src` correspond au chemin vers le fichier mp3 à lire. Si l'utilisateur appuis une seconde fois sur le bouton, le son s'arrête et rependra du début si il rappuie deçu. Si il appuie sur un deuxième bouton pendant qu'un audio est lancé, ça coupe le premier et lance celui sélectionné.
+
+#### Exemple
+```html
+
+      <a-box 
+      position="1 1 -4"
+      color="brown"
+      onclick="soundhandler(this,'./assets/dualipa.mp3')"></a-box>
+```
+
 
 __Projet à voir dans le repot *A-frame-training* -> *playground* dans la branche *Aurian*__
 # Controle des manette :
