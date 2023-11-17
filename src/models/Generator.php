@@ -43,6 +43,8 @@ class GeneratorTest{
     }
 
     static function createDirectory($panorama){
+      var_dump($panorama);
+
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
@@ -135,6 +137,8 @@ class GeneratorTest{
       $body = '<a-sky id="skybox" src="./assets/images/'.$path.'" animationcustom></a-sky>
       ';
 
+      $elementId = 1;
+
       foreach($view->getElements() as $element){
         if(get_class($element) == 'Sign'){
           $body .= '
@@ -145,9 +149,17 @@ class GeneratorTest{
         }else{
           $path = explode('.', $element->getDestinationt()->getPath())[0].'.html';
           $body .= '
-            <a-image onclick="goTo("./templates/'.$path.'")"
-            position="'.strval($element->getPosition()).'" src="assets/fleche.png"  color="#FFFFFF" animationcustom></a-image>
+            <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
+            <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+              animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+              onclick="goTo("' . $path . '")"
+              look-at="#pointer' . $elementId .'">
+            </a-entity>
+              <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+              </a-entity>
+            </a-entity>
           ';
+          $elementId += 1;
         }
       }
 
