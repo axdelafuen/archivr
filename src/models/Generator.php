@@ -12,7 +12,7 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
       <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-      <script src="template.js"></script>
+      <script src="script/script.js"></script>
   </head>
 
   <body>
@@ -23,11 +23,12 @@ class GeneratorPanorama{
 
       <!-- Caméra Rig -->
       <a-entity id="player" position="0 0 0">
-      <!-- Caméra -->
-      <a-entity position="0 1.6 0" look-controls="enabled: false; mouseEnabled: false" id="camera" camera="userHeight: 1.6"cursor="rayOrigin: mouse">
-        <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
-        </a-cursor>
+        <!-- Caméra -->
+        <a-entity position="0 1.6 0" look-controls id="camera" camera="userHeight: 1.6" cursor="rayOrigin: mouse">
+          <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
+          </a-cursor>
+        </a-entity>
       </a-entity>
 
       <a-entity id="base">
@@ -153,9 +154,8 @@ class GeneratorPanorama{
             <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-              onclick="goTo("' . $path . '")"
-              look-at="#pointer' . $elementId .'"
-              map>
+              onclick="goTo(\'' . $path . '\')"
+              look-at="#pointer' . $elementId .'">
             </a-entity>
               <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
               </a-entity>
