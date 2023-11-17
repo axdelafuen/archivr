@@ -3,20 +3,38 @@
     <link rel="stylesheet" href="views/styles/edit-view.css">
 </head>
 
-<!--<h3>Preview : </h3>-->
-
-
 <div class="hud">
-
     <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
+    <form  method="post">
+        <label>
+            <select name="selectedElementChanged" require onchange="this.form.submit()">
+                <option>--Change element--</option>
+                <?php
+                foreach ($_SESSION['selected_view']->getElements() as $element){
+                    if($element != $_SESSION['selected_element']){
+                        if(get_class($element)=="Sign"){
+                            echo "<option value='".$element->getId()."'>Sign : ".$element->getContent()."</option>";
+                        }
+                        elseif(get_class($element)=="Waypoint"){
+                            echo "<option value='".$element->getId()."'>Waypoint : ".$element->getViewName()."</option>";
+                        }
+                    }
+                }
+                ?>
+            </select>
+        </label>
+        <input type="hidden" name="action" value="selectedElementChanged">
+    </form>
 
     <!-- TEMP -->
     --- <br>
 
     <?php
 
-    foreach ($_SESSION['selected_view']->getElements() as $element)
-    {
+    if(isset($_SESSION['selected_element'])){
+
+        $element = $_SESSION['selected_element'];
+
         if(get_class($element)=="Sign"){
             echo "Sign : ";
             echo $element->getContent();
@@ -28,15 +46,15 @@
         ?>
         <div id="positionSliders">
             <div>
-                <input name="<?php echo $element->getId()?>" type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
                 X: <span><?php echo $element->getPosition()->getX() ?></span>
             </div>
             <div>
-                <input name="<?php echo $element->getId()?>" type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getY() ?>" step="0.05" class="slider" id="positionY" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getY() ?>" step="0.05" class="slider" id="positionY" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
                 Y: <span><?php echo $element->getPosition()->getY() ?></span>
             </div>
             <div>
-                <input name="<?php echo $element->getId()?>" type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
+                <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>')">
                 Z: <span><?php echo $element->getPosition()->getZ() ?></span>
             </div>
         </div>
@@ -48,15 +66,9 @@
                 <input type="hidden" name="action" value="deleteElement">
             </form>
         </div>
-
-        --- <br>
-        <?php }?>
-
-        <h4>Save editions :</h4>
-    <form  method="post">
-        <input type="submit" value="Save">
-        <input type="hidden" name="action" value="saveEdit">
-    </form>
+    <?php
+    }
+?>
 
         <h4>Add a sign :</h4>
 
@@ -92,10 +104,18 @@
         <input type="hidden" name="action" value="deleteView">
     </form>
 
-    <h4>Cancel edition :</h4>
+    <h4>Exit edition :</h4>
 
     <form  method="post">
-        <input type="submit" value="Go back">
+        <input type="submit" value="Save and go back">
+        <?php
+        if(isset($_SESSION['selected_element'])) {
+            echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
+            echo '<input id="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input id="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input id="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+        }
+        ?>
         <input type="hidden" name="action" value="goBackToDashboard">
     </form>
 </div>
@@ -105,10 +125,10 @@
         <img id="arrow" src="views/assets/images/arrow.png">
     </a-assets>
 
-    <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'"></a-sky>'?>
+    <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
     <a-entity>
-        <a-camera id="camera" position="0 0 0" look-controls></a-camera>
+        <a-camera id="camera" position="0 0 0" look-controls="true" wasd-controls-enabled="false"></a-camera>
     </a-entity>
 
     <?php

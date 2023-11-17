@@ -2,11 +2,11 @@
 
 class Position
 {
-    private int $x;
+    private float $x;
 
-    private int $y;
+    private float $y;
 
-    private int $z;
+    private float $z;
 
     public function getPosition(): string
     {
@@ -35,17 +35,17 @@ class Position
         $this->z = $z;
     }
 
-    public function getX():int
+    public function getX():float
     {
         return $this->x;
     }
 
-    public function getY():int
+    public function getY():float
     {
         return $this->y;
     }
 
-    public function getZ():int
+    public function getZ():float
     {
         return $this->z;
     }

@@ -21,6 +21,11 @@ abstract class Element
         $this->position->setPosition($position->getX(), $position->getY(), $position->getZ());
     }
 
+    public function setPositionXYZ($x, $y, $z)
+    {
+        $this->position->setPosition($x,$y,$z);
+    }
+
     public function setPositionX(int $x)
     {
         $this->position->setX($x);

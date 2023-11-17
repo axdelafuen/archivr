@@ -62,8 +62,8 @@ class Controller
 				case "deleteElement":
 					$this->DeleteElement();
 					break;
-				case "saveEdit":
-					$this->SaveEdit();
+				case "selectedElementChanged":
+					$this->SelectedElementChanged();
 					break;
 				case "addWaypoint":
 					$this->AddWaypoint();
@@ -113,7 +113,12 @@ class Controller
 	{
 		global $rep, $views;
 
+		if(isset($_REQUEST['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
 		unset($_SESSION['selected_view']);
+
 		require ($rep.$views['dashboard']);
 	}
 
@@ -175,6 +180,12 @@ class Controller
 			require $rep.$views['error'];
 		}
 		else{
+			if(count($_SESSION['selected_view']->getElements()) > 0){
+				$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+			}
+			else{
+				unset($_SESSION['selected_element']);
+			}
 			require ($rep.$views['editView']);
 		}
 	}
@@ -236,6 +247,13 @@ class Controller
 
 		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
+		if(count($_SESSION['selected_view']->getElements()) > 0){
+			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+		}
+		else{
+			unset($_SESSION['selected_element']);
+		}
+
 		require ($rep.$views['editView']);
 	}
 
@@ -244,6 +262,14 @@ class Controller
 		global $rep,$views;
 
 		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+
+		if(count($_SESSION['selected_view']->getElements()) > 0){
+			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+		}
+		else{
+			unset($_SESSION['selected_element']);
+		}
+
 		//echo $_REQUEST['destinationView'];
 		require ($rep.$views['editView']);
 	}
@@ -261,6 +287,12 @@ class Controller
 			$element = $_SESSION['selected_view']->getElementById($elementId);
 			if($element != null){
 				$_SESSION['selected_view']->removeElement($element);
+				if(count($_SESSION['selected_view']->getElements()) > 0){
+					$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+				}
+				else{
+					unset($_SESSION['selected_element']);
+				}
 				require($rep.$views['editView']);
 			}
 			else{
@@ -269,14 +301,11 @@ class Controller
 		}
 	}
 
-	function SaveEdit()
+	function SelectedElementChanged()
 	{
 		global $rep, $views;
 
-		foreach ($_SESSION['selected_view']->getElements() as $element){
-			$id = $element->getId();
-			var_dump($_REQUEST[$id]);
-		}
+		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
 		require($rep.$views['editView']);
 	}
