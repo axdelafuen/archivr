@@ -154,7 +154,7 @@ class GeneratorPanorama{
             <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-              onclick="goTo(\'' . $path . '\')"
+              onclick="goTo(\'templates/' . $path . '\')"
               look-at="#pointer' . $elementId .'">
             </a-entity>
               <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
