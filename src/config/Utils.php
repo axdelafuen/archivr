@@ -34,6 +34,17 @@ class Utils{
 
       return rmdir($dir);
     }
+
+    static function directory_copy($sourceDirectory, $destinationDirectory){
+        mkdir($destinationDirectory);
+
+        foreach (scandir($sourceDirectory) as $item) {
+            if($item != "." && $item != '..'){
+                var_dump($sourceDirectory . DIRECTORY_SEPARATOR . $item);
+                copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
+            }
+        }
+    }
 }
 
 ?>

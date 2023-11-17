@@ -3,40 +3,40 @@
 class GeneratorTest{
     static function generateHtml($panoramaName):string{
       $page = '
-        <!doctype html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>'.$panoramaName.'</title>
-            <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-            <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-              <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-              <script src="template.js"></script>
-          </head>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>'.$panoramaName.'</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+      <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+      <script src="template.js"></script>
+  </head>
 
-          <body>
-            <a-scene>
-              <a-assets>
-                <img id="fleche" src="./assets/images/fleche.png" height="357" width="367" alt=""/>
-              </a-assets>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="fleche" src="./assets/images/fleche.png" height="357" width="367" alt=""/>
+      </a-assets>
 
-              <!-- Caméra Rig -->
-              <a-entity id="player" position="0 0 0">
-                <!-- Caméra -->
-                  <a-entity position="0 1.6 0" look-controls id="camera" camera="userHeight: 1.6"cursor="rayOrigin: mouse">
-                  <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
-                </a-cursor>
-              </a-entity>
+      <!-- Caméra Rig -->
+      <a-entity id="player" position="0 0 0">
+        <!-- Caméra -->
+          <a-entity position="0 1.6 0" look-controls id="camera" camera="userHeight: 1.6"cursor="rayOrigin: mouse">
+          <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
+        </a-cursor>
+      </a-entity>
 
-              <a-entity id="base">
-                <a-box color="pink" position="0 1 -3" onclick="goTo()"  animationcustom class="clickable"></a-box>
-                <a-sky src="assets/images/sky.png" animationcustom ></a-sky>
-              </a-entity>
-            </a-scene>
-          </body>
-        </html>
+      <a-entity id="base">
+        <a-box color="pink" position="0 1 -3" onclick="goTo()"  animationcustom class="clickable"></a-box>
+        <a-sky src="assets/images/sky.png" animationcustom ></a-sky>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
       ';
 
       return $page;
@@ -44,7 +44,7 @@ class GeneratorTest{
 
     static function createDirectory($panorama){
       $basePath = "./.datas/out";
-      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates');
+      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
 
       $page = GeneratorTest::generateHtml($panorama->getName());
@@ -80,12 +80,12 @@ class GeneratorTest{
       }
 
       copy('./.template/script.js', './.datas/out/script/script.js');
+      Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
       GeneratorTest::generateZip($panorama->getName());
     }
 
     static function generateZip($panoramaName){
-
       if(!file_exists('./.datas/zip')){
         mkdir('./.datas/zip');
       }
