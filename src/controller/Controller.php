@@ -226,7 +226,7 @@ class Controller
 
 		$panorama = $_SESSION['panorama'];
 
-		GeneratorTest::createDirectory($panorama);
+		GeneratorPanorama::createDirectory($panorama);
 
 		require($rep . $views['download']);
 	}

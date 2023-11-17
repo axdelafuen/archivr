@@ -40,7 +40,6 @@ class Utils{
 
         foreach (scandir($sourceDirectory) as $item) {
             if($item != "." && $item != '..'){
-                var_dump($sourceDirectory . DIRECTORY_SEPARATOR . $item);
                 copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
             }
         }

@@ -1,6 +1,6 @@
 <?php
 
-class GeneratorTest{
+class GeneratorPanorama{
     static function generateHtml($panoramaName):string{
       $page = '
 <!doctype html>
@@ -23,10 +23,10 @@ class GeneratorTest{
 
       <!-- Caméra Rig -->
       <a-entity id="player" position="0 0 0">
-        <!-- Caméra -->
-          <a-entity position="0 1.6 0" look-controls id="camera" camera="userHeight: 1.6"cursor="rayOrigin: mouse">
-          <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
+      <!-- Caméra -->
+      <a-entity position="0 1.6 0" look-controls="enabled: false; mouseEnabled: false" id="camera" camera="userHeight: 1.6"cursor="rayOrigin: mouse">
+        <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
         </a-cursor>
       </a-entity>
 
@@ -49,13 +49,13 @@ class GeneratorTest{
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
 
-      $page = GeneratorTest::generateHtml($panorama->getName());
+      $page = GeneratorPanorama::generateHtml($panorama->getName());
 
-      $images = GeneratorTest::getImages($panorama);
+      $images = GeneratorPanorama::getImages($panorama);
       
       $elements = array();
       foreach($panorama->getViews() as $view){
-        array_push($elements, GeneratorTest::generateBase($view));
+        array_push($elements, GeneratorPanorama::generateBase($view));
       }
 
       if(!file_exists($basePath)){
@@ -84,7 +84,7 @@ class GeneratorTest{
       copy('./.template/script.js', './.datas/out/script/script.js');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
-      GeneratorTest::generateZip($panorama->getName());
+      GeneratorPanorama::generateZip($panorama->getName());
     }
 
     static function generateZip($panoramaName){
@@ -148,19 +148,21 @@ class GeneratorTest{
           ';
         }else{
           $path = explode('.', $element->getDestinationt()->getPath())[0].'.html';
+        
           $body .= '
             <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
               onclick="goTo("' . $path . '")"
-              look-at="#pointer' . $elementId .'">
+              look-at="#pointer' . $elementId .'"
+              map>
             </a-entity>
               <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
               </a-entity>
             </a-entity>
           ';
-          $elementId += 1;
         }
+        $elementId += 1;
       }
 
       $template->body = $body;
@@ -168,6 +170,32 @@ class GeneratorTest{
 
       return $template;
     }
+
+    /*
+    static function generateMap($map){
+      $path = $map->getPath();
+      $template = new Template();
+
+      $body = '<a-sky id="skybox" src="./assets/images/sky.png" animationcustom></a-sky>';
+
+      $body .= '<a-image src="./assets/images/' . $path . '"';
+
+      foreach($map->getElements() as $element){
+        $body .= '
+        <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
+        <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+          animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+          onclick="goTo("' . $path . '")"
+          look-at="#pointer' . $elementId .'"
+          map>
+        </a-entity>
+          <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+          </a-entity>
+        </a-entity>
+      ';
+      }
+    }
+    */
 
     static function loadFromFile(){
 
