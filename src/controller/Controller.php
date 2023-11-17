@@ -222,9 +222,13 @@ class Controller
 	}
 
 	function Generate(){
+		global $rep, $views;
+
 		$panorama = $_SESSION['panorama'];
 
-		GeneratorTest::generateHtml($panorama);
+		GeneratorTest::createDirectory($panorama);
+
+		require($rep . $views['download']);
 	}
 
 }//fin class

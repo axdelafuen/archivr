@@ -1,16 +1,14 @@
 <?php
 
 class GeneratorTest{
-    static function generateHtml($panorama){
-      $title = $panorama->getName();
-
+    static function generateHtml($panoramaName):string{
       $page = '
         <!doctype html>
         <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>'.$title.'</title>
+            <title>'.$panoramaName.'</title>
             <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
             <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
               <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
@@ -41,21 +39,22 @@ class GeneratorTest{
         </html>
       ';
 
-      $elements = array();
+      return $page;
+    }
 
+    static function createDirectory($panorama){
+      $basePath = "./.datas/out";
+      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates');
+      $panoramaId = $panorama->getId();
+
+      $page = GeneratorTest::generateHtml($panorama->getName());
+
+      $images = GeneratorTest::getImages($panorama);
+      
+      $elements = array();
       foreach($panorama->getViews() as $view){
         array_push($elements, GeneratorTest::generateBase($view));
       }
-
-      $images = scandir('./.datas/'.$panorama->getId());
-      $images = array_slice($images, 2, count($images));
-      
-      GeneratorTest::generateZip($page, $elements, $images, $panorama->getId());
-    }
-
-    static function generateZip($page, $elements, $images, $panoramaName){
-      $basePath = "./.datas/out";
-      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates');
 
       if(!file_exists($basePath)){
         mkdir($basePath);
@@ -77,14 +76,56 @@ class GeneratorTest{
       }
 
       foreach($images as $image){
-        copy('./.datas/'.$panoramaName.'/'.$image, $basePath.'/assets/images/'.$image);
+        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
       }
 
       copy('./.template/script.js', './.datas/out/script/script.js');
+
+      GeneratorTest::generateZip($panorama->getName());
     }
 
-    static function loadFromFile(){
+    static function generateZip($panoramaName){
 
+      if(!file_exists('./.datas/zip')){
+        mkdir('./.datas/zip');
+      }
+
+      // Get real path for our folder
+      $rootPath = realpath('./.datas/out');
+
+      // Initialize archive object
+      $zip = new ZipArchive();
+      $zip->open('./.datas/zip/'.$panoramaName.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+      // Create recursive directory iterator
+      /** @var SplFileInfo[] $files */
+      $files = new RecursiveIteratorIterator(
+          new RecursiveDirectoryIterator($rootPath),
+          RecursiveIteratorIterator::LEAVES_ONLY
+      );
+
+      foreach ($files as $name => $file)
+      {
+          // Skip directories (they would be added automatically)
+          if (!$file->isDir())
+          {
+              // Get real and relative path for current file
+              $filePath = $file->getRealPath();
+              $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+              // Add current file to archive
+              $zip->addFile($filePath, $relativePath);
+          }
+      }
+
+      // Zip archive will be created only after closing object
+      $zip->close();
+    }
+
+    static function getImages($panorama):array{
+      $images = scandir('./.datas/'.$panorama->getId());
+      $images = array_slice($images, 2, count($images));
+      return $images;
     }
 
     static function generateBase($view):Template{
@@ -116,7 +157,9 @@ class GeneratorTest{
       return $template;
     }
 
-    
+    static function loadFromFile(){
+
+    }
 }
 
 ?>
