@@ -337,8 +337,9 @@ class Controller
 		global $rep, $views;
 
 		$panorama = $_SESSION['panorama'];
+		$fisrtView = $_REQUEST['firstView'];
 
-		GeneratorPanorama::createDirectory($panorama);
+		GeneratorPanorama::createDirectory($panorama, $fisrtView);
 
 		require($rep . $views['download']);
 	}

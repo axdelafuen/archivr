@@ -1,7 +1,7 @@
 <?php
 
 class GeneratorPanorama{
-    static function generateHtml($panoramaName):string{
+    static function generateHtml($panoramaName, $body):string{
       $page = '
 <!doctype html>
 <html>
@@ -32,30 +32,35 @@ class GeneratorPanorama{
       </a-entity>
 
       <a-entity id="base">
-        <a-box color="pink" position="0 1 -3" onclick="goTo()"  animationcustom class="clickable"></a-box>
-        <a-sky src="assets/images/sky.png" animationcustom ></a-sky>
+        '.$body.'
       </a-entity>
     </a-scene>
   </body>
 </html>
       ';
 
+      // explode('.', $view->getPath())[0].'.html'
+
       return $page;
     }
 
-    static function createDirectory($panorama){
+    static function createDirectory($panorama, $fisrtView){
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
 
-      $page = GeneratorPanorama::generateHtml($panorama->getName());
-
-      $images = GeneratorPanorama::getImages($panorama);
-      
       $elements = array();
       foreach($panorama->getViews() as $view){
-        array_push($elements, GeneratorPanorama::generateBase($view));
+        $template = GeneratorPanorama::generateBase($view);
+        array_push($elements, $template);
+        if($template->name == explode('.', $fisrtView)[0].'.html'){
+          $firstViewBody = $template->body;
+        }
       }
+
+      $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody);
+
+      $images = GeneratorPanorama::getImages($panorama);
 
       if(!file_exists($basePath)){
         mkdir($basePath);
