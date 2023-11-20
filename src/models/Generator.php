@@ -21,7 +21,7 @@ class GeneratorPanorama{
       <!-- Caméra Rig -->
       <a-entity id="player" position="0 0 0">
         <!-- Caméra -->
-        <a-entity position="0 1.6 0" look-controls id="camera" camera="userHeight: 1.6" cursor="rayOrigin: mouse">
+        <a-entity position="0 0 0" look-controls id="camera" camera="userHeight: 1.6" cursor="rayOrigin: mouse">
           <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
             animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
           </a-cursor>
@@ -188,8 +188,9 @@ class GeneratorPanorama{
 
       foreach($map->getElements() as $element){
         $elementPath = explode('.', $element->getView()->getPath())[0].'.html';
+        $element->getPosition()->setZ(-0.5);
         $body .= '
-          <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera"></a-image>
+          <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
         ';
       }
 
