@@ -17,7 +17,7 @@ class Validation
 
     static function val_texte(string $texte)
     {
-        return filter_var($texte, FILTER_SANITIZE_STRING);
+        return filter_var($texte, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
 }

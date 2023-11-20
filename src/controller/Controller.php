@@ -1,5 +1,5 @@
 <?php
-
+include("./models/Generator.php");
 class Controller
 {
 	function __construct()
@@ -61,6 +61,9 @@ class Controller
 					break;
 				case "addSign":
 					$this->AddSign();
+					break;
+				case "generate":
+					$this->Generate();
 					break;
 				case "deleteElement":
 					$this->DeleteViewElement();
@@ -427,6 +430,17 @@ class Controller
 
 		require($rep . $views['dashboard']);
 	}
-	}//fin class
+	function Generate(){
+		global $rep, $views;
+
+		$panorama = $_SESSION['panorama'];
+		$fisrtView = $_REQUEST['firstView'];
+
+		GeneratorPanorama::createDirectory($panorama, $fisrtView);
+
+		require($rep . $views['download']);
+	}
+
+}//fin class
 
 ?>
