@@ -59,7 +59,11 @@ class GeneratorPanorama{
 
       $images = GeneratorPanorama::getImages($panorama);
 
-      $map = GeneratorPanorama::generateMap($panorama->getMap());
+      if($panorama->isMap()){
+        $map = GeneratorPanorama::generateMap($panorama->getMap());
+        touch($basePath.'/templates/'.$map->name);
+        file_put_contents($basePath.'/templates/'.$map->name, $map->body);
+      }
 
       if(!file_exists($basePath)){
         mkdir($basePath);
@@ -79,9 +83,6 @@ class GeneratorPanorama{
         touch($basePath.'/templates/'.$element->name);
         file_put_contents($basePath.'/templates/'.$element->name, $element->body);
       }
-
-      touch($basePath.'/templates/'.$map->name);
-      file_put_contents($basePath.'/templates/'.$map->name, $map->body);
 
       foreach($images as $image){
         copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
@@ -150,9 +151,7 @@ class GeneratorPanorama{
       foreach($view->getElements() as $element){
         if(get_class($element) == 'Sign'){
           $body .= '
-            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera">
-              <a-plane  animationcustom color="black" width="5" text="value: '.$element->getContent().';align:center"></a-plane>
-            </a-entity>
+            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera" text="value: '.$element->getContent().' animationcustom"></a-entity>
           ';
         }else{
           $path = explode('.', $element->getView()->getPath())[0].'.html';
