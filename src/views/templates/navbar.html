@@ -1,29 +1,34 @@
-<div class="menu">
-    <h1>Panorama Generator</h1>
-    <nav>
-        <li>
+<div class="container-fluid border p-3 shadow align-baseline">
+    <div class="row">
+        <div class="col-1 text-right align-self-center">
+            <img class="logo" src="./views/assets/images/archivrlogo.png">
+        </div>
+        <div class="col align-self-center">
             <form method="post">
-                <input type="submit" value="Home">
+                <button type="submit" class="btn btn-secondary">Home</button>
                 <input type="hidden" name="action">
             </form>
-        </li>
-        <li>
+        </div>
+        <div class="col-md align-self-center">
             <form method="post">
-                <input type="submit" value="New project">
-                <input type="hidden" name="action" value="goToLoadImages">
-            </form>
-        </li>
-        <li>
-            <form method="post">
-                <input type="submit" value="Tutorial">
+                <button type="submit" class="btn btn-secondary">Tutorial</button>
                 <input type="hidden" name="action" value="goToTutorial">
             </form>
-        </li>
-        <li>
+        </div>
+        <div class="col-md align-self-center">
             <form method="post">
-                <input type="submit" value="About">
+                <button type="submit" class="btn btn-secondary">About</button>
                 <input type="hidden" name="action" value="goToAbout">
             </form>
-        </li>
-    </nav>
+        </div>
+        <div class="col-xl"></div>
+        <div class="col-sm align-self-center text-center">
+            <form method="post">
+                <button type="submit" class="btn btn-primary">New Panorama</button>
+                <input type="hidden" name="action" value="goToLoadImages">
+            </form>
+        </div>
+        </nav>
+    </div>
 </div>
+

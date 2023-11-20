@@ -3,56 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./views/styles/home.css">
     <title>Panorama Generator</title>
 </head>
 <body class="bg-light">
-    <div class="container-fluid border p-3 shadow mb-5 align-baseline">
-        <div class="row">
-            <div class="col-1 text-right align-self-center">
-                <img class="logo" src="./views/assets/images/archivrlogo.png">
-            </div>
-            <div class="col align-self-center">
-                <p class="text-center font-weight-bold">Archivr</p>
-            </div>
-            <div class="col-md align-baseline align-self-center">
-                <p class="text-center">Tutorial</p>
-            </div>
-            <div class="col-md align-self-center">
-                <p class="text-center">About</p>
-            </div>
-            <div class="col-md align-self-center">
-                <p>Create an account</p>
-            </div>
-            <div class="col-xl"></div>
-            <div class="col-sm align-self-center text-center">
-                <button class="btn btn-primary"> 
-                    Create a panorama
-                </button>
-            </div>
+    <div class="container-fluid w-100 h-100 mt-5">
+        <div class="mb-3">
+            <h1 class="text-center font-weight-bold">Welcome to ArchiVR</h1>
+            <p class="text-center mb-5">Create your own virtual 3D visit</p>
         </div>
-    </div>
-    
-    <div class="container-fluid w-100 h-100 bg-danger">
-        <div class="row h-100">
-            <div class="col-md-4 d-flex align-self-center">
-                <div class="container bg-white rounded">
-                    <img class="rounded img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
-                    <HR class="bg-black">
+        <div class="row justify-content-around h-100">
+            <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
+                <div class="container p-0">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
                 </div>
+                <h3 class="ml-4 mt-3 font-weight-bold">Create your own panorama</h3>
+                <h5 class="ml-4 mb-4">Add your 360° images to create VR 3D visit</h5>
             </div>
-            <div class="col-md-4">
-                <div class="container bg-white rounded">
-                    <img class="rounded img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
-                    <HR class="bg-black">
+            <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
+                <div class="container p-0">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
                 </div>
+                <h3 class="ml-4 mt-3 font-weight-bold">Import a template</h3>
+                <h5 class="ml-4 mb-4">See 3D creation from people around the world</h5>
             </div>
-            <div class="col-md-4 d-flex align-items-center">
-                <div class="container bg-white rounded">
-                    <img class="rounded img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
-                    <HR class="bg-black">
+            <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
+                <div class="container p-0">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
                 </div>
+                <h3 class="ml-4 mt-3 font-weight-bold">See a tutorial</h3>
+                <h5 class="ml-4 mb-4">And learn how to use ArchVR generator</h5>
             </div>
         </div>
     </div>

@@ -25,3 +25,12 @@ body{
     height: 82px;
     width: 82px;
 }
+
+.homeRounded{
+    border-radius: 10%;
+}
+
+.homeImgRadius{
+    border-top-right-radius: 10%;
+    border-top-left-radius: 10%;
+}
