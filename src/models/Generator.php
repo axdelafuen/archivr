@@ -17,9 +17,6 @@ class GeneratorPanorama{
 
   <body>
     <a-scene>
-      <a-assets>
-        <img id="fleche" src="./assets/images/fleche.png" height="357" width="367" alt=""/>
-      </a-assets>
 
       <!-- Caméra Rig -->
       <a-entity id="player" position="0 0 0">
@@ -44,7 +41,7 @@ class GeneratorPanorama{
       return $page;
     }
 
-    static function createDirectory($panorama, $fisrtView){
+    static function createDirectory($panorama, $fisrtView){ 
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
@@ -61,6 +58,8 @@ class GeneratorPanorama{
       $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody);
 
       $images = GeneratorPanorama::getImages($panorama);
+
+      $map = GeneratorPanorama::generateMap($panorama->getMap());
 
       if(!file_exists($basePath)){
         mkdir($basePath);
@@ -81,10 +80,15 @@ class GeneratorPanorama{
         file_put_contents($basePath.'/templates/'.$element->name, $element->body);
       }
 
+      touch($basePath.'/templates/'.$map->name);
+      file_put_contents($basePath.'/templates/'.$map->name, $map->body);
+
       foreach($images as $image){
         copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
       }
 
+      copy('./.template/blueWaypoint.png', './.datas/out/assets/images/blueWaypoint.png');
+      copy('./.template/sky.png', './.datas/out/assets/images/sky.png');
       copy('./.template/script.js', './.datas/out/script/script.js');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
@@ -174,31 +178,26 @@ class GeneratorPanorama{
       return $template;
     }
 
-    /*
-    static function generateMap($map){
+    static function generateMap($map):Template{
       $path = $map->getPath();
       $template = new Template();
 
-      $body = '<a-sky id="skybox" src="./assets/images/sky.png" animationcustom></a-sky>';
+      $body = '<a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky>';
 
-      $body .= '<a-image src="./assets/images/' . $path . '"';
+      $body .= '<a-image src="assets/images/' . $path . '" position="0 0 -0.6" width="2.1"></a-image>';
 
       foreach($map->getElements() as $element){
+        $elementPath = explode('.', $element->getView()->getPath())[0].'.html';
         $body .= '
-        <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
-        <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
-          animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-          onclick="goTo("' . $path . '")"
-          look-at="#pointer' . $elementId .'"
-          map>
-        </a-entity>
-          <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
-          </a-entity>
-        </a-entity>
-      ';
+          <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera"></a-image>
+        ';
       }
+
+      $template->name = explode('.', $path)[0] . '.html';
+      $template->body = $body;
+
+      return $template;
     }
-    */
 
     static function loadFromFile(){
 
