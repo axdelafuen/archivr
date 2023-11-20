@@ -151,7 +151,7 @@ class GeneratorPanorama{
       foreach($view->getElements() as $element){
         if(get_class($element) == 'Sign'){
           $body .= '
-            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera" text="value: '.$element->getContent().' animationcustom"></a-entity>
+            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera" text="value: '.$element->getContent().'" animationcustom"></a-entity>
           ';
         }else{
           $path = explode('.', $element->getView()->getPath())[0].'.html';
