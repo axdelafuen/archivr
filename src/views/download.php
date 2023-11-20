@@ -2,4 +2,4 @@
 
 <h3>Download your Panorama</h3>
 
-<a href="./.datas/zip/caca.zip" download>Click here to download<href>
+<a href=<?php echo "./.datas/zip/".$_SESSION['panorama']->getName().".zip"?> download>Click here to download<href>

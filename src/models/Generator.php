@@ -44,8 +44,6 @@ class GeneratorPanorama{
     }
 
     static function createDirectory($panorama){
-      var_dump($panorama);
-
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
