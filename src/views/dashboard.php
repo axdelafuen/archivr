@@ -14,10 +14,23 @@
 
 <br>
 
+Choose your starting image scene and generate your Panorama: 
+
 <form method="post">
-    <input type="submit" value="Generate your diaporama">
+    <select name="firstView" required>
+        <?php
+        foreach ($_SESSION['panorama']->getViews() as $view){
+            echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
+        }
+        ?>
+    </select>
+
+    <input type="submit" value="Generate your Panorama">
     <input type="hidden" name="action" value="generate">
 </form>
+
+<br>
+<br>
 
 Add new images :
 
