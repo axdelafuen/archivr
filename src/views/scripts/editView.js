@@ -1,4 +1,4 @@
-function sliderChanged(slider, id){
+function sliderChanged(slider, id) {
     slider.parentNode.querySelector("span").innerHTML = slider.value
 
     output = slider.parentNode.parentNode.querySelectorAll("input")
@@ -8,9 +8,23 @@ function sliderChanged(slider, id){
     output.forEach(pos => {
         position = position + pos.value.toString() + " "
     })
-    document.getElementById(id).setAttribute("position",position)
+    document.getElementById(id).setAttribute("position", position)
+}
 
-    document.getElementById("elementPositionX").setAttribute("value",document.getElementById("positionX").value.toString())
-    document.getElementById("elementPositionY").setAttribute("value",document.getElementById("positionY").value.toString())
-    document.getElementById("elementPositionZ").setAttribute("value",document.getElementById("positionZ").value.toString())
+function sliderChangedX(){
+    document.querySelectorAll(".elementPositionX").forEach(element => {
+        element.setAttribute("value", document.getElementById("positionX").value.toString())
+    })
+}
+
+function sliderChangedY(){
+    document.querySelectorAll(".elementPositionY").forEach(element => {
+        element.setAttribute("value", document.getElementById("positionY").value.toString())
+    })
+}
+
+function sliderChangedZ(){
+    document.querySelectorAll(".elementPositionZ").forEach(element => {
+        element.setAttribute("value", document.getElementById("positionZ").value.toString())
+    })
 }

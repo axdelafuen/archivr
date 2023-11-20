@@ -37,6 +37,9 @@ class Controller
 					$this->GoBackToDashboard();
 					break;
 
+				case "goBackToDashboardFromMap":
+					$this->GoBackToDashboardFromMap();
+					break;
 				case "editView":
 					$this->EditView();
 					break;
@@ -63,16 +66,25 @@ class Controller
 					$this->Generate();
 					break;
 				case "deleteElement":
-					$this->DeleteElement();
+					$this->DeleteViewElement();
+					break;
+				case "deleteMapElement":
+					$this->DeleteMapElement();
 					break;
 				case "selectedElementChanged":
 					$this->SelectedElementChanged();
 					break;
 				case "addWaypoint":
-					$this->AddWaypoint();
+					$this->AddViewWaypoint();
 					break;
 				case "addMapWaypoint":
 					$this->AddMapWaypoint();
+					break;
+				case "deleteMap":
+					$this->DeleteMap();
+					break;
+				case "selectedMapElementChanged":
+					$this->SelectedMapElementChanged();
 					break;
 
 				//mauvaise action
@@ -116,8 +128,21 @@ class Controller
 	{
 		global $rep, $views;
 
-		if(isset($_REQUEST['selected_element'])){
+		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
+		unset($_SESSION['selected_view']);
+
+		require ($rep.$views['dashboard']);
+	}
+
+	function GoBackToDashboardFromMap()
+	{
+		global $rep, $views;
+
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXY(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']));
 		}
 
 		unset($_SESSION['selected_view']);
@@ -174,8 +199,6 @@ class Controller
 
 		$selected_view = $_REQUEST['selected_view'];
 
-		//unset($_SESSION['selected_view']);
-
 		$_SESSION['selected_view'] = $_SESSION['panorama']->getViewByPath($selected_view);
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
@@ -227,16 +250,30 @@ class Controller
 		}
 	}
 
+	function DeleteMap(){
+		global $rep, $views;
+
+		$_SESSION['panorama']->removeMap();
+
+		unset($_SESSION['selected_view']);
+
+		require($rep . $views['dashboard']);
+	}
+
 	function EditMap(){
 		global $rep, $views;
 
 		$selected_view = $_REQUEST['selected_view'];
 
-		//unset($_SESSION['selected_view']);
-
 		if($selected_view == $_SESSION['panorama']->getMap()->getPath())
 		{
 			$_SESSION['selected_view'] = $_SESSION['panorama']->getMap();
+			if(count($_SESSION['selected_view']->getElements()) > 0){
+				$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+			}
+			else{
+				unset($_SESSION['selected_element']);
+			}
 			require ($rep.$views['editMap']);
 		}
 		else{
@@ -250,6 +287,10 @@ class Controller
 
 		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
+
 		if(count($_SESSION['selected_view']->getElements()) > 0){
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 		}
@@ -262,9 +303,11 @@ class Controller
 
 	function AddWaypoint()
 	{
-		global $rep,$views;
-
 		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
 
 		if(count($_SESSION['selected_view']->getElements()) > 0){
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
@@ -272,12 +315,32 @@ class Controller
 		else{
 			unset($_SESSION['selected_element']);
 		}
+	}
 
-		//echo $_REQUEST['destinationView'];
+	function addViewWaypoint()
+	{
+		global $rep,$views;
+		$this->addWaypoint();
 		require ($rep.$views['editView']);
 	}
 
-	function DeleteElement()
+	function addMapWaypoint()
+	{
+		global $rep,$views;
+		$this->addWaypoint();
+		require ($rep.$views['editMap']);
+	}
+/*
+	function AddMapWaypoint()
+	{
+		global $rep,$views;
+
+		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+		//echo $_REQUEST['destinationView'];
+		require ($rep.$views['editMap']);
+	}
+*/
+	function DeleteViewElement()
 	{
 		global $rep, $views;
 
@@ -304,22 +367,57 @@ class Controller
 		}
 	}
 
+	function DeleteMapElement()
+	{
+		global $rep, $views;
+
+		$elementId = $_REQUEST['selected_element'];
+
+		if(!isset($elementId) or empty($elementId)){
+			require ($rep.$views['error']);
+		}
+		else{
+			$element = $_SESSION['selected_view']->getElementById($elementId);
+			if($element != null){
+				$_SESSION['selected_view']->removeElement($element);
+				if(count($_SESSION['selected_view']->getElements()) > 0){
+					$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+				}
+				else{
+					unset($_SESSION['selected_element']);
+				}
+				require($rep.$views['editMap']);
+			}
+			else{
+				require ($rep.$views['error']);
+			}
+		}
+	}
+
 	function SelectedElementChanged()
 	{
 		global $rep, $views;
+
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+		}
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
 		require($rep.$views['editView']);
 	}
 
-	function AddMapWaypoint()
+	function SelectedMapElementChanged()
 	{
-		global $rep,$views;
+		global $rep, $views;
 
-		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
-		//echo $_REQUEST['destinationView'];
-		require ($rep.$views['editMap']);
+		if(isset($_SESSION['selected_element'])){
+			$_SESSION['selected_element']->setPositionXY(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']));
+		}
+
+		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedMapElementChanged']);
+
+		require($rep.$views['editMap']);
 	}
 
 	function ChangeMap()
@@ -332,7 +430,6 @@ class Controller
 
 		require($rep . $views['dashboard']);
 	}
-
 	function Generate(){
 		global $rep, $views;
 

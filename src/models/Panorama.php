@@ -84,6 +84,11 @@ class Panorama
         array_splice($this->views, array_search($view, $this->views), 1);
     }
 
+    public function removeMap()
+    {
+        unset($this->map);
+    }
+
     public function __construct($name)
     {
         $this->name = $name;
