@@ -1,0 +1,31 @@
+.dashboard-proj-name{
+    display: flex;
+}
+
+.views-display{
+    width: inherit;
+}
+
+.dashboard-views{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.dashboard-views-container{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.dashboard-views-form{
+    width: 30rem;
+}
+
+.dashboard-map-form{
+    width: 80rem;
+}
+
+.map-display{
+    width: inherit;
+}
