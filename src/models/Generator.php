@@ -21,10 +21,12 @@ class GeneratorPanorama{
       <!-- Caméra Rig -->
       <a-entity id="player" position="0 0 0">
         <!-- Caméra -->
-        <a-entity position="0 0 0" look-controls id="camera" camera="userHeight: 1.6" cursor="rayOrigin: mouse">
-          <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
-          </a-cursor>
+        <a-entity position="0 -1.6 0" id="camera" cursor="rayOrigin: mouse">
+          <a-camera wasd-controls-enabled="false" look-controls>
+            <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
+              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
+            </a-cursor>
+          </a-camera>
         </a-entity>
       </a-entity>
 
