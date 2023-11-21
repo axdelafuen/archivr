@@ -1,0 +1,31 @@
+kind: pipeline
+type: docker
+name: archivr-deploy
+
+trigger:
+  event:
+    - push
+
+steps:
+  
+- name: archivr-image
+  image: plugins/docker
+  settings:
+    dockerfile: ./Dockerfile
+    context: ./
+    registry: hub.codefirst.iut.uca.fr
+    repo: hub.codefirst.iut.uca.fr/archivr/archivr
+    username:
+      from_secret: secret-registry-username
+    password:
+      from_secret: secret-registry-password
+
+- name: archivr-active-container
+  image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+  environment:
+    IMAGENAME: hub.codefirst.iut.uca.fr/archivr/archivr:latest
+    CONTAINERNAME: archivr
+    COMMAND: create
+    OVERWRITE: true
+    CODEFIRST_CLIENTDRONE_ENV_DEPLOYED: deployed
+  depends_on: [ archivr-image ]
