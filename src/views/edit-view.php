@@ -136,15 +136,20 @@
 </div>
 
 <a-scene id="preview" embedded>
-    <a-assets>
-        <img id="arrow" src="views/assets/images/arrow.png">
-    </a-assets>
 
     <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
-    <a-entity>
-        <a-camera id="camera" position="0 0 0" rotation="0 -180 0" look-controls="true" wasd-controls-enabled="false"></a-camera>
-    </a-entity>
+     <!-- Caméra Rig -->
+     <a-entity id="player" position="0 0 0">
+        <!-- Caméra -->
+        <a-entity position="0 -1.6 0" id="camera" cursor="rayOrigin: mouse">
+          <a-camera wasd-controls-enabled="false" look-controls>
+            <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
+              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
+            </a-cursor>
+          </a-camera>
+        </a-entity>
+      </a-entity>
 
     <?php
     foreach ($_SESSION['selected_view']->getElements() as $element) {
