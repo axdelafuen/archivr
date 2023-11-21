@@ -4,6 +4,20 @@ class Waypoint extends Element
 {
     private View $destination;
 
+    private float $scale;
+
+    public function getScale():string{
+        return $this->scale . " " . $this->scale . " " . $this->scale;
+    }
+
+    public function setScale($scale):void{
+        $this->scale = $scale;
+    }
+
+    public function getScaleInt(){
+        return $this->scale;
+    }
+
     public function getView()
     {
         return $this->destination;
@@ -18,6 +32,7 @@ class Waypoint extends Element
     {
         parent::__construct($destination->getName());
         $this->destination = $destination;
+        $this->scale = 1;
     }
 
 }
