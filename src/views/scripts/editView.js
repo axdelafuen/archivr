@@ -11,6 +11,15 @@ function sliderChanged(slider, id) {
     document.getElementById(id).setAttribute("position", position)
 }
 
+function sliderChangedScale(slider, id) {
+    slider.parentNode.querySelector("span").innerHTML = slider.value
+
+    scale = "" + slider.value + " " + slider.value + " " + slider.value;
+    console.log(scale);
+
+    document.getElementById(id).setAttribute("scale", scale);
+}
+
 function sliderChangedX(){
     document.querySelectorAll(".elementPositionX").forEach(element => {
         element.setAttribute("value", document.getElementById("positionX").value.toString())
@@ -26,5 +35,11 @@ function sliderChangedY(){
 function sliderChangedZ(){
     document.querySelectorAll(".elementPositionZ").forEach(element => {
         element.setAttribute("value", document.getElementById("positionZ").value.toString())
+    })
+}
+
+function changeScale(){
+    document.querySelectorAll(".elementScale").forEach(element => {
+        element.setAttribute("value", document.getElementById("scale").value.toString())
     })
 }

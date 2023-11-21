@@ -130,6 +130,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		unset($_SESSION['selected_view']);
@@ -143,6 +146,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXY(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		unset($_SESSION['selected_view']);
@@ -289,6 +295,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		if(count($_SESSION['selected_view']->getElements()) > 0){
@@ -307,6 +316,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		if(count($_SESSION['selected_view']->getElements()) > 0){
@@ -400,6 +412,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
@@ -413,6 +428,9 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXY(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']));
+			if(isset($_REQUEST['elementScale'])){
+				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+			}
 		}
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedMapElementChanged']);
