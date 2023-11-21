@@ -1,31 +1,19 @@
-.dashboard-proj-name{
-    display: flex;
+.divRounded{
+    border-radius: 5vh;
+    width: 26%;
 }
 
-.views-display{
-    width: inherit;
+.imgRounded{
+    border-top-right-radius: 5vh;
+    border-top-left-radius: 5vh;
 }
 
-.dashboard-views{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+.divMapRounded{
+    border-radius: 5vh;
+    width: 33%;
 }
 
-.dashboard-views-container{
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-}
-
-.dashboard-views-form{
-    width: 30rem;
-}
-
-.dashboard-map-form{
-    width: 80rem;
-}
-
-.map-display{
-    width: inherit;
+.imgMapRounded{
+    border-top-right-radius: 5vh;
+    border-top-left-radius: 5vh;
 }
