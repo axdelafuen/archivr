@@ -43,6 +43,6 @@ def CD(ctx):
   if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1: 
     return out
 
-  if ctx.build.branch == "master" or ctx.build.message.find("[FORCE_CI]"):
+  if ctx.build.branch == "master" or ctx.build.message.find("[FORCE_CI]") != -1:
     out.append(archivr_image(ctx))
     out.append(archivr_active_container(ctx))
