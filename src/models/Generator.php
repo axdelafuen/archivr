@@ -157,7 +157,7 @@ class GeneratorPanorama{
           $path = explode('.', $element->getView()->getPath())[0].'.html';
         
           $body .= '
-            <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera">
+            <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera" scale="' . $element->getScale() . '">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
               onclick="goTo(\'templates/' . $path . '\')"
