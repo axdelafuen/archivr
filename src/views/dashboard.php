@@ -38,27 +38,30 @@
                     <input type="hidden" name="action" value="generate">
                 </form>
             </div>
-
         </div>
     </div>
 
-    <div>
-        <h5 class="font-weight-bold">Add new images :</h5>
+    <div class="mb-5">
+        <div class="ml-3">
+            <h5 class="font-weight-bold">Add new images :</h5>
+            <div class="row">
+                <form method="post" enctype="multipart/form-data"">
+                    <div class="d-flex col-md-12">
+                        <input class="form-control" type="file" name="views[]" required multiple accept="image/*">
+                        <button class="btn btn-secondary" type="submit">Upload</button>
+                        <input type="hidden" name="action" value="viewsUploaded">
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" name="views[]" required multiple accept="image/*">
-            <input type="submit" value="Upload">
-            <input type="hidden" name="action" value="viewsUploaded">
-        </form>
-
-        <div class="row">
+        <div class="d-flex flex-row flex-wrap justify-content-around">
             <?php
             $panorama = $_SESSION['panorama'];
 
             foreach ($panorama->getViews() as $view){
             ?>
-
-            <div class="col-sm-3 align-self-center bg-white shadow p-0 divRounded mt-3">
+            <div class="align-self-center bg-white shadow p-0 divRounded mt-3">
                 <div class="p-0">
                     <?php
                     echo '<form method="post">        
@@ -68,7 +71,7 @@
                     </form>';
                     ?>
                 </div>
-                <h5 class="ml-4 mb-4 pb-4 pt-3"><?php echo $view->getName(); ?></h5>
+                <h5 class="ml-4 mb-2 pb-4 pt-3"><?php echo $view->getName(); ?></h5>
             </div>
             <?php
             }
@@ -77,31 +80,39 @@
         </div>
     </div>
 
-    <div>
-        Change the map :
-
-        <form method="post" enctype="multipart/form-data" class="dashboard-map">
-            <input type="file" name="map" required multiple accept="image/*">
-            <input type="submit" value="Upload">
-            <input type="hidden" name="action" value="changeMap">
-        </form>
+    <div class="mb-5">
+        <div class="ml-3">
+            <h5 class="font-weight-bold">Change the map :</h5>
+            <div class="row">
+                <form method="post" enctype="multipart/form-data" class="dashboard-map">
+                    <div class="d-flex col-md-12">
+                        <input class="form-control" type="file" name="map" required multiple accept="image/*">
+                        <button class="btn btn-secondary" type="submit">Upload</button>
+                        <input type="hidden" name="action" value="changeMap">
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <?php
         if ($panorama->isMap())
-        {
-            echo "Edit your map :";
-
-            echo '
-                <form method="post" class="dashboard-map-form">
-                    <input src="./.datas/'. $panorama->getId() ."/". $panorama->getMap()->getPath() .'" type="image" class="map-display">
-                    <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
-                    <input type="hidden" name="action" value="editMap">
-                </form>
-            ';
-        }
-        ?>
+        {?>
+        <div class="d-flex justify-content-center">
+            <div class="align-self-center bg-white shadow p-0 divMapRounded mt-3">
+                <div class="p-0">
+                <?php echo '
+                    <form method="post" class="dashboard-map-form">
+                        <input src="./.datas/'. $panorama->getId() ."/". $panorama->getMap()->getPath() .'" type="image" class="w-100 imgMapRounded">
+                        <input type="hidden" name="selected_view" value="'. $panorama->getMap()->getPath() .'">
+                        <input type="hidden" name="action" value="editMap">
+                    </form>
+                ';?>
+                </div>
+                <h5 class="ml-4 mb-2 pb-4 pt-3"><?php echo $panorama->getMap()->getName(); ?></h5>
+            <?php
+            }
+            ?>
+            </div>
+        </div>
     </div>
-
-
-
 </div>

@@ -33,7 +33,7 @@
                     <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
                 </div>
                 <h3 class="ml-4 mt-3 font-weight-bold">See a tutorial</h3>
-                <h5 class="ml-4 mb-4">And learn how to use ArchVR generator</h5>
+                <h5 class="ml-4 mb-4">And learn how to use ArchiVR generator</h5>
             </div>
         </div>
     </div>

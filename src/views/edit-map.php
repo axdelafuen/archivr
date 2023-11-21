@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="views/styles/edit-view.css">
 </head>
 
-<div class="hud">
+<div class="hud p-2">
     <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
     <form  method="post">
         <label>
@@ -31,9 +31,6 @@
         ?>
         <input type="hidden" name="action" value="selectedMapElementChanged">
     </form>
-
-    <!-- TEMP -->
-    --- <br>
 
     <?php
 
@@ -72,9 +69,7 @@
     }
     ?>
 
-    <h4>Add a waypoint :</h4>
-
-    Chose destination :
+    <h4>Add a waypoint to :</h4>
 
     <form  method="post">
         <select name="destinationView" required>
