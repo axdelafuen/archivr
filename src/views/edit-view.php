@@ -1,6 +1,9 @@
 <head>
     <title>View edition</title>
     <link rel="stylesheet" href="views/styles/edit-view.css">
+
+    <script src="views/scripts/editView.js"></script>
+    <script src=".template/script.js"></script>
 </head>
 
 <div class="hud p-2">
@@ -152,6 +155,7 @@
       </a-entity>
 
     <?php
+    $elementId = 1;
     foreach ($_SESSION['selected_view']->getElements() as $element) {
         if (get_class($element) == "Sign") {
             ?>
@@ -162,13 +166,16 @@
             <?php
         } elseif (get_class($element) == "Waypoint") {
             ?>
-             <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
-                look-at="#camera" text="value: <?php echo $element->getViewName()?>">
+            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" look-at="[camera]" id="<?php echo $element->getId() ?>" >
+                <a-entity gltf-model=".template/direction_arrow/scene.gltf" id="model"
+                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+                look-at="#pointer<?php echo $elementId ?>">
+                </a-entity>
+                <a-entity id="pointer<?php echo $elementId ?>"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
             </a-entity>
             <?php
         }
     }
     ?>
 </a-scene>
-
-<script src="views/scripts/editView.js"></script>
