@@ -37,17 +37,11 @@
 
       
       <a-entity id="base">
-        
-        <a-box color="pink" position="0 1 -3" onclick="goTo()"  animationcustom class="clickable" map ></a-box>
-        <a-image src="assets/sky.png" position="0 3 -3"></a-image>
+        <a-box color="pink" click-drag position="0 1 -3" onclick="goTo()"  animationcustom class="clickable"></a-box>
+        <a-sky src="assets/sky.png" sliderelement></a-sky>
+        <a-sky src="assets/alex-bdnr-GNNoZa8zVwY-unsplash.jpg" sliderelement opacity="0.0"></a-sky>
       </a-entity>
     </a-scene>
   </body>
   </html>
 
-
-<!---->
-<!-- https://github.com/supermedium/superframe/tree/master/components/render-order#aframe-render-order-component -->
-<!---->
-<!---->
-<!-- https://aframe.io/docs/1.4.0/components/material.html#transparency-issues -->

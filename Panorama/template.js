@@ -91,21 +91,8 @@ AFRAME.registerComponent('clickcontroller', {
 //     }
 //   });
 
-let arrayViews = []
-AFRAME.registerComponent('sliderelement',{
-  init: function(){
-    let el = this.el
-    arrayViews.push(el)
-    console.log(arrayViews)
-    updateSlider()
-  },
-  remove: function(){
-    let el = this.el
-    arrayViews = arrayRemove(arrayViews,el)
-    console.log(arrayViews)
-  }
-})
 
+// Lock camera movement when only on map
 AFRAME.registerComponent('map',{
   remove: function(){
     document.querySelector("#camera").setAttribute("look-controls","enabled: true; mouseEnabled: true");
@@ -114,7 +101,6 @@ AFRAME.registerComponent('map',{
     document.querySelector("#camera").setAttribute("rotation","0 0 0");
     document.querySelector("#camera").setAttribute("look-controls","enabled: false; mouseEnabled: false");
   }
-
-
-
 })
+
+
