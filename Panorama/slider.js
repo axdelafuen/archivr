@@ -2,6 +2,43 @@
 //////////////////////
 //  SLIDER HANDLING //
 //////////////////////
+var yearsVector = 0
+let maxValue = 0 
+let step
+
+
+AFRAME.registerComponent('thumbstick-logging',{
+  init: function () {
+    this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+  },
+  logThumbstick: function (evt) {
+    if(arrayViews.length === 4)
+    {
+      maxValue = 300
+      step = 7
+    }
+    else
+    {
+      maxValue = 100
+      step = 2
+    }
+    let minValue = 0
+    let key = event.key
+    
+    if (evt.detail.x < -0.80) {
+      if(yearsVector < maxValue){
+        yearsVector=(yearsVector+step)
+        opacityHandler(yearsVector)
+      }
+    }
+    if (evt.detail.x > 0.80) {
+      if(yearsVector > minValue){
+        yearsVector=(yearsVector-step)
+        opacityHandler(yearsVector)
+      }   
+    }
+  }
+});
 
 let arrayViews = []
 AFRAME.registerComponent('sliderelement',{
@@ -17,11 +54,10 @@ AFRAME.registerComponent('sliderelement',{
 })
 
 
-var yearsVector = 0
+
 document.addEventListener("keydown",(event)=>{ 
   let maxValue
   let step
-  console.log("Keydown")
   if(arrayViews.length === 4)
   {
     maxValue = 300
