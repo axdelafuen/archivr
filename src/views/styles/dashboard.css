@@ -1,0 +1,19 @@
+.divRounded{
+    border-radius: 5vh;
+    width: 26%;
+}
+
+.imgRounded{
+    border-top-right-radius: 5vh;
+    border-top-left-radius: 5vh;
+}
+
+.divMapRounded{
+    border-radius: 5vh;
+    width: 33%;
+}
+
+.imgMapRounded{
+    border-top-right-radius: 5vh;
+    border-top-left-radius: 5vh;
+}

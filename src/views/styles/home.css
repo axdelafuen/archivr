@@ -1,5 +1,6 @@
 body{
     overflow-x: hidden;
+    margin: 0;
 }
 
 .menu{
@@ -23,4 +24,13 @@ body{
 .logo{
     height: 82px;
     width: 82px;
+}
+
+.homeRounded{
+    border-radius: 5vh;
+}
+
+.homeImgRadius{
+    border-top-right-radius: 5vh;
+    border-top-left-radius: 5vh;
 }

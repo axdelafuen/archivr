@@ -11,7 +11,7 @@ class Sign extends Element
 
     public function __construct($content)
     {
-        parent::__construct();
+        parent::__construct($content);
         $this->content = $content;
     }
 }
