@@ -56,3 +56,24 @@ Permet de lire des fichiers mp3 lorsqu'on appuie sur un élément.
 __Projet à voir dans le repot *A-frame-training* -> *playground* dans la branche *Aurian*__
 # Controle des manette :
 
+
+# Gestion du slider
+
+## sliderelement (Component)
+Ajoute dans le tableau `arrayViews` l'élement HTML contenant le composant. Cela permettrad'accéder au différentes temporalités.
+🛑 Bien mettre dans l'ordre du plus récent au plus vieux dans le html sinon ça ne s'affichera pas dans le bon ordre. 🛑
+
+#### Exemple
+```html 
+<a-entity id="base">
+  <a-sky src="assets/paul-szewczyk-GfXqtWmiuDI-unsplash.jpg" id="uno" ></a-sky>
+  <a-sky src="assets/timothy-oldfield-luufnHoChRU-unsplash (1).jpg" id="dos" opacity="0.0"></a-sky>
+  <a-sky src="assets/kris-guico-rsB-he-ye7w-unsplash.jpg" id="tres" opacity="0.0"></a-sky>
+  <a-sky src="assets/alex-bdnr-GNNoZa8zVwY-unsplash.jpg" id="cuatro" opacity="0.0"></a-sky>
+</a-entity>
+```
+
+## document.addEventListener(keydown,...)
+
+Ajoute l'évènement `keydown` (qui détecte lorsqu'une touche est appuyée et/ou maintenue) à tous le document HTML.  
+Il y a une valeur minimale et maximal qui borne les valeurs du "slider". Avec les touches ⬅️ et ➡️, on peut varier l'opacité des `sky` et changer de temporalités. L'ajout avec le fonctionnement des manettes arrivera bienôt.
