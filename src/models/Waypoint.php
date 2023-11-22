@@ -42,6 +42,11 @@ class Waypoint extends Element implements JsonSerializable
 
         return $out;
     }
+
+    public function set($data) {
+        $this->scale = $data['scale'];
+        parent::set($data);
+    }
 }
 
 ?>

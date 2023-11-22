@@ -86,6 +86,12 @@ class Controller
 				case "selectedMapElementChanged":
 					$this->SelectedMapElementChanged();
 					break;
+				case "import":
+					$this->importJsonData();
+					break;
+				case "loadJsonFile":
+					$this->loadDataFromJson();
+					break;
 
 				//mauvaise action
 				default:
@@ -457,6 +463,24 @@ class Controller
 		GeneratorPanorama::createDirectory($panorama, $fisrtView);
 
 		require($rep . $views['download']);
+	}
+
+	function importJsonData(){
+		global $rep, $views;
+
+		require($rep . $views['import']);
+	}
+
+	function loadDataFromJson(){
+		global $rep, $views;
+
+		$json = file_get_contents($_FILES['jsonFile']['tmp_name']);
+		$data = json_decode($json, true);
+
+		$panorama = GeneratorPanorama::loadFromFile($data);
+		$_SESSION['panorama'] = &$panorama;
+		
+		require($rep . $views['dashboard']);
 	}
 
 }//fin class

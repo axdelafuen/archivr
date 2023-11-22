@@ -56,6 +56,14 @@ abstract class Element implements JsonSerializable
     public function jsonSerialize():array{
         return get_object_vars($this);
     }
+
+    public function set($data) {
+        $position = new Position();
+        $position->setPosition($data['position']['x'], $data['position']['y'], $data['position']['z']);
+        $this->setPosition($position);
+
+        $this->id = $data['id'];
+    }
 }
 
 ?>

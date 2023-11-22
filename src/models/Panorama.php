@@ -99,6 +99,14 @@ class Panorama implements JsonSerializable
     public function jsonSerialize():array{
         return get_object_vars($this);
     }
+
+    public function setViews(array $views){
+        $this->views = $views;
+    }
+
+    public function set($data) {
+        $this->id = $data;
+    }
 }
 
 ?> 

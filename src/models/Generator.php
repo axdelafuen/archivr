@@ -208,8 +208,46 @@ class GeneratorPanorama{
       return $template;
     }
 
-    static function loadFromFile(){
 
+
+
+    static function loadFromFile($data){
+      $panorama = new Panorama($data['name']);
+      $array_views = array();
+
+      foreach($data['views'] as $view){
+        $array_views[$view['path']] = new View($view['path']); 
+      }
+
+      foreach($data['views'] as $view){
+        $array_element = array();
+        foreach($view['elements'] as $element){
+          $tmp = null;
+          if(isset($element['destination'])){
+            foreach($array_views as $key => $value){
+              if($key == $element['destination']){
+                $tmp = new Waypoint($value);
+                $tmp->set($element);
+                break;
+              }
+            }
+          } else {
+            $tmp = new Sign($element['content']);
+            $tmp->set($element);
+          }
+          array_push($array_element, $tmp);
+        }
+        foreach($array_views as $key => $value){
+          if($key == $view['path']){
+            $value->set($array_element);
+          }
+        }
+      }
+
+      $panorama->setViews($array_views);
+      $panorama->set($data['id']);
+
+      return $panorama;
     }
 }
 
