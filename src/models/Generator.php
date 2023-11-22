@@ -42,6 +42,7 @@ class GeneratorPanorama{
     }
 
     static function createDirectory($panorama, $fisrtView){ 
+
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
@@ -93,7 +94,15 @@ class GeneratorPanorama{
       copy('./.template/script.js', './.datas/out/script/script.js');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
+      GeneratorPanorama::createJsonFile($panorama);
       GeneratorPanorama::generateZip($panorama->getName());
+    }
+
+    static function createJsonFile($panorama){
+      $path = './.datas/out/.holder.json';
+      $json = json_encode($panorama, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+      touch($path);
+      file_put_contents($path, $json);
     }
 
     static function generateZip($panoramaName){

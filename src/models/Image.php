@@ -1,6 +1,6 @@
 <?php
 
-abstract class Image
+abstract class Image implements JsonSerializable
 {
     protected string $id;
 
@@ -49,6 +49,9 @@ abstract class Image
         return null;
     }
 
+    public function jsonSerialize():array {
+        return get_object_vars($this);
+    }
 }
 
 ?>
