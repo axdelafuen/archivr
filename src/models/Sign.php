@@ -1,6 +1,6 @@
 <?php
 
-class Sign extends Element
+class Sign extends Element implements JsonSerializable
 {
     private string $content;
 
@@ -13,6 +13,14 @@ class Sign extends Element
     {
         parent::__construct($content);
         $this->content = $content;
+    }
+
+    public function jsonSerialize(): array{
+        return get_object_vars($this);
+    }
+
+    public function set($data) {
+        parent::set($data);
     }
 }
 

@@ -45,7 +45,7 @@
         <div class="ml-3">
             <h5 class="font-weight-bold">Add new images :</h5>
             <div class="row">
-                <form method="post" enctype="multipart/form-data"">
+                <form method="post" enctype="multipart/form-data">
                     <div class="d-flex col-md-12">
                         <input class="form-control" type="file" name="views[]" required multiple accept="image/*">
                         <button class="btn btn-secondary" type="submit">Upload</button>

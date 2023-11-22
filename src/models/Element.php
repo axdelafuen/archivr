@@ -1,6 +1,6 @@
 <?php
 
-abstract class Element
+abstract class Element implements JsonSerializable
 {
     protected string $id;
 
@@ -53,6 +53,17 @@ abstract class Element
         $this->position = new Position(0, 0, 0.1);
     }
 
+    public function jsonSerialize():array{
+        return get_object_vars($this);
+    }
+
+    public function set($data) {
+        $position = new Position();
+        $position->setPosition($data['position']['x'], $data['position']['y'], $data['position']['z']);
+        $this->setPosition($position);
+
+        $this->id = $data['id'];
+    }
 }
 
 ?>
