@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" type="image/*" href="views/assets/images/map.png">
     <link rel="stylesheet" href="./views/styles/home.css">
     <title>Panorama Generator</title>
 </head>
 <body class="bg-light">
+<?php
+// load navbar
+require_once(__DIR__.'/templates/navbar.html');
+?>
     <div class="container-fluid w-100 h-100 mt-5">
         <div class="mb-3">
             <h1 class="text-center font-weight-bold">Welcome to ArchiVR</h1>

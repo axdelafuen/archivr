@@ -1,8 +1,14 @@
 <head>
     <title>Dashboard : <?php echo $_SESSION['panorama']->getName(); ?></title>
+    <link rel="icon" type="image/*" href="views/assets/images/map.png">
     <link rel="stylesheet" href="views/styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-
+<body>
+<?php
+// load navbar
+require_once(__DIR__.'/templates/navbar.html');
+?>
 <div class="mt-5">
     <div class="text-center">
 
@@ -44,9 +50,9 @@
     <div class="mb-5">
         <div class="ml-3">
             <h5 class="font-weight-bold">Add new images :</h5>
-            <div class="row">
+            <div class="d-flex justify-content-between mr-5 ml-5">
                 <form method="post" enctype="multipart/form-data"">
-                    <div class="d-flex col-md-12">
+                    <div class="d-flex">
                         <input class="form-control" type="file" name="views[]" required multiple accept="image/*">
                         <button class="btn btn-secondary" type="submit">Upload</button>
                         <input type="hidden" name="action" value="viewsUploaded">
@@ -116,3 +122,4 @@
         </div>
     </div>
 </div>
+</body>

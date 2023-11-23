@@ -24,38 +24,30 @@ class Controller
 				case NULL:
 					$this->Reinit();
 					break;
-
 				case "goToLoadImages":
 					$this->GoToLoadImages($dVueEreur);
 					break;
-
 				case "viewsUploaded":
 					$this->UploadViews($dVueEreur);
 					break;
-
 				case "goBackToDashboard":
 					$this->GoBackToDashboard();
 					break;
-
 				case "goBackToDashboardFromMap":
 					$this->GoBackToDashboardFromMap();
 					break;
 				case "editView":
 					$this->EditView();
 					break;
-
 				case "updateProjectName":
 					$this->UpdateProjectName($dVueEreur);
 					break;
-
 				case "deleteView":
 					$this->DeleteView();
 					break;
-
 				case "editMap":
 					$this->editMap();
 					break;
-
 				case "changeMap":
 					$this->ChangeMap();
 					break;
@@ -86,7 +78,6 @@ class Controller
 				case "selectedMapElementChanged":
 					$this->SelectedMapElementChanged();
 					break;
-
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
