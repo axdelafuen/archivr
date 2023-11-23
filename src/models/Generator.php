@@ -244,24 +244,25 @@ class GeneratorPanorama{
         }
       }
 
-      $map =  new Map($data['map']['path']);
-      $waypoint_array = array();
-      foreach($data['map']['elements'] as $element) {
-        foreach($array_views as $key => $value) {
-          if($key == $element['destination']){
-            $waypoint = new Waypoint($value);
-            $waypoint->set($element);
-            array_push($waypoint_array, $waypoint);
-            break;
+      if(isset($data['map'])){
+        $map =  new Map($data['map']['path']);
+        $waypoint_array = array();
+        foreach($data['map']['elements'] as $element) {
+          foreach($array_views as $key => $value) {
+            if($key == $element['destination']){
+              $waypoint = new Waypoint($value);
+              $waypoint->set($element);
+              array_push($waypoint_array, $waypoint);
+              break;
+            }
           }
         }
+        $map->set($waypoint_array);
+        $panorama->setMap($map);
       }
-      $map->set($waypoint_array);
 
-      $panorama->setMap($map);
       $panorama->setViews($array_views);
       $panorama->set($data['id']);
-
       return $panorama;
     }
 }
