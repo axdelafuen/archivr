@@ -261,8 +261,14 @@ class GeneratorPanorama{
         $panorama->setMap($map);
       }
 
-      $panorama->setViews($array_views);
+      $views = array();
+      foreach($array_views as $key => $value){
+        array_push($views, $value);
+      }
+
+      $panorama->setViews($views);
       $panorama->set($data['id']);
+
       return $panorama;
     }
 }
