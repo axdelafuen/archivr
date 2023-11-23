@@ -2,10 +2,7 @@
 ///////////////
 // FONCTIONS //
 ///////////////
-function updateSlider()
-{
-  
-}
+
 function arrayRemove(arr, value) {
  
     return arr.filter(function (geeks) {
@@ -35,6 +32,8 @@ async function goTo(file="./base.html"){
       newScene.innerHTML= text;
       document.querySelector("a-scene").append(newScene)
     });
+  arrayViews = []
+  // Waiting fadeIn / fadeOut animation
   await new Promise(r => setTimeout(r, 1000));
   oldScene = document.querySelector("#base")
   oldScene.parentNode.removeChild(oldScene);

@@ -2,7 +2,7 @@
 //////////////////////
 //  SLIDER HANDLING //
 //////////////////////
-var yearsVector = 0
+let yearsVector = 0
 let maxValue = 0 
 let step
 
@@ -23,7 +23,7 @@ AFRAME.registerComponent('thumbstick-logging',{
       step = 2
     }
     let minValue = 0
-    let key = event.key
+    let key = evt.key
     
     if (evt.detail.x < -0.80) {
       if(yearsVector < maxValue){
@@ -92,17 +92,17 @@ function changeOpa2pics(value)
 {
 
   value = value*0.01
-  let paysage1 = arrayViews[0]
-  let paysage2 = arrayViews[1]
+  let view1 = arrayViews[0]
+  let view2 = arrayViews[1]
   
   if(value.toFixed(2) == 1.00)
   {
-    paysage1.setAttribute("opacity","0.01")
-    paysage2.setAttribute("opacity","0.99")
+    view1.setAttribute("opacity","0.01")
+    view2.setAttribute("opacity","0.99")
   }
   else{
-    paysage1.setAttribute("opacity",(1-value).toFixed(2))
-    paysage2.setAttribute("opacity",value.toFixed(2));
+    view1.setAttribute("opacity",(1-value).toFixed(2))
+    view2.setAttribute("opacity",value.toFixed(2));
   }
 }
 
@@ -110,41 +110,41 @@ function changeOpa2pics(value)
 function changeOpa3Pics(value)
 {
   if(value>50){
-    let paysage1 = arrayViews[1]
-    let paysage2 = arrayViews[2]
+    let view1 = arrayViews[1]
+    let view2 = arrayViews[2]
 
-    paysage1.setAttribute("visible","true")
-    paysage2.setAttribute("visible","true")
+    view1.setAttribute("visible","true")
+    view2.setAttribute("visible","true")
 
     let percentil = (value - 50)*0.02
     if(percentil == 1)
     {
-      paysage1.setAttribute("visible","false")
+      view1.setAttribute("visible","false")
     }
     else
     {
-      paysage1.setAttribute("opacity",1-percentil)
-      paysage2.setAttribute("opacity",percentil)
+      view1.setAttribute("opacity",1-percentil)
+      view2.setAttribute("opacity",percentil)
     }
   }
   else{
 
-    let paysage1 = arrayViews[0]
-    let paysage2 = arrayViews[1]
+    let view1 = arrayViews[0]
+    let view2 = arrayViews[1]
 
 
     arrayViews[2].setAttribute("visible","false")
-    paysage1.setAttribute("visible","true")
+    view1.setAttribute("visible","true")
 
     let percentil = value*0.02
     if(percentil === 1)
     {
-      paysage1.setAttribute("visible","false")
+      view1.setAttribute("visible","false")
     }
     else
     {
-      paysage1.setAttribute("opacity",1-percentil)
-      paysage2.setAttribute("opacity",percentil)
+      view1.setAttribute("opacity",1-percentil)
+      view2.setAttribute("opacity",percentil)
     }
   }
 }
@@ -156,46 +156,46 @@ function changeOpa4Pics(value)
     let percentil = (value-200)*0.01
     
 
-    let paysage1 = arrayViews[2]
-    let paysage2 = arrayViews[3]
+    let view1 = arrayViews[2]
+    let view2 = arrayViews[3]
     
-    paysage1.setAttribute("visible","true")
-    paysage2.setAttribute("visible","true")
+    view1.setAttribute("visible","true")
+    view2.setAttribute("visible","true")
     arrayViews[1].setAttribute("visible","false")
 
 
-    paysage1.setAttribute("opacity",1-percentil)
-    paysage2.setAttribute("opacity",percentil)
+    view1.setAttribute("opacity",1-percentil)
+    view2.setAttribute("opacity",percentil)
   }
   else if(value>100){
     let percentil = (value-100)*0.01
     console.log(percentil)
 
-    let paysage1 = arrayViews[1]
-    let paysage2 = arrayViews[2]
+    let view1 = arrayViews[1]
+    let view2 = arrayViews[2]
   
-    paysage1.setAttribute("visible","true")
-    paysage2.setAttribute("visible","true")
+    view1.setAttribute("visible","true")
+    view2.setAttribute("visible","true")
 
     arrayViews[0].setAttribute("visible","false")
     arrayViews[3].setAttribute("visible","false")
 
-    paysage1.setAttribute("opacity",1-percentil)
-    paysage2.setAttribute("opacity",percentil)   
+    view1.setAttribute("opacity",1-percentil)
+    view2.setAttribute("opacity",percentil)   
   }
   else{
     let percentil = value*0.01
 
-    let paysage1 = arrayViews[0]
-    let paysage2 = arrayViews[1]
+    let view1 = arrayViews[0]
+    let view2 = arrayViews[1]
     
-    paysage1.setAttribute("visible","true")
-    paysage2.setAttribute("visible","true")
+    view1.setAttribute("visible","true")
+    view2.setAttribute("visible","true")
     arrayViews[2].setAttribute("visible","false")
     
 
-    paysage1.setAttribute("opacity",1-percentil)
-    paysage2.setAttribute("opacity",percentil)
+    view1.setAttribute("opacity",1-percentil)
+    view2.setAttribute("opacity",percentil)
   }
 }
 
