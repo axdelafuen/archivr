@@ -38,7 +38,7 @@
         if(get_class($_SESSION['selected_element']) == "Waypoint") {
             echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
         }}
-        ?>
+        ?>  
         <input type="hidden" name="action" value="selectedElementChanged">
     </form>
 
@@ -87,8 +87,10 @@
                 <input type="range" min="-180" max="180" value="<?php echo $element->getRotation()->getZ() ?>" step="1" class="slider" name="rotationZ" id="rotationZ" oninput="sliderChangedRotation(this, '<?php echo $element->getId(); ?>'), changeRotationZ()">
                 Z: <span><?php echo $element->getRotation()->getZ() ?></span>
             </div>
+        </div>
 
-            <?php 
+        Scale:
+        <?php 
                 if(get_class($element) == "Waypoint"){
                     echo '
                         <div>
@@ -98,7 +100,6 @@
                     ';
                 }
             ?>
-        </div>
 
         <div class="element-edit">
             <form  method="post">
@@ -223,7 +224,7 @@
             <?php
         } elseif (get_class($element) == "Waypoint") {
             ?>
-            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" look-at="[camera]" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
+            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
                 <a-entity gltf-model=".template/direction_arrow/scene.gltf" id="model"
                 animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
                 look-at="#pointer<?php echo $elementId ?>">
