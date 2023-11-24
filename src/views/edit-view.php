@@ -28,9 +28,13 @@
         </label>
         <?php
         if(isset($_SESSION['selected_element'])){
-        echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
-        echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
-        echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+
+            echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+            echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+            echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
         if(get_class($_SESSION['selected_element']) == "Waypoint") {
             echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
         }}
@@ -54,6 +58,7 @@
         }
         ?>
         <div id="positionSliders">
+            Position:
             <div>
                 <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getX() ?>" step="0.05" class="slider" name="positionX" id="positionX" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>'), sliderChangedX()">
                 X: <span><?php echo $element->getPosition()->getX() ?></span>
@@ -66,9 +71,24 @@
                 <input type="range" min="-2" max="2" value="<?php echo $element->getPosition()->getZ() ?>" step="0.05" class="slider" name="positionZ" id="positionZ" oninput="sliderChanged(this, '<?php echo $element->getId(); ?>'), sliderChangedZ()">
                 Z: <span><?php echo $element->getPosition()->getZ() ?></span>
             </div>
+        </div>
+
+        <div id="rotationSliders">
+            Rotation:
+            <div>
+                <input type="range" min="-180" max="180" value="<?php echo $element->getRotation()->getX() ?>" step="1" class="slider" name="rotationX" id="rotationX" oninput="sliderChangedRotation(this, '<?php echo $element->getId(); ?>'), changeRotationX()">
+                X: <span><?php echo $element->getRotation()->getX() ?></span>
+            </div>
+            <div>
+                <input type="range" min="-180" max="180" value="<?php echo $element->getRotation()->getY() ?>" step="1" class="slider" name="rotationY" id="rotationY" oninput="sliderChangedRotation(this, '<?php echo $element->getId(); ?>'), changeRotationY()">
+                Y: <span><?php echo $element->getRotation()->getY() ?></span>
+            </div>
+            <div>
+                <input type="range" min="-180" max="180" value="<?php echo $element->getRotation()->getZ() ?>" step="1" class="slider" name="rotationZ" id="rotationZ" oninput="sliderChangedRotation(this, '<?php echo $element->getId(); ?>'), changeRotationZ()">
+                Z: <span><?php echo $element->getRotation()->getZ() ?></span>
+            </div>
 
             <?php 
-                $element = $_SESSION['selected_element'];
                 if(get_class($element) == "Waypoint"){
                     echo '
                         <div>
@@ -103,6 +123,10 @@
                 echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
                 echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
                 echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+                
+                echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+                echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+                echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
                 if(get_class($_SESSION['selected_element']) == "Waypoint") {
                     echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
                 }
@@ -131,6 +155,10 @@
                 echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
                 echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
                 echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+                
+                echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+                echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+                echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
                 if(get_class($_SESSION['selected_element']) == "Waypoint") {
                     echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
                 }}
@@ -154,6 +182,10 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            
+            echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+            echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+            echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
             if(get_class($_SESSION['selected_element']) == "Waypoint") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
@@ -185,8 +217,8 @@
         if (get_class($element) == "Sign") {
             ?>
              <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
-              look-at="[camera]"
-              text="value: <?php echo $element->getContent() ?>; align:center">
+              rotation="<?php echo $element->getRotation()->getRotation() ?>"
+              text="value: <?php echo $element->getContent() ?>; align:center; side:double">
             </a-entity>
             <?php
         } elseif (get_class($element) == "Waypoint") {
