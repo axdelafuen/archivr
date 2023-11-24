@@ -88,7 +88,7 @@ abstract class Element implements JsonSerializable
         $position = new Position();
         $rotation = new Rotation();
 
-        $rotation->setRotation($data['rotation']['x'], $data['rotation']['y'], $data['rotation']['Z']);
+        $rotation->setRotation($data['rotation']['x'], $data['rotation']['y'], $data['rotation']['z']);
         $position->setPosition($data['position']['x'], $data['position']['y'], $data['position']['z']);
 
         $this->setPosition($position);
