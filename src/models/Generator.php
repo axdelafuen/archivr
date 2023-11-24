@@ -160,13 +160,13 @@ class GeneratorPanorama{
       foreach($view->getElements() as $element){
         if(get_class($element) == 'Sign'){
           $body .= '
-            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
+            <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
         }else{
           $path = explode('.', $element->getView()->getPath())[0].'.html';
         
           $body .= '
-            <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera" scale="' . $element->getScale() . '">
+            <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
               onclick="goTo(\'templates/' . $path . '\')"
