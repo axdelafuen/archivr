@@ -38,6 +38,9 @@ require_once(__DIR__.'/templates/navbar.html');
                         foreach ($_SESSION['panorama']->getViews() as $view){
                             echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
                         }
+                        foreach ($_SESSION['panorama']->getTimelines() as $timeline){
+                            echo "<option value='".$timeline->getId()."'>".$timeline->getName()."</option>";
+                        }
                         ?>
                     </select>
                     <button type="submit" class="mb-3 btn btn-primary">Generate your Panorama</button>
@@ -47,17 +50,30 @@ require_once(__DIR__.'/templates/navbar.html');
         </div>
     </div>
 
-    <div class="mb-5">
-        <div class="ml-3">
-            <h5 class="font-weight-bold">Add new images :</h5>
-            <div class="d-flex justify-content-between mr-5 ml-5">
-                <form method="post" enctype="multipart/form-data"">
-                    <div class="d-flex">
-                        <input class="form-control" type="file" name="views[]" required multiple accept="image/*">
-                        <button class="btn btn-secondary" type="submit">Upload</button>
-                        <input type="hidden" name="action" value="viewsUploaded">
-                    </div>
-                </form>
+    <div class="mb-5 ml-3">
+        <div class="d-flex">
+            <div>
+                <h5 class="font-weight-bold">Add new images :</h5>
+                <div class="d-flex justify-content-between mr-5">
+                    <form method="post" enctype="multipart/form-data"">
+                        <div class="d-flex">
+                            <input class="form-control" type="file" name="views[]" required multiple accept="image/*" onchange="this.form.submit()">
+                            <input type="hidden" name="action" value="viewsUploaded">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <h5 class="font-weight-bold">Create a timeline :</h5>
+                <div class="d-flex justify-content-between mr-5">
+                    <form method="post">
+                        <div class="d-flex">
+                            <input class="form-control" type="text" name="timelineName" required>
+                            <button class="btn btn-secondary" type="submit">Create</button>
+                            <input type="hidden" name="action" value="createTimeline">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -65,35 +81,54 @@ require_once(__DIR__.'/templates/navbar.html');
             <?php
             $panorama = $_SESSION['panorama'];
 
-            foreach ($panorama->getViews() as $view){
+            foreach ($panorama->getTimelines() as $timeline) {
+                if(count($timeline->getViews()) > 0){
             ?>
-            <div class="align-self-center bg-white shadow p-0 divRounded mt-3">
-                <div class="p-0">
-                    <?php
-                    echo '<form method="post">        
-                        <input src="./.datas/'.$panorama->getId() ."/". $view->getPath() .'" type="image" class="w-100 imgRounded">
-                        <input type="hidden" name="selected_view" value="'.$view->getPath().'">
-                        <input type="hidden" name="action" value="editView">
-                    </form>';
-                    ?>
-                </div>
-                <h5 class="ml-4 mb-2 pb-4 pt-3"><?php echo $view->getName(); ?></h5>
-            </div>
+                    <div class="align-self-center bg-white shadow p-0 divRounded mt-3">
+                        <div class="p-0">
+                            <?php
+                            echo '<form method="post">
+                            <input src="./.datas/'.$panorama->getId() ."/". $timeline->getFirstView()->getPath().'" type="image" class="w-100 imgRounded">   
+                            <input type="hidden" name="selected_timeline" value="'.$timeline->getId().'">
+                            <input type="hidden" name="action" value="editTimeline">
+                        </form>';
+                            ?>
+                        </div>
+                        <h5 class="ml-4 mb-2 pb-4 pt-3">Timeline : <?php echo $timeline->getName(); ?></h5>
+                    </div>
             <?php
+                }
+            }
+            if(count($panorama->getViews()) > 0){
+                foreach ($panorama->getViews() as $view){
+                ?>
+                <div class="align-self-center bg-white shadow p-0 divRounded mt-3">
+                    <div class="p-0">
+                        <?php
+                        echo '<form method="post">        
+                            <input src="./.datas/'.$panorama->getId() ."/". $view->getPath() .'" type="image" class="w-100 imgRounded">
+                            <input type="hidden" name="selected_view" value="'.$view->getPath().'">
+                            <input type="hidden" name="action" value="editView">
+                        </form>';
+                        ?>
+                    </div>
+                    <h5 class="ml-4 mb-2 pb-4 pt-3">View : <?php echo $view->getName(); ?></h5>
+                </div>
+                <?php
+                }
             }
             ?>
 
         </div>
     </div>
 
-    <div class="mb-5">
+    <div class="mb-3">
         <div class="ml-3">
             <h5 class="font-weight-bold">Change the map :</h5>
             <div class="row">
                 <form method="post" enctype="multipart/form-data" class="dashboard-map">
                     <div class="d-flex col-md-12">
-                        <input class="form-control" type="file" name="map" required multiple accept="image/*">
-                        <button class="btn btn-secondary" type="submit">Upload</button>
+                        <input class="form-control" type="file" name="map" required multiple accept="image/*" onchange="this.form.submit()">
                         <input type="hidden" name="action" value="changeMap">
                     </div>
                 </form>
@@ -119,6 +154,29 @@ require_once(__DIR__.'/templates/navbar.html');
             }
             ?>
             </div>
+        </div>
+    </div>
+    <div class="mb-5">
+        <div class="ml-3">
+            <?php
+            if(!empty($panorama->getTimelines())){
+                ?>
+                 <h5 class="font-weight-bold">Manage your timelines :</h5>
+                <?php
+                 foreach ($panorama->getTimelines() as $timeline){
+                     ?>
+                         <div class="d-flex align-items-center mb-3">
+                             <h5 class="m-0 mr-3"><?php echo $timeline->getName() ?></h5>
+                             <form method="post" class="m-0">
+                                 <button class="btn btn-secondary" type="submit">Delete</button>
+                                 <input type="hidden" name="selected_timeline" value=" <?php $timeline->getId() ?>">
+                                 <input type="hidden" name="action" value="deleteTimeline">
+                             </form>
+                         </div>
+                     <?php
+                 }
+            }
+            ?>
         </div>
     </div>
 </div>

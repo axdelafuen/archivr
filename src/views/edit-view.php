@@ -12,18 +12,25 @@
 <div class="hud">
     <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
 
-    <h4>Add in a timeline : </h4>
+    <h4>Change timeline : </h4>
 
-    <form method="post"></form>
+    <form method="post">
         <select name="changeTimeline" require onchange="this.form.submit()">
             <option>--Add timeline--</option>
             <?php
             foreach ($_SESSION['panorama']->getTimelines() as $timeline){
-                echo $timeline;
+                if(!$timeline->isView($_SESSION['selected_view'])) {
+                    echo "<option value='" . $timeline->getId() . "'>" . $timeline->getName() . "</option>";
+                }
             }
             ?>
         </select>
         <?php
+        foreach ($_SESSION['panorama']->getTimelines() as $timeline){
+            if($timeline->isView($_SESSION['selected_view'])) {
+                echo "Actual timeline : ".$timeline->getName();
+            }
+        }
         if(isset($_SESSION['selected_element'])){
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
@@ -36,15 +43,13 @@
         <input type="hidden" name="action" value="changeTimeline">
     </form>
 
-    <h4>Create a timeline : </h4>
+    <h4>Change view's date : </h4>
 
     <form  method="post">
-        <input type="text" placeholder="Your timeline's name" name="timelineName" required/>
-        <input type="submit" value="Create !">
-        <input type="hidden" name="action" value="createTimeline">
-
+        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->isDate()){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>">
         <?php
-        if(isset($_SESSION['selected_element'])){
+        if(isset($_SESSION['selected_element'])) {
+            echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
@@ -53,6 +58,8 @@
             }
         }
         ?>
+        <input type="submit" value="Update">
+        <input type="hidden" name="action" value="changeDate">
     </form>
 
     <h4>Delete this view :</h4>

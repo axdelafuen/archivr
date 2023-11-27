@@ -47,14 +47,31 @@ class Panorama
         return isset($this->map);
     }
 
-    public function getTimelines()
+    public function getTimelines():array
     {
         return $this->timelines;
     }
 
-    public function addTimeline($i,$timeline)
+    public function addTimeline($timeline)
     {
-        $this->timelines[$i] = $timeline;
+        $this->timelines[] = $timeline;
+    }
+
+    public function getTimelineById($id)
+    {
+        foreach($this->getTimelines() as $timeline)
+        {
+            if($timeline->getId() === $id)
+            {
+                return $timeline;
+            }
+        }
+        return null;
+    }
+
+    public function removeTimeline($timeline)
+    {
+        array_splice($this->timelines, array_search($timeline, $this->timelines), 1);
     }
 
     public function getViews()
@@ -72,6 +89,16 @@ class Panorama
             }
         }
         return null;
+    }
+
+    public function isView(View $value)
+    {
+        foreach ($this->views as $view) {
+            if($view == $value){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function addView($i,$view)

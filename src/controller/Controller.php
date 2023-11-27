@@ -9,7 +9,7 @@ class Controller
 		// on démarre ou reprend la session si necessaire (préférez utiliser un modèle pour gérer vos session ou cookies)
 		session_start();
 
-		//on initialise un tableau d'erreur
+		//on initialise un tableau d'error
 		$dVueEreur = array();
 
 		try {
@@ -78,6 +78,24 @@ class Controller
 				case "selectedMapElementChanged":
 					$this->SelectedMapElementChanged();
 					break;
+				case "createTimeline":
+					$this->CreateTimeline();
+					break;
+				case "changeTimeline":
+					$this->ChangeTimeline();
+					break;
+				case "deleteTimeline":
+					$this->DeleteTimeline();
+					break;
+				case "editTimeline":
+					$this->EditTimeline();
+					break;
+				case "editTimelineView":
+					$this->EditTimelineView();
+					break;
+				case "changeDate":
+					$this->ChangeDate();
+					break;
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
@@ -85,13 +103,13 @@ class Controller
 					break;
 			}
 		} catch (PDOException $e) {
-			//si erreur BD, pas le cas ici
+			//si error BD, pas le cas ici
 			$dVueEreur[] = "A database error occurred";
-			require($rep . $views['erreur']);
+			require($rep . $views['error']);
 
 		} catch (Exception $e2) {
 			$dVueEreur[] = "An unexpected error occurred";
-			require($rep . $views['erreur']);
+			require($rep . $views['error']);
 		}
 		//fin
 		exit(0);
@@ -120,13 +138,20 @@ class Controller
 		global $rep, $views;
 
 		if(isset($_SESSION['selected_element'])){
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			if(isset($_REQUEST['elementPositionX']) and isset($_REQUEST['elementPositionY']) and isset($_REQUEST['elementPositionZ'])){
+				$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			}
 			if(isset($_REQUEST['elementScale'])){
 				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
 			}
 		}
 
-		unset($_SESSION['selected_view']);
+		if(isset($_SESSION['selected_view'])){
+			unset($_SESSION['selected_view']);
+		}
+		if(isset($_SESSION['selected_timeline'])){
+			unset($_SESSION['selected_timeline']);
+		}
 
 		require ($rep.$views['dashboard']);
 	}
@@ -162,7 +187,7 @@ class Controller
 			$projectName=Validation::val_texte($_POST['projectName']);
 			if (!isset($projectName)) {
 				$dVueEreur[]='nom de projet invalide';
-				require($rep . $views['erreur']);
+				require($rep . $views['error']);
 			}
 			else{
 
@@ -221,7 +246,7 @@ class Controller
 
 		if (!isset($projectName)) {
 			$dVueEreur[]='nom de projet invalide';
-			require($rep . $views['erreur']);
+			require($rep . $views['error']);
 		}
 		else{
 			$_SESSION['panorama']->setName($projectName);
@@ -333,16 +358,7 @@ class Controller
 		$this->addWaypoint();
 		require ($rep.$views['editMap']);
 	}
-/*
-	function AddMapWaypoint()
-	{
-		global $rep,$views;
 
-		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
-		//echo $_REQUEST['destinationView'];
-		require ($rep.$views['editMap']);
-	}
-*/
 	function DeleteViewElement()
 	{
 		global $rep, $views;
@@ -448,6 +464,127 @@ class Controller
 		GeneratorPanorama::createDirectory($panorama, $fisrtView);
 
 		require($rep . $views['download']);
+	}
+	function CreateTimeline()
+	{
+		global $rep, $views;
+
+		$timelineName=Validation::val_texte($_POST['timelineName']);
+		if (!isset($timelineName)) {
+			$dVueEreur[]='error in timeline name';
+			require($rep . $views['error']);
+		}
+		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
+			$dVueEreur[]='projet inexistant';
+			require($rep . $views['error']);
+		}
+
+		$_SESSION['panorama']->addTimeline(new Timeline($timelineName));
+
+		require ($rep.$views['dashboard']);
+	}
+
+	function ChangeTimeline()
+	{
+		global $rep, $views;
+
+		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
+			$dVueEreur[]='projet inexistant';
+			require($rep . $views['error']);
+		}
+
+		$timeline = $_SESSION['panorama']->getTimelineById($_POST['changeTimeline']);
+
+		if(!$timeline){
+			$dVueEreur[]='timeline inexistante';
+			require($rep . $views['error']);
+		}
+
+		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view'])){
+			require($rep . $views['error']);
+		}
+
+		$timeline->addView($_SESSION['selected_view']);
+
+		if($_SESSION['panorama']->isView($_SESSION['selected_view'])){
+			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
+		}
+		if(isset($_SESSION['selected_timeline'])){
+			if($_SESSION['selected_timeline']->isView($_SESSION['selected_view'])){
+				$_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
+			}
+		}
+
+		require ($rep.$views['editView']);
+	}
+
+	function DeleteTimeline()
+	{
+		global $rep, $views;
+
+		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
+			$dVueEreur[]='projet inexistant';
+			require($rep . $views['error']);
+		}
+
+		$_SESSION['panorama']->removeTimeline($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
+
+		unset($_SESSION['selected_timeline']);
+
+		require ($rep.$views['dashboard']);
+	}
+
+	function EditTimeline(){
+		global $rep, $views;
+
+		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
+			require($rep . $views['error']);
+		}
+		if(!isset($_POST['selected_timeline']) or empty($_POST['selected_timeline'])){
+			require($rep . $views['error']);
+		}
+
+		$_SESSION['selected_timeline'] = $_SESSION['panorama']->getTimelineById($_POST['selected_timeline']);
+
+		require ($rep.$views['editTimeline']);
+	}
+
+	function EditTimelineView()
+	{
+		global $rep, $views;
+
+		$selected_view = $_REQUEST['selected_view'];
+
+		$_SESSION['selected_view'] = $_SESSION['selected_timeline']->getViewByPath($selected_view);
+
+		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
+		{
+			require $rep.$views['error'];
+		}
+		else{
+			if(count($_SESSION['selected_view']->getElements()) > 0){
+				$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+			}
+			else{
+				unset($_SESSION['selected_element']);
+			}
+			require ($rep.$views['editView']);
+		}
+	}
+
+	function ChangeDate()
+	{
+		global $rep, $views;
+
+		if(!isset($_REQUEST['changedDate']))
+		{
+			require $rep.$views['error'];
+			return;
+		}
+
+		$_SESSION['selected_view']->setDate($_REQUEST['changedDate']);
+
+		require($rep.$views['editView']);
 	}
 
 }//fin class
