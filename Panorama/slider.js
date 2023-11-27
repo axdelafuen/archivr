@@ -101,8 +101,11 @@ function changeOpa2pics(value)
     view2.setAttribute("opacity","0.99")
   }
   else{
-    view1.setAttribute("opacity",(1-value).toFixed(2))
-    view2.setAttribute("opacity",value.toFixed(2));
+    let className1 = view1.getAttribute("class")
+    setOpacity(className1,(1-value).toFixed(2))
+    
+    let className2 = view2.getAttribute("class")
+    setOpacity(className2,value.toFixed(2))
   }
 }
 
@@ -123,8 +126,11 @@ function changeOpa3Pics(value)
     }
     else
     {
-      view1.setAttribute("opacity",1-percentil)
-      view2.setAttribute("opacity",percentil)
+      let className1 = view1.getAttribute("class")
+      setOpacity(className1,1-percentil)
+      
+      let className2 = view2.getAttribute("class")
+      setOpacity(className2,percentil)
     }
   }
   else{
@@ -143,8 +149,11 @@ function changeOpa3Pics(value)
     }
     else
     {
-      view1.setAttribute("opacity",1-percentil)
-      view2.setAttribute("opacity",percentil)
+      let className1 = view1.getAttribute("class")
+      setOpacity(className1,1-percentil)
+      
+      let className2 = view2.getAttribute("class")
+      setOpacity(className2,percentil)
     }
   }
 }
@@ -163,10 +172,12 @@ function changeOpa4Pics(value)
     view2.setAttribute("visible","true")
     arrayViews[1].setAttribute("visible","false")
 
-
-    view1.setAttribute("opacity",1-percentil)
-    view2.setAttribute("opacity",percentil)
-  }
+    let className1 = view1.getAttribute("class")
+    setOpacity(className1,1-percentil)
+    
+    let className2 = view2.getAttribute("class")
+    setOpacity(className2,percentil)
+}
   else if(value>100){
     let percentil = (value-100)*0.01
     console.log(percentil)
@@ -180,8 +191,11 @@ function changeOpa4Pics(value)
     arrayViews[0].setAttribute("visible","false")
     arrayViews[3].setAttribute("visible","false")
 
-    view1.setAttribute("opacity",1-percentil)
-    view2.setAttribute("opacity",percentil)   
+    let className1 = view1.getAttribute("class")
+    setOpacity(className1,1-percentil)
+    
+    let className2 = view2.getAttribute("class")
+    setOpacity(className2,percentil)
   }
   else{
     let percentil = value*0.01
@@ -194,8 +208,11 @@ function changeOpa4Pics(value)
     arrayViews[2].setAttribute("visible","false")
     
 
-    view1.setAttribute("opacity",1-percentil)
-    view2.setAttribute("opacity",percentil)
+    let className1 = view1.getAttribute("class")
+    setOpacity(className1,1-percentil)
+    
+    let className2 = view2.getAttribute("class")
+    setOpacity(className2,percentil)
   }
 }
 
@@ -203,8 +220,17 @@ function opacityHandler(value)
 {
   let skyArray = document.querySelectorAll("a-sky")
   let size = skyArray.length
-  if(size === 5)changeOpa5Pics(value)
-  else if(size === 4)changeOpa4Pics(value)
+  // if(size === 5)changeOpa5Pics(value)
+  if(size === 4)changeOpa4Pics(value)
   else if(size === 3)changeOpa3Pics(value)
   else changeOpa2pics(value)
+}
+
+// Fonction permettant de gérer l'opacité de TOUS les éléments d'une temporalité
+function setOpacity(className,value)
+{
+  let elementArray = document.querySelectorAll("."+className)
+  elementArray.forEach(element => {
+    element.setAttribute("opacity",value)
+  });
 }
