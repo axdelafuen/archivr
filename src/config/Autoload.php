@@ -39,7 +39,7 @@ class Autoload
             $file = $rep . $d . $filename;
             //echo $file."<br>";
             if (file_exists($file)) {
-                include $file;
+                include_once $file;
             }
         }
 

@@ -1,18 +1,18 @@
 <?php
 
 class Utils{
-    static function idGenerator(string $content):string{
+    public static function idGenerator(string $content):string{
         return uniqid($content, true);
     }
 
-    static function prompt($prompt_msg):string{
+    public static function prompt($prompt_msg):string{
         echo("<script type='text/javascript'> var answer = prompt('".$prompt_msg."'); </script>");
 
         $answer = "<script type='text/javascript'> document.write(answer); </script>";
         return($answer);
         }
 
-    static function delete_directory($dir)
+    public static function delete_directory($dir)
     {
       if (!file_exists($dir)) {
         return true;
@@ -35,7 +35,7 @@ class Utils{
       return rmdir($dir);
     }
 
-    static function directory_copy($sourceDirectory, $destinationDirectory){
+    public static function directory_copy($sourceDirectory, $destinationDirectory){
         mkdir($destinationDirectory);
 
         foreach (scandir($sourceDirectory) as $item) {
