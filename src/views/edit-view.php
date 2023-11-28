@@ -1,13 +1,95 @@
 <head>
     <title>View edition</title>
     <link rel="stylesheet" href="views/styles/edit-view.css">
+    <link rel="icon" type="image/*" href="views/assets/images/map.png">
 
     <script src="views/scripts/editView.js"></script>
     <script src=".template/script.js"></script>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 
-<div class="hud p-2">
+<div class="hud">
     <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
+
+    <h4>Change timeline : </h4>
+
+    <form method="post">
+        <select name="changeTimeline" require onchange="this.form.submit()">
+            <option>--Add timeline--</option>
+            <?php
+            foreach ($_SESSION['panorama']->getTimelines() as $timeline){
+                if(!$timeline->isView($_SESSION['selected_view'])) {
+                    echo "<option value='" . $timeline->getId() . "'>" . $timeline->getName() . "</option>";
+                }
+            }
+            ?>
+        </select>
+        <?php
+        foreach ($_SESSION['panorama']->getTimelines() as $timeline){
+            if($timeline->isView($_SESSION['selected_view'])) {
+                echo "Actual timeline : ".$timeline->getName();
+            }
+        }
+        if(isset($_SESSION['selected_element'])){
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }
+        }
+        ?>
+        <input type="hidden" name="action" value="changeTimeline">
+    </form>
+
+    <h4>Change view's date : </h4>
+
+    <form  method="post">
+        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->isDate()){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>">
+        <?php
+        if(isset($_SESSION['selected_element'])) {
+            echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }
+        }
+        ?>
+        <input type="submit" value="Update">
+        <input type="hidden" name="action" value="changeDate">
+    </form>
+
+    <h4>Delete this view :</h4>
+
+    <form  method="post">
+        <input type="submit" value="Delete">
+        <input type="hidden" name="action" value="deleteView">
+    </form>
+
+    <h4>Exit edition :</h4>
+
+    <form  method="post">
+        <input type="submit" value="Save and go back">
+        <?php
+        if(isset($_SESSION['selected_element'])) {
+            echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }
+        }
+        ?>
+        <input type="hidden" name="action" value="goBackToDashboard">
+    </form>
+</div>
+
+<div class="hud elements p-2">
+    <h3>Edit your view's elements</h3>
     <form  method="post">
         <label>
             <select name="selectedElementChanged" require onchange="this.form.submit()">
@@ -31,13 +113,14 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
             echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
             echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
-        if(get_class($_SESSION['selected_element']) == "Waypoint") {
-            echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
-        }}
+        }
+
         ?>  
         <input type="hidden" name="action" value="selectedElementChanged">
     </form>
@@ -73,6 +156,9 @@
             </div>
         </div>
 
+            <?php
+            $element = $_SESSION['selected_element'];
+            if(get_class($element) == "Waypoint"){?>
         <div id="rotationSliders">
             Rotation:
             <div>
@@ -98,7 +184,7 @@
                         Scale: <span>' . $element->getScaleInt() . '</span>
                         </div>
                     ';
-                }
+            }
             ?>
 
         <div class="element-edit">
@@ -108,78 +194,20 @@
                 <input type="hidden" name="action" value="deleteElement">
             </form>
         </div>
-    <?php
+                <?php
+        }
     }
 ?>
 
-        <h4>Add a sign :</h4>
-
-        <form  method="post">
-            <input type="text" placeholder="Your sign content" name="signContent" required/>
-            <input type="submit" value="Create !">
-            <input type="hidden" name="action" value="addSign">
-
-            <?php
-            if(isset($_SESSION['selected_element'])){
-                echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
-                echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
-                echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-                
-                echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
-                echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
-                echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
-                if(get_class($_SESSION['selected_element']) == "Waypoint") {
-                    echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
-                }
-            }
-            ?>
-        </form>
-
-        <h4>Add a waypoint to :</h4>
-
-        <form  method="post">
-            <select name="destinationView" required>
-                <?php
-                foreach ($_SESSION['panorama']->getViews() as $view){
-                    if($view != $_SESSION['selected_view']){
-                        echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
-                    }
-                }
-                ?>
-            </select>
-
-            <input type="submit" value="Create !">
-            <input type="hidden" name="action" value="addWaypoint">
-
-            <?php
-            if(isset($_SESSION['selected_element'])){
-                echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
-                echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
-                echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-                
-                echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
-                echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
-                echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
-                if(get_class($_SESSION['selected_element']) == "Waypoint") {
-                    echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
-                }}
-            ?>
-        </form>
-
-    <h4>Delete this view :</h4>
+    <h4>Add a sign :</h4>
 
     <form  method="post">
-        <input type="submit" value="Delete">
-        <input type="hidden" name="action" value="deleteView">
-    </form>
+        <input type="text" placeholder="Your sign content" name="signContent" required/>
+        <input type="submit" value="Create !">
+        <input type="hidden" name="action" value="addSign">
 
-    <h4>Exit edition :</h4>
-
-    <form  method="post">
-        <input type="submit" value="Save and go back">
         <?php
-        if(isset($_SESSION['selected_element'])) {
-            echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
+        if(isset($_SESSION['selected_element'])){
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
@@ -192,7 +220,33 @@
             }
         }
         ?>
-        <input type="hidden" name="action" value="goBackToDashboard">
+    </form>
+
+    <h4>Add a waypoint to :</h4>
+
+    <form  method="post">
+        <select name="destinationView" required onchange="this.form.submit()">
+            <option>--Create waypoint--</option>
+            <?php
+            foreach ($_SESSION['panorama']->getViews() as $view){
+                if($view != $_SESSION['selected_view']){
+                    echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
+                }
+            }
+            ?>
+        </select>
+
+        <input type="hidden" name="action" value="addWaypoint">
+
+        <?php
+        if(isset($_SESSION['selected_element'])){
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }}
+        ?>
     </form>
 </div>
 
