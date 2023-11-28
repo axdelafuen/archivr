@@ -22,7 +22,7 @@ steps:
     - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
     - export SONAR_SCANNER_OPTS="-server"
     - cd src
-    - sonar-scanner -D sonar.projectKey=archivr -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -Dsonar.login=$${SONAR_TOKEN}
+    - sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN}
 
 - name: archivr-image
   image: plugins/docker
@@ -35,7 +35,7 @@ steps:
       from_secret: secret-registry-username
     password:
       from_secret: secret-registry-password
-    depends_on: [ archivr-code-inspection ]
+  depends_on: [ archivr-code-inspection ]
 
 - name: archivr-active-container
   image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
