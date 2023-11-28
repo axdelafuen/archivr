@@ -10,7 +10,7 @@ steps:
   
 - name: archivr-code-inspection
   image: php:8.1-cli
-  settings:
+  environment:
     SONAR_TOKEN:
       from_secret: SONAR_TOKEN
   commands:
