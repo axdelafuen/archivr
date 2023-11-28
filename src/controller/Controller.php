@@ -1,8 +1,9 @@
 <?php
-include("./models/Generator.php");
+// IL FAUT QUE CA DEGAGE, IL DOIT CHARGER PAR AUTOLOAD
+include_once("./models/Generator.php");
 class Controller
 {
-	function __construct()
+	public function __construct()
 	{
 		global $rep, $views; // nécessaire pour utiliser variables globales
 
@@ -105,41 +106,41 @@ class Controller
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
-					require($rep . $views['error']);
+					require_once($rep . $views['error']);
 					break;
 			}
 		} catch (PDOException $e) {
 			//si error BD, pas le cas ici
 			$dVueEreur[] = "A database error occurred";
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 
 		} catch (Exception $e2) {
 			$dVueEreur[] = "An unexpected error occurred";
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 		//fin
 		exit(0);
 	}//fin constructeur
 
-	function Reinit()
+	private function Reinit()
 	{
 		global $rep, $views; // nécessaire pour utiliser variables globales
 		if(isset($_SESSION['panorama'])){
 			unset($_SESSION['panorama']);
 		}
-		require($rep . $views['home']);
+		require_once($rep . $views['home']);
 	}
 
-	function GoToLoadImages(array $dVueEreur)
+	private function GoToLoadImages(array $dVueEreur)
 	{
 		global $rep, $views;
 		if(isset($_SESSION['panorama'])){
 			unset($_SESSION['panorama']);
 		}
-		require($rep . $views['upload']);
+		require_once($rep . $views['upload']);
 	}
 
-	function GoBackToDashboard()
+	private function GoBackToDashboard()
 	{
 		global $rep, $views;
 
@@ -162,10 +163,10 @@ class Controller
 			unset($_SESSION['selected_timeline']);
 		}
 
-		require ($rep.$views['dashboard']);
+		require_once ($rep.$views['dashboard']);
 	}
 
-	function GoBackToDashboardFromMap()
+	private function GoBackToDashboardFromMap()
 	{
 		global $rep, $views;
 
@@ -178,10 +179,10 @@ class Controller
 
 		unset($_SESSION['selected_view']);
 
-		require ($rep.$views['dashboard']);
+		require_once ($rep.$views['dashboard']);
 	}
 
-	function UploadViews(array $dVueEreur)
+	private function UploadViews(array $dVueEreur)
 	{
 		global $rep, $views;
 		if (!file_exists("./.datas")) {
@@ -196,7 +197,7 @@ class Controller
 			$projectName=Validation::val_texte($_POST['projectName']);
 			if (!isset($projectName)) {
 				$dVueEreur[]='nom de projet invalide';
-				require($rep . $views['error']);
+				require_once($rep . $views['error']);
 			}
 			else{
 
@@ -221,10 +222,10 @@ class Controller
 
 		$_SESSION['panorama'] = &$panorama;
 
-		require($rep . $views['dashboard']);
+		require_once($rep . $views['dashboard']);
 	}
 
-	function EditView()
+	private function EditView()
 	{
 		global $rep, $views;
 
@@ -234,7 +235,7 @@ class Controller
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
 		{
-			require $rep.$views['error'];
+			require_once $rep.$views['error'];
 		}
 		else{
 			if(count($_SESSION['selected_view']->getElements()) > 0){
@@ -243,11 +244,11 @@ class Controller
 			else{
 				unset($_SESSION['selected_element']);
 			}
-			require ($rep.$views['editView']);
+			require_once ($rep.$views['editView']);
 		}
 	}
 
-	function UpdateProjectName($dVueEreur)
+	private function UpdateProjectName($dVueEreur)
 	{
 		global $rep, $views;
 
@@ -255,21 +256,21 @@ class Controller
 
 		if (!isset($projectName)) {
 			$dVueEreur[]='nom de projet invalide';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 		else{
 			$_SESSION['panorama']->setName($projectName);
-			require ($rep.$views['dashboard']);
+			require_once ($rep.$views['dashboard']);
 		}
 
 	}
 
-	function DeleteView(){
+	private function DeleteView(){
 		global $rep, $views;
 
 		if(count($_SESSION['panorama']->getViews()) <= 1){
 			echo "<script>alert(\"Upload at least two images, to delete one.\")</script>";
-			require ($rep.$views['editView']);
+			require_once ($rep.$views['editView']);
 		}
 		else {
 
@@ -277,21 +278,21 @@ class Controller
 
 			unset($_SESSION['selected_view']);
 
-			require($rep . $views['dashboard']);
+			require_once($rep . $views['dashboard']);
 		}
 	}
 
-	function DeleteMap(){
+	private function DeleteMap(){
 		global $rep, $views;
 
 		$_SESSION['panorama']->removeMap();
 
 		unset($_SESSION['selected_view']);
 
-		require($rep . $views['dashboard']);
+		require_once($rep . $views['dashboard']);
 	}
 
-	function EditMap(){
+	private function EditMap(){
 		global $rep, $views;
 
 		$selected_view = $_REQUEST['selected_view'];
@@ -305,14 +306,14 @@ class Controller
 			else{
 				unset($_SESSION['selected_element']);
 			}
-			require ($rep.$views['editMap']);
+			require_once ($rep.$views['editMap']);
 		}
 		else{
-			require $rep.$views['error'];
+			require_once $rep.$views['error'];
 		}
 	}
 
-	function AddSign()
+	private function AddSign()
 	{
 		global $rep, $views;
 
@@ -333,10 +334,10 @@ class Controller
 			unset($_SESSION['selected_element']);
 		}
 
-		require ($rep.$views['editView']);
+		require_once ($rep.$views['editView']);
 	}
 
-	function AddWaypoint()
+	private function AddWaypoint()
 	{
 		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
 
@@ -356,28 +357,28 @@ class Controller
 		}
 	}
 
-	function addViewWaypoint()
+	private function addViewWaypoint()
 	{
 		global $rep,$views;
 		$this->addWaypoint();
-		require ($rep.$views['editView']);
+		require_once ($rep.$views['editView']);
 	}
 
-	function addMapWaypoint()
+	private function addMapWaypoint()
 	{
 		global $rep,$views;
 		$this->addWaypoint();
-		require ($rep.$views['editMap']);
+		require_once ($rep.$views['editMap']);
 	}
 
-	function DeleteViewElement()
+	private function DeleteViewElement()
 	{
 		global $rep, $views;
 
 		$elementId = $_REQUEST['selected_element'];
 
 		if(!isset($elementId) or empty($elementId)){
-			require ($rep.$views['error']);
+			require_once ($rep.$views['error']);
 		}
 		else{
 			$element = $_SESSION['selected_view']->getElementById($elementId);
@@ -389,22 +390,22 @@ class Controller
 				else{
 					unset($_SESSION['selected_element']);
 				}
-				require($rep.$views['editView']);
+				require_once($rep.$views['editView']);
 			}
 			else{
-				require ($rep.$views['error']);
+				require_once ($rep.$views['error']);
 			}
 		}
 	}
 
-	function DeleteMapElement()
+	private function DeleteMapElement()
 	{
 		global $rep, $views;
 
 		$elementId = $_REQUEST['selected_element'];
 
 		if(!isset($elementId) or empty($elementId)){
-			require ($rep.$views['error']);
+			require_once ($rep.$views['error']);
 		}
 		else{
 			$element = $_SESSION['selected_view']->getElementById($elementId);
@@ -416,15 +417,15 @@ class Controller
 				else{
 					unset($_SESSION['selected_element']);
 				}
-				require($rep.$views['editMap']);
+				require_once($rep.$views['editMap']);
 			}
 			else{
-				require ($rep.$views['error']);
+				require_once ($rep.$views['error']);
 			}
 		}
 	}
 
-	function SelectedElementChanged()
+	private function SelectedElementChanged()
 	{
 		global $rep, $views;
 
@@ -438,10 +439,10 @@ class Controller
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
-		require($rep.$views['editView']);
+		require_once($rep.$views['editView']);
 	}
 
-	function SelectedMapElementChanged()
+	private function SelectedMapElementChanged()
 	{
 		global $rep, $views;
 
@@ -454,10 +455,10 @@ class Controller
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedMapElementChanged']);
 
-		require($rep.$views['editMap']);
+		require_once($rep.$views['editMap']);
 	}
 
-	function ChangeMap()
+	private function ChangeMap()
 	{
 		global $rep, $views;
 
@@ -465,9 +466,9 @@ class Controller
 		move_uploaded_file($_FILES['map']['tmp_name'], "./.datas/". $panorama->getId() ."/". $_FILES['map']['name']);
 		$panorama->setMap(new Map($_FILES['map']['name']));
 
-		require($rep . $views['dashboard']);
+		require_once($rep . $views['dashboard']);
 	}
-	function Generate(){
+	private function Generate(){
 		global $rep, $views;
 
 		$panorama = $_SESSION['panorama'];
@@ -475,45 +476,45 @@ class Controller
 
 		GeneratorPanorama::createDirectory($panorama, $fisrtView);
 
-		require($rep . $views['download']);
+		require_once($rep . $views['download']);
 	}
-	function CreateTimeline()
+	private function CreateTimeline()
 	{
 		global $rep, $views;
 
 		$timelineName=Validation::val_texte($_POST['timelineName']);
 		if (!isset($timelineName)) {
 			$dVueEreur[]='error in timeline name';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
 			$dVueEreur[]='projet inexistant';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		$_SESSION['panorama']->addTimeline(new Timeline($timelineName));
 
-		require ($rep.$views['dashboard']);
+		require_once ($rep.$views['dashboard']);
 	}
 
-	function ChangeTimeline()
+	private function ChangeTimeline()
 	{
 		global $rep, $views;
 
 		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
 			$dVueEreur[]='projet inexistant';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		$timeline = $_SESSION['panorama']->getTimelineById($_POST['changeTimeline']);
 
 		if(!$timeline){
 			$dVueEreur[]='timeline inexistante';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view'])){
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		$timeline->addView($_SESSION['selected_view']);
@@ -527,41 +528,41 @@ class Controller
 			}
 		}
 
-		require ($rep.$views['editView']);
+		require_once ($rep.$views['editView']);
 	}
 
-	function DeleteTimeline()
+	private function DeleteTimeline()
 	{
 		global $rep, $views;
 
 		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
 			$dVueEreur[]='projet inexistant';
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		$_SESSION['panorama']->removeTimeline($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
 
 		unset($_SESSION['selected_timeline']);
 
-		require ($rep.$views['dashboard']);
+		require_once ($rep.$views['dashboard']);
 	}
 
-	function EditTimeline(){
+	private function EditTimeline(){
 		global $rep, $views;
 
 		if(!isset($_SESSION['panorama']) or empty($_SESSION['panorama'])){
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 		if(!isset($_POST['selected_timeline']) or empty($_POST['selected_timeline'])){
-			require($rep . $views['error']);
+			require_once($rep . $views['error']);
 		}
 
 		$_SESSION['selected_timeline'] = $_SESSION['panorama']->getTimelineById($_POST['selected_timeline']);
 
-		require ($rep.$views['editTimeline']);
+		require_once ($rep.$views['editTimeline']);
 	}
 
-	function EditTimelineView()
+	private function EditTimelineView()
 	{
 		global $rep, $views;
 
@@ -571,7 +572,7 @@ class Controller
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view']))
 		{
-			require $rep.$views['error'];
+			require_once $rep.$views['error'];
 		}
 		else{
 			if(count($_SESSION['selected_view']->getElements()) > 0){
@@ -580,32 +581,32 @@ class Controller
 			else{
 				unset($_SESSION['selected_element']);
 			}
-			require ($rep.$views['editView']);
+			require_once ($rep.$views['editView']);
 		}
 	}
 
-	function ChangeDate()
+	private function ChangeDate()
 	{
 		global $rep, $views;
 
 		if(!isset($_REQUEST['changedDate']))
 		{
-			require $rep.$views['error'];
+			require_once $rep.$views['error'];
 			return;
 		}
 
 		$_SESSION['selected_view']->setDate($_REQUEST['changedDate']);
 
-		require($rep.$views['editView']);
+		require_once($rep.$views['editView']);
 	}
 
-	function importJsonData(){
+	private function importJsonData(){
 		global $rep, $views;
 
-		require($rep . $views['import']);
+		require_once($rep . $views['import']);
 	}
 
-	function loadDataFromJson(){
+	private function loadDataFromJson(){
 		global $rep, $views;
 
 		$json = file_get_contents($_FILES['jsonFile']['tmp_name']);
@@ -614,7 +615,7 @@ class Controller
 		$panorama = GeneratorPanorama::loadFromFile($data);
 		$_SESSION['panorama'] = &$panorama;
 		
-		require($rep . $views['dashboard']);
+		require_once($rep . $views['dashboard']);
 	}
 
 }//fin class

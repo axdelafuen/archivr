@@ -1,10 +1,10 @@
 <?php
 
 class GeneratorPanorama{
-    static function generateHtml($panoramaName, $body):string{
+    public static function generateHtml($panoramaName, $body):string{
       $page = '
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,7 +41,7 @@ class GeneratorPanorama{
       return $page;
     }
 
-    static function createDirectory($panorama, $fisrtView){ 
+    public static function createDirectory($panorama, $fisrtView){
 
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
@@ -98,14 +98,14 @@ class GeneratorPanorama{
       GeneratorPanorama::generateZip($panorama->getName());
     }
 
-    static function createJsonFile($panorama){
+    public static function createJsonFile($panorama){
       $path = './.datas/out/.holder.json';
       $json = json_encode($panorama, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
       touch($path);
       file_put_contents($path, $json);
     }
 
-    static function generateZip($panoramaName){
+    public static function generateZip($panoramaName){
       if(!file_exists('./.datas/zip')){
         mkdir('./.datas/zip');
       }
@@ -142,13 +142,13 @@ class GeneratorPanorama{
       $zip->close();
     }
 
-    static function getImages($panorama):array{
+    public static function getImages($panorama):array{
       $images = scandir('./.datas/'.$panorama->getId());
       $images = array_slice($images, 2, count($images));
       return $images;
     }
 
-    static function generateBase($view):Template{
+    public static function generateBase($view):Template{
       $path = $view->getPath();
       $template = new Template();
 
@@ -186,7 +186,7 @@ class GeneratorPanorama{
       return $template;
     }
 
-    static function generateMap($map):Template{
+    public static function generateMap($map):Template{
       $path = $map->getPath();
       $template = new Template();
 
@@ -211,7 +211,7 @@ class GeneratorPanorama{
 
 
 
-    static function loadFromFile($data){
+    public static function loadFromFile($data){
       $panorama = new Panorama($data['name']);
       $array_views = array();
 
