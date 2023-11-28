@@ -255,9 +255,7 @@
 
     <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
-     <!-- Camera Rig -->
      <a-entity id="player" position="0 0 0">
-        <!-- Camera -->
         <a-entity position="0 -1.6 0" id="camera" cursor="rayOrigin: mouse">
           <a-camera wasd-controls-enabled="false" look-controls>
             <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
