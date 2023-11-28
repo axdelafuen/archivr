@@ -1,6 +1,6 @@
 <?php
 
-class View extends Image
+class View extends Image implements JsonSerializable
 {
     protected int $date;
 
@@ -24,6 +24,13 @@ class View extends Image
         parent::__construct($path);
     }
 
+    public function jsonSerialize():array{
+        return get_object_vars($this);
+    }
+
+    public function set($data){
+        parent::set($data);
+    }
 }
 
 ?>

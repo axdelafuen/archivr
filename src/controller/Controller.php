@@ -96,6 +96,12 @@ class Controller
 				case "changeDate":
 					$this->ChangeDate();
 					break;
+				case "import":
+					$this->importJsonData();
+					break;
+				case "loadJsonFile":
+					$this->loadDataFromJson();
+					break;
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
@@ -141,6 +147,9 @@ class Controller
 			if(isset($_REQUEST['elementPositionX']) and isset($_REQUEST['elementPositionY']) and isset($_REQUEST['elementPositionZ'])){
 				$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
 			}
+            if(isset($_REQUEST['elementRotationX']) and isset($_REQUEST['elementRotationY']) and isset($_REQUEST['elementRotationZ'])){
+                $_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
+            }
 			if(isset($_REQUEST['elementScale'])){
 				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
 			}
@@ -311,6 +320,7 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
 			if(isset($_REQUEST['elementScale'])){
 				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
 			}
@@ -332,6 +342,7 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
 			if(isset($_REQUEST['elementScale'])){
 				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
 			}
@@ -419,6 +430,7 @@ class Controller
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
+			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
 			if(isset($_REQUEST['elementScale'])){
 				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
 			}
@@ -585,6 +597,24 @@ class Controller
 		$_SESSION['selected_view']->setDate($_REQUEST['changedDate']);
 
 		require($rep.$views['editView']);
+	}
+
+	function importJsonData(){
+		global $rep, $views;
+
+		require($rep . $views['import']);
+	}
+
+	function loadDataFromJson(){
+		global $rep, $views;
+
+		$json = file_get_contents($_FILES['jsonFile']['tmp_name']);
+		$data = json_decode($json, true);
+
+		$panorama = GeneratorPanorama::loadFromFile($data);
+		$_SESSION['panorama'] = &$panorama;
+		
+		require($rep . $views['dashboard']);
 	}
 
 }//fin class

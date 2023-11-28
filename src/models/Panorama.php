@@ -1,6 +1,6 @@
 <?php
 
-class Panorama
+class Panorama implements JsonSerializable
 {
 
     private string $id; // string ? int ?
@@ -123,6 +123,17 @@ class Panorama
         unset($this->map);
     }
 
+    public function jsonSerialize():array{
+        return get_object_vars($this);
+    }
+
+    public function setViews(array $views){
+        $this->views = $views;
+    }
+
+    public function set($data) {
+        $this->id = $data;
+    }
 }
 
 ?> 

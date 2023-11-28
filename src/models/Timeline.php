@@ -1,6 +1,6 @@
 <?php
 
-class Timeline
+class Timeline implements JsonSerializable
 {
 
     private string $id; // string ? int ?
@@ -75,6 +75,9 @@ class Timeline
         return $this->name;
     }
 
+    public function jsonSerialize(): array{
+        return get_object_vars($this);
+    }
 }
 
 ?>

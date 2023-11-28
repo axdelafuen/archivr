@@ -1,19 +1,19 @@
 <?php
 
-class Position implements JsonSerializable
-{
+Class Rotation implements JsonSerializable {
+
     private float $x;
 
     private float $y;
 
     private float $z;
 
-    public function getPosition(): string
+    public function getRotation(): string
     {
         return "$this->x " . "$this->y " . "$this->z";
     }
 
-    public function setPosition($x, $y, $z)
+    public function setRotation($x, $y, $z)
     {
         $this->x = $x;
         $this->y = $y;
@@ -50,7 +50,7 @@ class Position implements JsonSerializable
         return $this->z;
     }
 
-    public function __construct($x = 0, $y = 0, $z = 0)
+    public function __construct($x = 0, $y = 180, $z = 0)
     {
         $this->x = $x;
         $this->y = $y;
@@ -66,5 +66,3 @@ class Position implements JsonSerializable
         return get_object_vars($this);
     }
 }
-
-?>

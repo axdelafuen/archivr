@@ -1,6 +1,6 @@
 <?php
 
-class Waypoint extends Element
+class Waypoint extends Element implements JsonSerializable
 {
     private View $destination;
 
@@ -35,6 +35,18 @@ class Waypoint extends Element
         $this->scale = 1;
     }
 
+    public function jsonSerialize():array {
+        $out = parent::jsonSerialize();
+        $out["scale"] = $this->scale;
+        $out["destination"] = $this->getView()->getPath();
+
+        return $out;
+    }
+
+    public function set($data) {
+        $this->scale = $data['scale'];
+        parent::set($data);
+    }
 }
 
 ?>

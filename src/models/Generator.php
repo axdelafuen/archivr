@@ -42,6 +42,7 @@ class GeneratorPanorama{
     }
 
     static function createDirectory($panorama, $fisrtView){ 
+
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
@@ -93,7 +94,15 @@ class GeneratorPanorama{
       copy('./.template/script.js', './.datas/out/script/script.js');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
+      GeneratorPanorama::createJsonFile($panorama);
       GeneratorPanorama::generateZip($panorama->getName());
+    }
+
+    static function createJsonFile($panorama){
+      $path = './.datas/out/.holder.json';
+      $json = json_encode($panorama, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+      touch($path);
+      file_put_contents($path, $json);
     }
 
     static function generateZip($panoramaName){
@@ -151,13 +160,13 @@ class GeneratorPanorama{
       foreach($view->getElements() as $element){
         if(get_class($element) == 'Sign'){
           $body .= '
-            <a-entity position="'.strval($element->getPosition()).'" look-at="#camera" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
+            <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
         }else{
           $path = explode('.', $element->getView()->getPath())[0].'.html';
         
           $body .= '
-            <a-entity position="' . strval($element->getPosition()) . '" look-at="#camera" scale="' . $element->getScale() . '">
+            <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
               onclick="goTo(\'templates/' . $path . '\')"
@@ -199,8 +208,68 @@ class GeneratorPanorama{
       return $template;
     }
 
-    static function loadFromFile(){
 
+
+
+    static function loadFromFile($data){
+      $panorama = new Panorama($data['name']);
+      $array_views = array();
+
+      foreach($data['views'] as $view){
+        $array_views[$view['path']] = new View($view['path']); 
+      }
+
+      foreach($data['views'] as $view){
+        $array_element = array();
+        foreach($view['elements'] as $element){
+          $tmp = null;
+          if(isset($element['destination'])){
+            foreach($array_views as $key => $value){
+              if($key == $element['destination']){
+                $tmp = new Waypoint($value);
+                $tmp->set($element);
+                break;
+              }
+            }
+          } else {
+            $tmp = new Sign($element['content']);
+            $tmp->set($element);
+          }
+          array_push($array_element, $tmp);
+        }
+        foreach($array_views as $key => $value){
+          if($key == $view['path']){
+            $value->set($array_element);
+          }
+        }
+      }
+
+      if(isset($data['map'])){
+        $map =  new Map($data['map']['path']);
+        $waypoint_array = array();
+        foreach($data['map']['elements'] as $element) {
+          foreach($array_views as $key => $value) {
+            if($key == $element['destination']){
+              $waypoint = new Waypoint($value);
+              $waypoint->set($element);
+              array_push($waypoint_array, $waypoint);
+              break;
+            }
+          }
+        }
+        $map->set($waypoint_array);
+        $panorama->setMap($map);
+      }
+
+      $views = array();
+      foreach($array_views as $key => $value){
+        array_push($views, $value);
+      }
+
+      $panorama->setViews($views);
+      $panorama->set($data['id']);
+
+      return $panorama;
     }
 }
 
