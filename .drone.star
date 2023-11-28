@@ -7,7 +7,7 @@ def main(ctx):
 
 def archivr_code_inspection(ctx):
   return {
-    "name": "archivr-code-inspection",
+    "name": "archivr_code_inspection",
     "image": "php:8.1-cli",
     "environment": {
       "SONAR_TOKEN": {
@@ -29,7 +29,7 @@ def archivr_code_inspection(ctx):
 
 def archivr_image(ctx):
   return {
-    "name": "archivr-image",
+    "name": "archivr_image",
     "image": "plugins/docker",
     "settings": {
       "dockerfile": "./Dockerfile",
@@ -43,12 +43,12 @@ def archivr_image(ctx):
         "from_secret": "secret-registry-password"
       },
     },
-    "depends_on": ["archivr-code-inspection"]
+    "depends_on": ["archivr_code_inspection"]
   }
 
 def archivr_active_container(ctx):
   return {
-    "name": "archivr-active-container",
+    "name": "archivr_active_container",
     "image": "hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest",
     "needs": "archivr-image",
     "environment": {
@@ -59,7 +59,7 @@ def archivr_active_container(ctx):
       "ADMINS": "axelde_la_fuente,vincentastolfi,aurianjault",
       "CODEFIRST_CLIENTDRONE_ENV_DEPLOYED": "deployed",
     },
-    "depends_on": ["archivr-image"]
+    "depends_on": ["archivr_image"]
   }
 
 def CD(ctx):
@@ -68,6 +68,7 @@ def CD(ctx):
     return out
 
   if ctx.build.branch == "master" or ctx.build.message.find("[force_ci]") != -1:
+    out.append(archivr_code_inspection(ctx))
     out.append(archivr_image(ctx))
     out.append(archivr_active_container(ctx))
     return out
