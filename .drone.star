@@ -43,7 +43,7 @@ def archivr_image(ctx):
         "from_secret": "secret-registry-password"
       },
     },
-    "depends_on": ["archivr_code_inspection"]
+    "depends_on": ["archivr-code-inspection"]
   }
 
 def archivr_active_container(ctx):
@@ -59,7 +59,7 @@ def archivr_active_container(ctx):
       "ADMINS": "axelde_la_fuente,vincentastolfi,aurianjault",
       "CODEFIRST_CLIENTDRONE_ENV_DEPLOYED": "deployed",
     },
-    "depends_on": ["archivr_image"]
+    "depends_on": ["archivr-image"]
   }
 
 def CD(ctx):
