@@ -1,7 +1,7 @@
 def main(ctx):
   return {
     "kind": "pipeline",
-    "name": "archivr-CI-CD",
+    "name": "archivrCICD",
     "steps": CD(ctx)
   }
 
