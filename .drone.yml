@@ -9,14 +9,20 @@ trigger:
 steps:
   
 - name: archivr-code-inspection
-  image: maven:3.8.3-openjdk-17
-  secrets: [ SECRET_SONAR_LOGIN ]
+  image: php:8.1-cli
   settings:
-    sonar_host: https://codefirst.iut.uca.fr/sonar/
-    sonar_token:
-      from_secret: SECRET_SONAR_LOGIN
+    SONAR_TOKEN:
+      from_secret: SONAR_TOKEN
   commands:
-    - sonar-scanner -Dsonar.projectKey=archivr -Dsonar.sources=./src/  -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar -Dsonar.login=$${SONAR_TOKEN}
+    - apt-get update && apt-get install -y curl unzip
+    - export SONAR_SCANNER_VERSION=4.7.0.2747
+    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+    - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+    - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+    - export SONAR_SCANNER_OPTS="-server"
+    - cd src
+    - sonar-scanner -D sonar.projectKey=archivr -D sonar.host.url=https://codefirst.iut.uca.fr/sonar
 
 - name: archivr-image
   image: plugins/docker
