@@ -1,11 +1,11 @@
 def main(ctx):
   return {
     "kind": "pipeline",
-    "name": "archivrCICD",
+    "name": "archivr_CI_CD",
     "steps": CD(ctx)
   }
 
-def archivr-code-inspection(ctx):
+def archivr_code_inspection(ctx):
   return {
     "name": "archivr-code-inspection",
     "image": "php:8.1-cli",
@@ -43,7 +43,7 @@ def archivr_image(ctx):
         "from_secret": "secret-registry-password"
       },
     },
-    "depends_on": ["archivr-code-inspection"]
+    "depends_on": ["archivr_code_inspection"]
   }
 
 def archivr_active_container(ctx):
