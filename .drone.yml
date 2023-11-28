@@ -8,6 +8,16 @@ trigger:
 
 steps:
   
+- name: archivr-code-inspection
+  image: maven:3.8.3-openjdk-17
+  secrets: [ SECRET_SONAR_LOGIN ]
+  settings:
+    sonar_host: https://codefirst.iut.uca.fr/sonar/
+    sonar_token:
+      from_secret: SECRET_SONAR_LOGIN
+  commands:
+    - sonar-scanner -Dsonar.projectKey=archivr -Dsonar.sources=./src/  -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar -Dsonar.login=$${SONAR_TOKEN}
+
 - name: archivr-image
   image: plugins/docker
   settings:
@@ -19,6 +29,7 @@ steps:
       from_secret: secret-registry-username
     password:
       from_secret: secret-registry-password
+    depends_on: [archivr-code-inspection]
 
 - name: archivr-active-container
   image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
