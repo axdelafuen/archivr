@@ -11,7 +11,7 @@
     <img src="./Documentation/images/archivr-homepage.png">
 </div>
 
-# About the prject
+# About the project
 
 lorem ipsum
 
