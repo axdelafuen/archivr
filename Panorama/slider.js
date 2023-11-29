@@ -41,6 +41,7 @@ AFRAME.registerComponent('thumbstick-logging',{
 });
 
 let arrayViews = []
+
 AFRAME.registerComponent('sliderelement',{
   init: function(){
     let el = this.el
