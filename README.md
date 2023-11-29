@@ -8,9 +8,8 @@
 <div align="center">
     <h1>ArchiVR</h1
     <span>Create your own virtual 3D visit</span>
+    <img src="./Documentation/images/archivr-homepage.png">
 </div>
-
-![](./Documentation/images/archivr-homepage.png)
 
 # About the prject
 
