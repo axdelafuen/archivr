@@ -74,3 +74,7 @@ function changeScale(){
         element.setAttribute("value", document.getElementById("scale").value.toString())
     })
 }
+
+function setCameraRotation(){
+    console.log(document.querySelector("#a-camera").getAttribute("rotation"))
+}
