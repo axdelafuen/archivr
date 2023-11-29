@@ -10,7 +10,7 @@
     <script src="https://cdnexample.com/script.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
 </head>
 
-<div class="hud">
+<div class="hud-left">
     <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
 
     <h4>Change timeline : </h4>
@@ -89,7 +89,7 @@
     </form>
 </div>
 
-<div class="hud elements p-2">
+<div class="hud-right elements p-2">
     <h3>Edit your view's elements</h3>
     <form  method="post">
         <label>
