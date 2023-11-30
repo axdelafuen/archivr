@@ -247,6 +247,12 @@
                     echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
                 }
             }
+            foreach ($_SESSION['panorama']->getTimelines() as $timeline)
+            {
+                if(!isset($_SESSION['selected_timeline']) or $timeline != $_SESSION['selected_timeline']) {
+                    echo "<option value='" . $timeline->getId() . "'>" . $timeline->getName() . "</option>";
+                }
+            }
             ?>
         </select>
 

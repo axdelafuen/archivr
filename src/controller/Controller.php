@@ -342,7 +342,21 @@ class Controller
 
 	private function AddWaypoint()
 	{
-		$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+		global $rep,$views;
+
+		if(!isset($_REQUEST['destinationView'])){
+			require_once $rep.$views['error'];
+		}
+
+		if($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])){
+			$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
+		}
+		else if($_SESSION['panorama']->getTimelineById($_REQUEST['destinationView'])){
+			$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getTimelineById($_REQUEST['destinationView'])));
+		}
+		else{
+			require_once $rep.$views['error'];
+		}
 
 		if(isset($_SESSION['selected_element'])){
 			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
@@ -360,17 +374,17 @@ class Controller
 		}
 	}
 
-	private function addViewWaypoint()
+	private function AddViewWaypoint()
 	{
 		global $rep,$views;
-		$this->addWaypoint();
+		$this->AddWaypoint();
 		require_once ($rep.$views['editView']);
 	}
 
-	private function addMapWaypoint()
+	private function AddMapWaypoint()
 	{
 		global $rep,$views;
-		$this->addWaypoint();
+		$this->AddWaypoint();
 		require_once ($rep.$views['editMap']);
 	}
 
@@ -522,6 +536,7 @@ class Controller
 
 		$timeline->addView($_SESSION['selected_view']);
 
+
 		if($_SESSION['panorama']->isView($_SESSION['selected_view'])){
 			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
 		}
@@ -531,6 +546,7 @@ class Controller
 			}
 		}
 
+		$_SESSION['selected_timeline'] = $timeline;
 		require_once ($rep.$views['editView']);
 	}
 
