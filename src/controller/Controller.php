@@ -103,6 +103,9 @@ class Controller
 				case "loadJsonFile":
 					$this->loadDataFromJson();
 					break;
+				case "changeCameraRotation":
+					$this->ChangeCameraRotation();
+					break;
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
@@ -616,6 +619,27 @@ class Controller
 		$_SESSION['panorama'] = &$panorama;
 		
 		require_once($rep . $views['dashboard']);
+	}
+
+	private function ChangeCameraRotation()
+	{
+		global $rep,$views;
+
+		if(!isset($_SESSION['selected_view']))
+		{
+			require_once ($rep.$views['error']);
+			return;
+		}
+
+		if(!isset($_REQUEST['camera_rotation_x']) or !isset($_REQUEST['camera_rotation_y']) or !isset($_REQUEST['camera_rotation_z']))
+		{
+			require_once ($rep.$views['error']);
+			return;
+		}
+
+		$_SESSION['selected_view']->setCameraRotation(floatval($_REQUEST['camera_rotation_x']), floatval($_REQUEST['camera_rotation_y']), floatval($_REQUEST['camera_rotation_z']));
+
+		require_once ($rep.$views['editView']);
 	}
 
 }//fin class

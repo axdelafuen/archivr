@@ -4,10 +4,9 @@
     <link rel="icon" type="image/*" href="views/assets/images/map.png">
 
     <script src="views/scripts/editView.js"></script>
-    <script src=".template/script.js"></script>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://cdnexample.com/script.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
+    <script src=".template/script.js"></script>
 </head>
 
 <div class="hud-left">
@@ -61,6 +60,20 @@
         ?>
         <input type="submit" value="Update">
         <input type="hidden" name="action" value="changeDate">
+    </form>
+
+    <h4>Default camera rotation : </h4>
+
+    <!--<button onclick="setCameraRotation()">Set rotation</button>-->
+
+    <form method="post">
+        <input type="submit" value="Set rotation" onclick="setCameraRotation()">
+        <?php
+            echo '<input class="cameraRotationX" type="hidden" name="camera_rotation_x" value="'.$_SESSION['selected_view']->getCameraRotation()->getX() .'">';
+            echo '<input class="cameraRotationY" type="hidden" name="camera_rotation_y" value="'.$_SESSION['selected_view']->getCameraRotation()->getY() .'">';
+            echo '<input class="cameraRotationZ" type="hidden" name="camera_rotation_z" value="'.$_SESSION['selected_view']->getCameraRotation()->getZ() .'">';
+        ?>
+        <input type="hidden" name="action" value="changeCameraRotation">
     </form>
 
     <h4>Delete this view :</h4>
@@ -255,15 +268,10 @@
 
     <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
-     <a-entity id="player" position="0 0 0">
-        <a-entity position="0 -1.6 0" id="camera" cursor="rayOrigin: mouse">
-          <a-camera wasd-controls-enabled="false" look-controls>
-            <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
-            </a-cursor>
+        <a-entity position="0 -1.6 0" id="camera" rotation="<?php echo $_SESSION['selected_view']->getCameraRotation(); ?>" cursor="rayOrigin: mouse">
+          <a-camera wasd-controls-enabled="false" look-controls id="a-camera">
           </a-camera>
         </a-entity>
-      </a-entity>
 
     <?php
     $elementId = 1;
