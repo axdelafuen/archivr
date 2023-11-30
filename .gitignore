@@ -80,3 +80,7 @@ fabric.properties
 ./src/.idea/
 
 ./src/.data/
+
+./.idea/
+
+./.phpunit.result.cache
