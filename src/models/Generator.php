@@ -41,15 +41,60 @@ class GeneratorPanorama{
       return $page;
     }
 
-    public static function createDirectory($panorama, $fisrtView){
+    public static function generateTimeline($timeline) : Template{
+      $template = new Template();
+      $body = '';
+      foreach($timeline->getViews() as $view){
+        $body .= '<a-sky src="assets/paul-szewczyk-GfXqtWmiuDI-unsplash.jpg" class="' . $view->getDate() . '" sliderelement></a-sky>';
 
+        $elementId = 1;
+
+        foreach($view->getElements() as $element){
+          if(get_class($element) == 'Sign'){
+            $body .= '
+              <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="'.$view->getDate().'""></a-entity>
+            ';
+          }else{
+            $path = explode('.', $element->getView()->getPath())[0].'.html';
+          
+            $body .= '
+              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="' . $view->getDate() . '"">
+              <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+                onclick="goTo(\'templates/' . $path . '\')"
+                look-at="#pointer' . $elementId .'">
+              </a-entity>
+                <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
+              </a-entity>
+            ';
+          }
+          $elementId += 1;
+        }
+      }
+      $template->body = $body;
+      $template->name = $timeline->getName().".html";
+      return $template;
+    }
+
+  public static function createDirectory($panorama, $fisrtView){
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
+      $firstViewBody = '';
 
       $elements = array();
+
       foreach($panorama->getViews() as $view){
         $template = GeneratorPanorama::generateBase($view);
+        array_push($elements, $template);
+        if($template->name == explode('.', $fisrtView)[0].'.html'){
+          $firstViewBody = $template->body;
+        }
+      }
+
+      foreach($panorama->getTimelines() as $key => $timeline) {
+        $template = GeneratorPanorama::generateTimeline($timeline);
         array_push($elements, $template);
         if($template->name == explode('.', $fisrtView)[0].'.html'){
           $firstViewBody = $template->body;
