@@ -26,7 +26,7 @@ class View extends Image implements JsonSerializable
         return $this->cameraRotation;
     }
 
-    public function setCameraRotation(int $x, int $y, int $z)
+    public function setCameraRotation(float $x, float $y, float $z)
     {
         $this->cameraRotation->setX($x);
         $this->cameraRotation->setY($y);

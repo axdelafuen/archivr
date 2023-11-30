@@ -64,7 +64,17 @@
 
     <h4>Default camera rotation : </h4>
 
-    <button onclick="setCameraRotation()">Set rotation</button>
+    <!--<button onclick="setCameraRotation()">Set rotation</button>-->
+
+    <form method="post">
+        <input type="submit" value="Set rotation" onclick="setCameraRotation()">
+        <?php
+            echo '<input class="cameraRotationX" type="hidden" name="camera_rotation_x" value="'.$_SESSION['selected_view']->getCameraRotation()->getX() .'">';
+            echo '<input class="cameraRotationY" type="hidden" name="camera_rotation_y" value="'.$_SESSION['selected_view']->getCameraRotation()->getY() .'">';
+            echo '<input class="cameraRotationZ" type="hidden" name="camera_rotation_z" value="'.$_SESSION['selected_view']->getCameraRotation()->getZ() .'">';
+        ?>
+        <input type="hidden" name="action" value="changeCameraRotation">
+    </form>
 
     <h4>Delete this view :</h4>
 
