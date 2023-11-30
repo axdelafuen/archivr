@@ -77,6 +77,10 @@ def CD(ctx):
   if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1: 
     return out
 
+  if ctx.build.message.find("[tests]") != -1:
+    out.append(archivr_tests(ctx))
+    return out
+
   if ctx.build.branch == "master" or ctx.build.message.find("[force_ci]") != -1:
     out.append(archivr_tests(ctx))
     out.append(archivr_code_inspection(ctx))
