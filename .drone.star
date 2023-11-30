@@ -11,9 +11,9 @@ def archivr_tests(ctx):
     "image": "php:8.1-cli",
     "commands": [
       "chmod +x phpunit",
-      "./phpunit --bootstrap ./tests/config/TestsAutoload.php tests/*.php"
+      "./phpunit --bootstrap ./tests/config/TestsAutoload.php tests/*.php",
     ]
-  },
+  }
 
 def archivr_code_inspection(ctx):
   return {
