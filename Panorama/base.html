@@ -1,10 +1,10 @@
-<a-sky id="skybox" src="assets/devantAmphi.jpg" animationcustom></a-sky>
+<a-sky id="skybox" src="./ressources/assets/devantAmphi.jpg" animationcustom></a-sky>
 
 
 
 <a-entity position="-6.239 -1.17 -7.336" look-at="#camera">
   <a-plane  animationcustom color="black" width="5" text="value: Amphi A;  align: center" position="0 1 1"></a-plane>
-<a-entity gltf-model="./assets/direction_arrow/scene.gltf" id="model"
+<a-entity gltf-model="./ressources/assets/direction_arrow/scene.gltf" id="model"
   animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
   onclick="goTo('base2.html')"
   look-at="#pointer">
@@ -16,10 +16,10 @@
 
 
 <a-entity position="-3 0 6" look-at="#camera">
-      <a-entity gltf-model="./assets/direction_arrow/scene.gltf" id="model"
+      <a-entity gltf-model="./ressources/assets/direction_arrow/scene.gltf" id="model"
       animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
       onclick="goTo('base2.html')"
-      look-at="#pointer2">
+      look-at="#pointer3">
       </a-entity>
-    <a-entity id="pointer2"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true"></a-entity>
+    <a-entity id="pointer3"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true"></a-entity>
   </a-entity>

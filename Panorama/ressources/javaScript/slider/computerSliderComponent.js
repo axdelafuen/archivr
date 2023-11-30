@@ -1,10 +1,10 @@
-
 //////////////////////
 //  SLIDER HANDLING //
 //////////////////////
 let yearsVector = 0
 let maxValue = 0 
 let step
+let arrayViews = []
 
 
 AFRAME.registerComponent('thumbstick-logging',{
@@ -28,19 +28,18 @@ AFRAME.registerComponent('thumbstick-logging',{
     if (evt.detail.x < -0.80) {
       if(yearsVector < maxValue){
         yearsVector=(yearsVector+step)
-        opacityHandler(yearsVector)
+        computerOpacityHandler(yearsVector)
       }
     }
     if (evt.detail.x > 0.80) {
       if(yearsVector > minValue){
         yearsVector=(yearsVector-step)
-        opacityHandler(yearsVector)
+        computerOpacityHandler(yearsVector)
       }   
     }
   }
 });
 
-let arrayViews = []
 
 AFRAME.registerComponent('sliderelement',{
   init: function(){
@@ -50,7 +49,6 @@ AFRAME.registerComponent('sliderelement',{
   remove: function(){
     let el = this.el
     arrayViews = arrayRemove(arrayViews,el)
-    // console.log(arrayViews)
   }
 })
 
@@ -76,14 +74,14 @@ document.addEventListener("keydown",(event)=>{
   {
     if(yearsVector < maxValue){
       yearsVector=(yearsVector+step)
-      opacityHandler(yearsVector)
+      computerOpacityHandler(yearsVector)
     }
   }
   else if(key === "ArrowLeft")
   {
     if(yearsVector > minValue){
       yearsVector=(yearsVector-step)
-      opacityHandler(yearsVector)
+      computerOpacityHandler(yearsVector)
     }
   }
 })
@@ -217,7 +215,8 @@ function changeOpa4Pics(value)
   }
 }
 
-function opacityHandler(value)
+
+function computerOpacityHandler(value)
 {
   let skyArray = document.querySelectorAll("a-sky")
   let size = skyArray.length
@@ -227,7 +226,6 @@ function opacityHandler(value)
   else changeOpa2pics(value)
 }
 
-// Fonction permettant de gérer l'opacité de TOUS les éléments d'une temporalité
 function setOpacity(className,value)
 {
   let elementArray = document.querySelectorAll("."+className)
