@@ -77,7 +77,7 @@ def CD(ctx):
   if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1: 
     return out
 
-  if ctx.build.message.find("[tests]") != -1:
+  if ctx.build.message.find("[tests]") != -1 or ctx.build.message.find("[test]") != -1:
     out.append(archivr_tests(ctx))
     return out
 
