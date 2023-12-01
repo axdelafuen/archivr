@@ -38,7 +38,7 @@ def archivr_code_inspection(ctx):
       "export SONAR_SCANNER_OPTS='-server'",
       "cd src",
       "sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN} -Dsonar.php.coverage.reportPaths=../reports.xml",
-    ]
+    ],
     "depends_on": ["archivr_tests"]
   }
 
