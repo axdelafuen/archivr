@@ -253,23 +253,39 @@ class GeneratorPanorama{
       return $template;
     }
 
-
-
-
     public static function loadFromFile($data){
       $panorama = new Panorama($data['name']);
-      $array_views = array();
+      $panorama_images_array = array();
+      $timelines_views_array = array();
+      $timelines_array = array();
+      $views_array = array();
 
-      foreach($data['views'] as $view){
-        $array_views[$view['path']] = new View($view['path']); 
+      // view and timeline object creation
+      if(isset($data['views'])){
+        foreach($data['views'] as $view){
+          $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
+          $panorama_images_array[$view['path']]['is_view'] = true;
+        }
+      }
+      if(isset($data['timelines'])){
+        foreach($data['timelines'] as $timeline){
+          $panorama_images_array[$timeline['name']]['timeline'] = new Timeline($timeline['name']);
+          foreach($timeline['views'] as $view) {
+            $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+            array_push($timelines_views_array, $view);
+          }
+        }
       }
 
-      foreach($data['views'] as $view){
+      $views = array_merge($data['views'], $timelines_views_array);
+
+      // waypoint and sign creation
+      foreach($views as $view){
         $array_element = array();
         foreach($view['elements'] as $element){
           $tmp = null;
           if(isset($element['destination'])){
-            foreach($array_views as $key => $value){
+            foreach($panorama_images_array as $key => $value){
               if($key == $element['destination']){
                 $tmp = new Waypoint($value);
                 $tmp->set($element);
@@ -282,18 +298,30 @@ class GeneratorPanorama{
           }
           array_push($array_element, $tmp);
         }
-        foreach($array_views as $key => $value){
+        // set the data of each view with all the element
+        $keys = array_keys($panorama_images_array);
+        foreach($keys as $key){
           if($key == $view['path']){
-            $value->set($array_element);
+            $panorama_images_array[$key]['object']->set($array_element);
+            array_push($views_array, $panorama_images_array[$key]['object']);
+            continue;
+          } else {
+            if(isset($panorama_images_array[$key][$view['path']])){
+              $panorama_images_array[$key][$view['path']]->set($array_element);
+              $panorama_images_array[$key]['timeline']->set($panorama_images_array[$key][$view['path']]);
+              array_push($timelines_array, $panorama_images_array[$timeline['name']]['timeline']);
+              continue;
+            }
           }
         }
       }
 
+      // map creation
       if(isset($data['map'])){
         $map =  new Map($data['map']['path']);
         $waypoint_array = array();
         foreach($data['map']['elements'] as $element) {
-          foreach($array_views as $key => $value) {
+          foreach($panorama_images_array as $key => $value) {
             if($key == $element['destination']){
               $waypoint = new Waypoint($value);
               $waypoint->set($element);
@@ -306,12 +334,8 @@ class GeneratorPanorama{
         $panorama->setMap($map);
       }
 
-      $views = array();
-      foreach($array_views as $key => $value){
-        array_push($views, $value);
-      }
-
-      $panorama->setViews($views);
+      $panorama->setViews($views_array);
+      $panorama->setTimelines($timelines_array);
       $panorama->set($data['id']);
 
       return $panorama;

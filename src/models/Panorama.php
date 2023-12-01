@@ -131,6 +131,10 @@ class Panorama implements JsonSerializable
         $this->views = $views;
     }
 
+    public function setTimelines(array $timelines){
+        $this->timelines = $timelines;
+    }
+
     public function set($data) {
         $this->id = $data;
     }
