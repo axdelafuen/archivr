@@ -30,17 +30,17 @@ class Waypoint extends Element implements JsonSerializable
 
     public function __construct($destination)
     {
-        if(isset($destination['is_view'])){
-            parent::__construct($destination['object']->getPath());
+        if(get_class($destination) == View::class){
+            parent::__construct($destination->getPath());
         } else {
-            parent::__construct($destination['object']->getName());
+            parent::__construct($destination->getName());
         }
         
-        if(get_class($destination['object']) != "View" and get_class($destination['object']) != "Timeline"){
+        if(get_class($destination) != "View" and get_class($destination) != "Timeline"){
             // to handle
             return null;
         }
-        $this->destination = $destination['object'];
+        $this->destination = $destination;
         $this->scale = 1;
     }
 
