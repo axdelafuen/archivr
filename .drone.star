@@ -11,7 +11,7 @@ def archivr_tests(ctx):
     "image": "php:8.1-cli",
     "commands": [
       "chmod +x phpunit",
-      "./phpunit --coverage-clover ./src/reports.xml --bootstrap ./tests/config/TestsAutoload.php tests/*.php",
+      "./phpunit --coverage-clover reports.xml --bootstrap ./tests/config/TestsAutoload.php tests/*.php",
     ]
   }
 
@@ -33,7 +33,7 @@ def archivr_code_inspection(ctx):
       "export PATH=$SONAR_SCANNER_HOME/bin:$PATH",
       "export SONAR_SCANNER_OPTS='-server'",
       "cd src",
-      "sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN} -Dsonar.php.coverage.reportPaths=reports.xml",
+      "sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN} -Dsonar.php.coverage.reportPaths=../reports.xml",
     ]
   }
 
