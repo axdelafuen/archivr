@@ -12,7 +12,13 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
       <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-      <script src="script/script.js"></script>
+      <script src="scripts/script.js"></script>
+      <script src="scripts/functions.js"></script>
+      <script src="scripts/components.js"></script>
+      <script src="scripts/deviceHandler.js"></script>
+      <script src="scripts/smartphoneSliderComponent.js"></script>
+      <script src="scripts/computerSliderComponent.js"></script>
+
   </head>
 
   <body>
@@ -43,22 +49,41 @@ class GeneratorPanorama{
 
     public static function generateTimeline($timeline) : Template{
       $template = new Template();
-      $body = '';
+      $body = '<div class="hud">';
+      
+      $classNumber = 1;
       foreach($timeline->getViews() as $view){
-        $body .= '<a-sky src="assets/paul-szewczyk-GfXqtWmiuDI-unsplash.jpg" class="' . $view->getDate() . '" sliderelement></a-sky>';
+        $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(class' . $classNumber . ')" id="button1">' . $view->getDate() . '</button>';
+        $classNumber++;
+      }
+
+      $body .= "</div>";
+
+      $classNumber = 1;
+      foreach($timeline->getViews() as $view){
+        if($classNumber == 1){
+          $body .= '<a-sky src="./assets/images/'. $view->getPath() .'" class="class' . $classNumber . '" sliderelement></a-sky>';
+        } else {
+          $body .= '<a-sky src="./assets/images/'. $view->getPath() .'" class="class' . $classNumber . '" opacity="0.0" sliderelement></a-sky>';
+        }
 
         $elementId = 1;
 
         foreach($view->getElements() as $element){
+          if($classNumber == 1){
+            $opacity = 'opacity="1"';
+          } else {
+            $opacity = 'opacity="0.0"';
+          }
           if(get_class($element) == 'Sign'){
             $body .= '
-              <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="'.$view->getDate().'""></a-entity>
+              <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="class' . $classNumber . '" ' . $opacity . ' ></a-entity>
             ';
           }else{
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           
             $body .= '
-              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="' . $view->getDate() . '"">
+              <a-entity ' . $opacity . ' position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="class' . $classNumber . '" >
               <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
                 animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
                 onclick="goTo(\'templates/' . $path . '\')"
@@ -71,7 +96,9 @@ class GeneratorPanorama{
           }
           $elementId += 1;
         }
+        $classNumber++;
       }
+
       $template->body = $body;
       $template->name = $timeline->getName().".html";
       return $template;
@@ -79,7 +106,7 @@ class GeneratorPanorama{
 
   public static function createDirectory($panorama, $fisrtView){
       $basePath = "./.datas/out";
-      $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
+      $folders = array('assets', 'assets/images', 'assets/sounds', '/scripts', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
       $firstViewBody = '';
 
@@ -134,9 +161,20 @@ class GeneratorPanorama{
         copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
       }
 
+      $files = scandir(".template");
+      foreach($files as $file){
+        if($file == "." or $file == ".."){
+          continue;
+        }
+        if(is_dir('.template/'.$file)){
+          continue;
+        }
+        if(explode(".",$file)[1] == "js"){
+          copy('./.template/'.$file, $basePath.'/scripts/'.$file);
+        }
+      }
       copy('./.template/blueWaypoint.png', './.datas/out/assets/images/blueWaypoint.png');
       copy('./.template/sky.png', './.datas/out/assets/images/sky.png');
-      copy('./.template/script.js', './.datas/out/script/script.js');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
       GeneratorPanorama::createJsonFile($panorama);
@@ -291,7 +329,7 @@ class GeneratorPanorama{
           if(isset($element['destination'])){
             foreach($panorama_images_array as $key => $value){
               if($key == $element['destination']){
-                $tmp = new Waypoint($value);
+                $tmp = new Waypoint($value['object']);
                 $tmp->set($element);
                 break;
               }
