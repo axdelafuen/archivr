@@ -12,6 +12,8 @@ def archivr_tests(ctx):
     "commands": [
       "chmod +x phpunit",
       "pecl install xdebug",
+      "echo zend_extension=xdebug.so > /etc/php/php.ini",
+      "echo xdebug.mode=coverage > /etc/php/php.ini",
       "./phpunit",
     ]
   }
