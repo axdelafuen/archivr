@@ -21,21 +21,21 @@ require_once(__DIR__.'/templates/navbar.html');
         <div class="row justify-content-around h-100">
             <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
                 <div class="container p-0">
-                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg" alt="puy-de-dome-image" width="auto" height="auto">
                 </div>
                 <h3 class="ml-4 mt-3 font-weight-bold">Create your own panorama</h3>
                 <h5 class="ml-4 mb-4">Add your 360° images to create VR 3D visit</h5>
             </div>
             <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
                 <div class="container p-0">
-                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg" alt="puy-de-dome-image" width="auto" height="auto">
                 </div>
                 <h3 class="ml-4 mt-3 font-weight-bold">Import a template</h3>
                 <h5 class="ml-4 mb-4">See 3D creation from people around the world</h5>
             </div>
             <div class="col-sm-3 align-self-center bg-white shadow p-0 homeRounded">
                 <div class="container p-0">
-                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg">
+                    <img class="homeImgRadius img-responsive w-100" src="./views/assets/images/puy-de-dome-02.jpg" alt="puy-de-dome-image" width="auto" height="auto">
                 </div>
                 <h3 class="ml-4 mt-3 font-weight-bold">See a tutorial</h3>
                 <h5 class="ml-4 mb-4">And learn how to use ArchiVR generator</h5>

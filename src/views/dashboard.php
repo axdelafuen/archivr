@@ -23,7 +23,8 @@ require_once(__DIR__.'/templates/navbar.html');
                 <input id="projectName" class="form-control" type="text" placeholder="My amazing panorama" name="projectName" value="<?php echo $_SESSION['panorama']->getName()?>">
                 <label for="updateProjectName"></label>
                 <button id="updateProjectName" type="submit" class="btn btn-primary mb-3">Update</button>
-                <input type="hidden" name="action" value="updateProjectName">
+                <label for="updateProjectNameSubmit"></label>
+                <input id="updateProjectNameSubmit" type="hidden" name="action" value="updateProjectName">
             </div>
         </form>
     </div>
