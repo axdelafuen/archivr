@@ -41,15 +41,60 @@ class GeneratorPanorama{
       return $page;
     }
 
-    public static function createDirectory($panorama, $fisrtView){
+    public static function generateTimeline($timeline) : Template{
+      $template = new Template();
+      $body = '';
+      foreach($timeline->getViews() as $view){
+        $body .= '<a-sky src="assets/paul-szewczyk-GfXqtWmiuDI-unsplash.jpg" class="' . $view->getDate() . '" sliderelement></a-sky>';
 
+        $elementId = 1;
+
+        foreach($view->getElements() as $element){
+          if(get_class($element) == 'Sign'){
+            $body .= '
+              <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="'.$view->getDate().'""></a-entity>
+            ';
+          }else{
+            $path = explode('.', $element->getView()->getPath())[0].'.html';
+          
+            $body .= '
+              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="' . $view->getDate() . '"">
+              <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+                onclick="goTo(\'templates/' . $path . '\')"
+                look-at="#pointer' . $elementId .'">
+              </a-entity>
+                <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
+              </a-entity>
+            ';
+          }
+          $elementId += 1;
+        }
+      }
+      $template->body = $body;
+      $template->name = $timeline->getName().".html";
+      return $template;
+    }
+
+  public static function createDirectory($panorama, $fisrtView){
       $basePath = "./.datas/out";
       $folders = array('assets', 'assets/images', 'assets/sounds', '/script', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
+      $firstViewBody = '';
 
       $elements = array();
+
       foreach($panorama->getViews() as $view){
         $template = GeneratorPanorama::generateBase($view);
+        array_push($elements, $template);
+        if($template->name == explode('.', $fisrtView)[0].'.html'){
+          $firstViewBody = $template->body;
+        }
+      }
+
+      foreach($panorama->getTimelines() as $key => $timeline) {
+        $template = GeneratorPanorama::generateTimeline($timeline);
         array_push($elements, $template);
         if($template->name == explode('.', $fisrtView)[0].'.html'){
           $firstViewBody = $template->body;
@@ -163,7 +208,11 @@ class GeneratorPanorama{
             <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
         }else{
-          $path = explode('.', $element->getView()->getPath())[0].'.html';
+          if(method_exists($element->getView(), 'getPath')){
+            $path = explode('.', $element->getView()->getPath())[0].'.html';
+          } else {
+            $path = $element->getView()->getName().'.html';
+          }
         
           $body .= '
             <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
@@ -208,23 +257,39 @@ class GeneratorPanorama{
       return $template;
     }
 
-
-
-
     public static function loadFromFile($data){
       $panorama = new Panorama($data['name']);
-      $array_views = array();
+      $panorama_images_array = array();
+      $timelines_views_array = array();
+      $timelines_array = array();
+      $views_array = array();
 
-      foreach($data['views'] as $view){
-        $array_views[$view['path']] = new View($view['path']); 
+      // view and timeline object creation
+      if(isset($data['views'])){
+        foreach($data['views'] as $view){
+          $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
+          $panorama_images_array[$view['path']]['is_view'] = true;
+        }
+      }
+      if(isset($data['timelines'])){
+        foreach($data['timelines'] as $timeline){
+          $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
+          foreach($timeline['views'] as $view) {
+            $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+            array_push($timelines_views_array, $view);
+          }
+        }
       }
 
-      foreach($data['views'] as $view){
+      $views = array_merge($data['views'], $timelines_views_array);
+
+      // waypoint and sign creation
+      foreach($views as $view){
         $array_element = array();
         foreach($view['elements'] as $element){
           $tmp = null;
           if(isset($element['destination'])){
-            foreach($array_views as $key => $value){
+            foreach($panorama_images_array as $key => $value){
               if($key == $element['destination']){
                 $tmp = new Waypoint($value);
                 $tmp->set($element);
@@ -237,18 +302,32 @@ class GeneratorPanorama{
           }
           array_push($array_element, $tmp);
         }
-        foreach($array_views as $key => $value){
+        // set the data of each view with all the element
+        $keys = array_keys($panorama_images_array);
+        foreach($keys as $key){
           if($key == $view['path']){
-            $value->set($array_element);
+            $panorama_images_array[$key]['object']->set($array_element);
+            array_push($views_array, $panorama_images_array[$key]['object']);
+            continue;
+          } else {
+            if(isset($panorama_images_array[$key][$view['path']])){
+              $panorama_images_array[$key][$view['path']]->set($array_element);
+              $panorama_images_array[$key]['object']->set($panorama_images_array[$key][$view['path']]);
+              if(!in_array($panorama_images_array[$timeline['name']]['object'], $timelines_array)){
+                array_push($timelines_array, $panorama_images_array[$timeline['name']]['object']);
+              }
+              continue;
+            }
           }
         }
       }
 
+      // map creation
       if(isset($data['map'])){
         $map =  new Map($data['map']['path']);
         $waypoint_array = array();
         foreach($data['map']['elements'] as $element) {
-          foreach($array_views as $key => $value) {
+          foreach($panorama_images_array as $key => $value) {
             if($key == $element['destination']){
               $waypoint = new Waypoint($value);
               $waypoint->set($element);
@@ -261,12 +340,8 @@ class GeneratorPanorama{
         $panorama->setMap($map);
       }
 
-      $views = array();
-      foreach($array_views as $key => $value){
-        array_push($views, $value);
-      }
-
-      $panorama->setViews($views);
+      $panorama->setViews($views_array);
+      $panorama->setTimelines($timelines_array);
       $panorama->set($data['id']);
 
       return $panorama;

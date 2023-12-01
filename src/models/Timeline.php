@@ -75,6 +75,10 @@ class Timeline implements JsonSerializable
         return $this->name;
     }
 
+    public function set(View $view){
+        array_push($this->views, $view);
+    }
+
     public function jsonSerialize(): array{
         return get_object_vars($this);
     }
