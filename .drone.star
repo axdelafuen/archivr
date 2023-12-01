@@ -15,6 +15,7 @@ def archivr_tests(ctx):
       "PHP_INI_PATH=$(php --ini | grep 'Loaded Configuration File' | awk '{printf(\"%s\",$4)}')",
       "echo zend_extension=xdebug.so >> $PHP_INI_PATH",
       "echo xdebug.mode=coverage >> $PHP_INI_PATH",
+      "service php8.1-fpm restart",
       "./phpunit",
     ]
   }
