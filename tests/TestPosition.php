@@ -1,6 +1,10 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @uses Position
+ * @covers Position::__construct
+ */
 final class TestPosition extends TestCase
 {
     public function testCanBeCreatedPositionAndGet(): void
@@ -11,7 +15,9 @@ final class TestPosition extends TestCase
 
         $this->assertSame($positionString, $position->getPosition());
     }
-
+    /**
+     * @covers Position::setPosition
+     */
     public function testCanSetPosition():void
     {
         $positionString = "0 0 0";
