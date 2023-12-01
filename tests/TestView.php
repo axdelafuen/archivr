@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @uses View
+ * @covers View::__construct
+ * @covers View::getPath
+ */
 final class TestView extends TestCase
 {
     public function testCanBeCreatedViewAndGetPath(): void
@@ -11,7 +16,10 @@ final class TestView extends TestCase
 
         $this->assertSame($path, $view->getPath());
     }
-
+    /**
+     * @uses View
+     * @covers View::getName
+     */
     public function testCanBeCreatedViewAndGetName(): void
     {
         $path = "&àcàç&cn&ciosc.jpg";

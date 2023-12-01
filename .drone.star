@@ -11,7 +11,11 @@ def archivr_tests(ctx):
     "image": "php:8.1-cli",
     "commands": [
       "chmod +x phpunit",
-      "./phpunit --bootstrap ./tests/config/TestsAutoload.php tests/*.php",
+      "pecl install xdebug",
+      "PHP_INI_PATH=/usr/local/etc/php/php.ini",
+      "echo zend_extension=xdebug.so >> $PHP_INI_PATH",
+      "echo xdebug.mode=coverage >> $PHP_INI_PATH",
+      "./phpunit -d $PHP_INI_PATH",
     ]
   }
 
@@ -33,7 +37,7 @@ def archivr_code_inspection(ctx):
       "export PATH=$SONAR_SCANNER_HOME/bin:$PATH",
       "export SONAR_SCANNER_OPTS='-server'",
       "cd src",
-      "sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN}",
+      "sonar-scanner -Dsonar.projectKey=archivr -Dsonar.host.url=https://codefirst.iut.uca.fr/sonar/ -Dsonar.login=$${SONAR_TOKEN} -Dsonar.php.coverage.reportPaths=../reports.xml",
     ]
   }
 
@@ -76,6 +80,11 @@ def CD(ctx):
   out = []
   if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1: 
     return out
+
+  if ctx.build.message.find("[sonar]") != -1:
+      out.append(archivr_tests(ctx))
+      out.append(archivr_code_inspection(ctx))
+      return out
 
   if ctx.build.message.find("[tests]") != -1 or ctx.build.message.find("[test]") != -1:
     out.append(archivr_tests(ctx))
