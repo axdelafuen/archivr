@@ -271,18 +271,16 @@ class Controller
 	private function DeleteView(){
 		global $rep, $views;
 
-		if(count($_SESSION['panorama']->getViews()) <= 1){
-			echo "<script>alert(\"Upload at least two images, to delete one.\")</script>";
-			require_once ($rep.$views['editView']);
+		if(isset($_SESSION['selected_timeline'])){
+			$_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
 		}
-		else {
-
+		else{
 			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
-
-			unset($_SESSION['selected_view']);
-
-			require_once($rep . $views['dashboard']);
 		}
+
+		unset($_SESSION['selected_view']);
+
+		require_once($rep . $views['dashboard']);
 	}
 
 	private function DeleteMap(){
@@ -532,6 +530,12 @@ class Controller
 
 		if(!isset($_SESSION['selected_view']) or empty($_SESSION['selected_view'])){
 			require_once($rep . $views['error']);
+		}
+
+		if(count($timeline->getViews()) >= 4){
+			echo "<script>alert(\"Only four views can be added to a timeline ! \")</script>";
+			require_once $rep.$views['editView'];
+			return;
 		}
 
 		$timeline->addView($_SESSION['selected_view']);
