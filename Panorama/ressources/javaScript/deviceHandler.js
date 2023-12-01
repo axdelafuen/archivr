@@ -78,11 +78,6 @@ function mobileComponent()
       {
         element.remove()
       }
-      else
-      {
-        element.innerText="skyGetvalueyears"+element.id
-        skyNumber--
-      }
     })
   }
 }
