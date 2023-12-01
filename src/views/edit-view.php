@@ -64,8 +64,6 @@
 
     <h4>Default camera rotation : </h4>
 
-    <!--<button onclick="setCameraRotation()">Set rotation</button>-->
-
     <form method="post">
         <input type="submit" value="Set rotation" onclick="setCameraRotation()">
         <?php
