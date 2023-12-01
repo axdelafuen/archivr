@@ -12,8 +12,9 @@ def archivr_tests(ctx):
     "commands": [
       "chmod +x phpunit",
       "pecl install xdebug",
-      "echo zend_extension=xdebug.so > /etc/php/php.ini",
-      "echo xdebug.mode=coverage > /etc/php/php.ini",
+      'PHP_INI_PATH=$(php --ini | grep "Loaded Configuration File" | awk \'{print $4}\')',
+      "echo zend_extension=xdebug.so >> $PHP_INI_PATH",
+      "echo xdebug.mode=coverage >> $PHP_INI_PATH",
       "./phpunit",
     ]
   }
