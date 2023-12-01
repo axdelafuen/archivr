@@ -6,25 +6,25 @@ AFRAME.registerComponent('scene', {
   init: function () {
     if(AFRAME.utils.device.isMobile ())
     {
-      mobileComponent(this)
+      mobileComponent(this.el)
     }
     else
     {
-      computerComponent(this)
+      computerComponent(this.el)
     }
   },
 });
 
 
 
-function computerComponent()
+function computerComponent(scene)
 {
   /////////////////////////
   // Show control pannel //
   /////////////////////////
   let panel = document.createElement("a-image")
-  panel.setAttribute("src","./ressources/javaScript/assets/computerPane.png")
-
+  panel.setAttribute("src","./ressources/assets/computerPane.png")
+  scene.append(panel)
   
   document.querySelector('a-scene').addEventListener('enter-vr', function () {
     if(AFRAME.utils.device.checkHeadsetConnected ())
@@ -41,7 +41,6 @@ function computerComponent()
       leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1")
       rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1")
       
-      let scene =  document.querySelector("a-scene")
       scene.append(leftHand)
       scene.append(rightHand)
       console.log(rightHand)

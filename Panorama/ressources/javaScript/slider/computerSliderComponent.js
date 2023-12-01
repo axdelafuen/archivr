@@ -23,7 +23,6 @@ AFRAME.registerComponent('thumbstick-logging',{
       step = 2
     }
     let minValue = 0
-    let key = evt.key
     
     if (evt.detail.x < -0.80) {
       if(yearsVector < maxValue){
@@ -218,12 +217,11 @@ function changeOpa4Pics(value)
 
 function computerOpacityHandler(value)
 {
-  let skyArray = document.querySelectorAll("a-sky")
-  let size = skyArray.length
+  let size = arrayViews.length
   // if(size === 5)changeOpa5Pics(value)
   if(size === 4)changeOpa4Pics(value)
   else if(size === 3)changeOpa3Pics(value)
-  else changeOpa2pics(value)
+  else if(size ===2)changeOpa2pics(value)
 }
 
 function setOpacity(className,value)
