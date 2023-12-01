@@ -208,7 +208,11 @@ class GeneratorPanorama{
             <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
         }else{
-          $path = explode('.', $element->getView()->getPath())[0].'.html';
+          if(method_exists($element->getView(), 'getPath')){
+            $path = explode('.', $element->getView()->getPath())[0].'.html';
+          } else {
+            $path = $element->getView()->getName().'.html';
+          }
         
           $body .= '
             <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
@@ -269,7 +273,7 @@ class GeneratorPanorama{
       }
       if(isset($data['timelines'])){
         foreach($data['timelines'] as $timeline){
-          $panorama_images_array[$timeline['name']]['timeline'] = new Timeline($timeline['name']);
+          $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
           foreach($timeline['views'] as $view) {
             $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
             array_push($timelines_views_array, $view);
@@ -308,8 +312,10 @@ class GeneratorPanorama{
           } else {
             if(isset($panorama_images_array[$key][$view['path']])){
               $panorama_images_array[$key][$view['path']]->set($array_element);
-              $panorama_images_array[$key]['timeline']->set($panorama_images_array[$key][$view['path']]);
-              array_push($timelines_array, $panorama_images_array[$timeline['name']]['timeline']);
+              $panorama_images_array[$key]['object']->set($panorama_images_array[$key][$view['path']]);
+              if(!in_array($panorama_images_array[$timeline['name']]['object'], $timelines_array)){
+                array_push($timelines_array, $panorama_images_array[$timeline['name']]['object']);
+              }
               continue;
             }
           }
