@@ -120,7 +120,7 @@
 
 <a-scene id="preview" embedded>
     <a-assets>
-        <img id="arrow" src="views/assets/images/arrow.png">
+        <img id="arrow" src="views/assets/images/arrow.png" alt="arrow-image">
     </a-assets>
 
     <?php echo '<a-sky></a-sky>'?>
@@ -143,11 +143,6 @@
                 <?php
             }
         }?>
-
-</a-image><?php ;?>
-
-
-    ?>
 </a-scene>
 
 <script src="views/scripts/editView.js"></script>
