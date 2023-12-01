@@ -11,7 +11,7 @@ def archivr_tests(ctx):
     "image": "php:8.1-cli",
     "commands": [
       "chmod +x phpunit",
-      "pecl install xdebug",
+      "pecl install pcov",
       "./phpunit --coverage-clover reports.xml --bootstrap ./tests/config/TestsAutoload.php tests/*.php",
     ]
   }
