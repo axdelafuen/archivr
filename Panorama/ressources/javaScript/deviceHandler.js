@@ -35,6 +35,9 @@ function computerComponent(scene)
       leftHand.setAttribute("id","left")
       rightHand.setAttribute("id","right")
       
+      rightHandHand.setAttribute("hand-controls","")
+      leftHand.setAttribute("hand-controls","")
+
       leftHand.setAttribute("laser-controls","hand:left")
       rightHand.setAttribute("laser-controls","hand: right")
       
