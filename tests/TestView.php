@@ -73,4 +73,19 @@ final class TestView extends TestCase
 
         $this->assertSame($view->getCameraRotation()->getRotation(), $rotation->getRotation());
     }
+    /**
+     * @covers View::set
+     * @covers View::getElements
+     */
+    public function testSetData():void
+    {
+        $data = array();
+        $data[] = new Sign("test");
+
+        $view = new View("path.path");
+
+        $view->set($data);
+
+        $this->assertSame($data[0], $view->getElements()[0]);
+    }
 }

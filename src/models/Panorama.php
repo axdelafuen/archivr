@@ -13,10 +13,6 @@ class Panorama implements JsonSerializable
 
     private array $views = array();
 
-    private function setId(string $id){
-        $this->id = Utils::idGenerator($id);
-    }
-
     public function getId()
     {
         return $this->id;
@@ -119,7 +115,7 @@ class Panorama implements JsonSerializable
     public function __construct($name)
     {
         $this->name = $name;
-        $this->setId($name);
+        $this->id = Utils::idGenerator($name);
         unset($this->map);
     }
 
