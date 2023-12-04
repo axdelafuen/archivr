@@ -97,5 +97,3 @@ abstract class Element implements JsonSerializable
         $this->id = $data['id'];
     }
 }
-
-?>

@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
  */
 final class TestPosition extends TestCase
 {
+    /**
+     * @covers Position::getPosition
+     */
     public function testCanBeCreatedPositionAndGet(): void
     {
         $positionString = "0 0 0";
@@ -37,4 +40,57 @@ final class TestPosition extends TestCase
         $this->assertSame(floatval($z), $position->getZ());
     }
 
+    /**
+     * @covers Position::setX
+     * @covers Position::getX
+     */
+    public function testSetX():void
+    {
+        $x = 12;
+
+        $position = new Position(0,0,0);
+
+        $position->setX($x);
+
+        $this->assertSame(floatval($x),$position->getX());
+    }
+
+    /**
+     * @covers Position::setY
+     * @covers Position::getY
+     */
+    public function testSetY():void
+    {
+        $y = 22;
+
+        $position = new Position(0,0,0);
+
+        $position->setY($y);
+
+        $this->assertSame(floatval($y),$position->getY());
+    }
+
+    /**
+     * @covers Position::setZ
+     * @covers Position::getZ
+     */
+    public function testSetZ():void
+    {
+        $z = 18;
+
+        $position = new Position(0,0,0);
+
+        $position->setZ($z);
+
+        $this->assertSame(floatval($z),$position->getZ());
+    }
+
+    /**
+     * @covers Position::__toString
+     */
+    public function testToString():void
+    {
+        $position = new Position(1,2,3);
+        $this->assertSame($position->__toString(), "1 2 3");
+    }
 }

@@ -23,5 +23,3 @@ class Sign extends Element implements JsonSerializable
         parent::set($data);
     }
 }
-
-?>
