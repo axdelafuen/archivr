@@ -195,10 +195,11 @@ class GeneratorPanorama{
 
       // Get real path for our folder
       $rootPath = realpath('./.datas/out');
+      $zipName = str_replace(' ','_', $panoramaName);
 
       // Initialize archive object
       $zip = new ZipArchive();
-      $zip->open('./.datas/zip/'.$panoramaName.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+      $zip->open('./.datas/zip/'.$zipName.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
       // Create recursive directory iterator
       /** @var SplFileInfo[] $files */
@@ -314,6 +315,7 @@ class GeneratorPanorama{
           $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
           foreach($timeline['views'] as $view) {
             $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+            $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
             array_push($timelines_views_array, $view);
           }
         }

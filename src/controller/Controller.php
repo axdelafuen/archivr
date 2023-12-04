@@ -59,7 +59,7 @@ class Controller
 					$this->AddSign();
 					break;
 				case "generate":
-					$this->Generate();
+					$this->Generate($dVueEreur);
 					break;
 				case "deleteElement":
 					$this->DeleteViewElement();
@@ -486,11 +486,20 @@ class Controller
 
 		require_once($rep . $views['dashboard']);
 	}
-	private function Generate(){
+	private function Generate($dVueErreur){
 		global $rep, $views;
 
 		$panorama = $_SESSION['panorama'];
 		$fisrtView = $_REQUEST['firstView'];
+
+		foreach($panorama->getTimelines() as $timeline){
+			foreach($timeline->getViews() as $view){
+				if(!$view->isDate()){
+					$dVueErreur['date'] = "Add a date to every views on your timelines";
+					require_once($rep . $views["dashboard"]);
+				}
+			}
+		}
 
 		GeneratorPanorama::createDirectory($panorama, $fisrtView);
 

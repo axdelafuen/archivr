@@ -5,5 +5,9 @@
 <body>
 <h3>Download your Panorama</h3>
 
-<a href=<?php echo "./.datas/zip/".$_SESSION['panorama']->getName().".zip"?> download>Click here to download</a>
+<?php
+$zipName = str_replace(" ","_", $_SESSION['panorama']->getName());
+?>
+
+<a href=<?php echo "./.datas/zip/".$zipName.".zip"?> download>Click here to download</a>
 </body>
