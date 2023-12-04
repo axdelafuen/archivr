@@ -26,7 +26,7 @@
               includeUncoveredFiles="true"
               pathCoverage="false"
               ignoreDeprecatedCodeUnits="true"
-              disableCodeCoverageIgnore="true">
+              disableCodeCoverageIgnore="false">
         <report>
             <clover outputFile="reports.xml"/>
         </report>

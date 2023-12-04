@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @codeCoverageIgnore
- */
 class Utils{
     public static function idGenerator(string $content):string
     {

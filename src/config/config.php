@@ -1,7 +1,4 @@
 <?php
-/**
- * @codeCoverageIgnore
- */
 
 $rep=__DIR__.'/../';
 

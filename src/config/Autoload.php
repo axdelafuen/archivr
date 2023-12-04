@@ -1,8 +1,4 @@
 <?php
-
-/**
- * @codeCoverageIgnore
- */
 class Autoload
 {
     private static $_instance = null;
