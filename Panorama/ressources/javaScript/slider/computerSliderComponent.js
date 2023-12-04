@@ -59,7 +59,6 @@ AFRAME.registerComponent('sliderelement',{
 
 document.addEventListener("keydown",(event)=>{ 
   let key = event.key
-  console.log(key)
   if(key === "m")
   {
     goTo("test.HTML","0 0 0")

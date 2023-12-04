@@ -23,7 +23,9 @@ function computerComponent(scene)
   // Show control pannel //
   /////////////////////////
   let panel = document.createElement("a-image")
-  panel.setAttribute("src","./ressources/assets/computerPane.png")
+  panel.setAttribute("src","./ressources/assets/computerBinding.png")
+  panel.setAttribute("rotation","-50 0 0")
+  panel.setAttribute("position","0 0.8 -0.3")
   scene.append(panel)
   
   document.querySelector('a-scene').addEventListener('enter-vr', function () {
@@ -35,7 +37,7 @@ function computerComponent(scene)
       leftHand.setAttribute("id","left")
       rightHand.setAttribute("id","right")
       
-      rightHandHand.setAttribute("hand-controls","")
+      rightHand.setAttribute("hand-controls","")
       leftHand.setAttribute("hand-controls","")
 
       leftHand.setAttribute("laser-controls","hand:left")
