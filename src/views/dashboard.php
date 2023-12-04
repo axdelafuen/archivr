@@ -34,7 +34,7 @@ require_once(__DIR__.'/templates/navbar.html');
 
         <div>
             <p> Your Panorama will start on :</p>
-            <div class="d-flex">
+            <div class="d-flex flex-column">
                 <form method="post">
                     <select class="form-control" name="firstView" required>
                         <?php
@@ -49,6 +49,11 @@ require_once(__DIR__.'/templates/navbar.html');
                     <button type="submit" class="mb-3 btn btn-primary">Generate your Panorama</button>
                     <input type="hidden" name="action" value="generate">
                 </form>
+                <?php 
+                    if(isset($dVueErreur['date'])){
+                        echo '<p class="text-danger">' . $dVueErreur['date'] .' </p>';
+                    }
+                ?>
             </div>
         </div>
     </div>
