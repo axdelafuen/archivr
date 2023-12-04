@@ -1,4 +1,7 @@
 <?php
+/**
+ * @codeCoverageIgnore
+ */
 
 $rep=__DIR__.'/../';
 
@@ -13,5 +16,3 @@ $views['editMap']='views/edit-map.php';
 $views['editTimeline']='views/edit-timeline.php';
 $views['download']= 'views/download.php';
 $views['import'] = 'views/import.php';
-
-?>

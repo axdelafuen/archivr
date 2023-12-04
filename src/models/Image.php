@@ -57,5 +57,3 @@ abstract class Image implements JsonSerializable
         $this->elements = $data;
     }
 }
-
-?>

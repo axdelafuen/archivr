@@ -3,11 +3,15 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @uses View
- * @covers View::__construct
- * @covers View::getPath
+ * @uses Rotation
+ * @covers Image
  */
 final class TestView extends TestCase
 {
+    /**
+     * @covers View::__construct
+     * @covers View::getPath
+     */
     public function testCanBeCreatedViewAndGetPath(): void
     {
         $path = "&àcàç&cn&ciosc.jpg";
@@ -17,10 +21,9 @@ final class TestView extends TestCase
         $this->assertSame($path, $view->getPath());
     }
     /**
-     * @uses View
      * @covers View::getName
      */
-    public function testCanBeCreatedViewAndGetName(): void
+    public function testGetName(): void
     {
         $path = "&àcàç&cn&ciosc.jpg";
 
@@ -30,5 +33,44 @@ final class TestView extends TestCase
 
         $this->assertSame($name, $view->getName());
     }
+    /**
+     * @covers View::isDate
+     */
+    public function testIsDate():void
+    {
+        $view = new View('test.jpg');
 
+        $this->assertFalse($view->isDate());
+    }
+
+    /**
+     * @covers View::getDate
+     * @covers View::setDate
+     */
+    public function testSetAndGetDate():void
+    {
+        $view = new View('test.jpg');
+
+        $date = 1975;
+
+        $view->setDate($date);
+
+        $this->assertSame($view->getDate(), $date);
+    }
+
+    /**
+     * @uses Rotation
+     * @covers View::setCameraRotation
+     * @covers View::getCameraRotation
+     */
+    public function testSetAndGetCameraRotation():void
+    {
+        $view = new View('test.jpg');
+
+        $rotation = new Rotation();
+
+        $view->setCameraRotation($rotation->getX(), $rotation->getY(), $rotation->getX());
+
+        $this->assertSame($view->getCameraRotation()->getRotation(), $rotation->getRotation());
+    }
 }

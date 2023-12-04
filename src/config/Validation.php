@@ -7,7 +7,7 @@ class Validation
     {
 
         if (!isset($action)) {
-            throw new Exception('pas d\'action');
+            throw new InvalidArgumentException('pas d\'action');
             //on pourrait aussi utiliser
             //$action = $_GET['action'] ?? 'no';
             // This is equivalent to:

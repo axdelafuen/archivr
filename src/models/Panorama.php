@@ -139,5 +139,3 @@ class Panorama implements JsonSerializable
         $this->id = $data;
     }
 }
-
-?> 

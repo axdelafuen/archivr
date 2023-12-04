@@ -1,4 +1,7 @@
 <?php
+/**
+ * @codeCoverageIgnore
+ */
 // IL FAUT QUE CA DEGAGE, IL DOIT CHARGER PAR AUTOLOAD
 include_once("./models/Generator.php");
 class Controller

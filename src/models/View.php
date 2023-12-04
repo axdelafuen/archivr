@@ -47,5 +47,3 @@ class View extends Image implements JsonSerializable
         parent::set($data);
     }
 }
-
-?>
