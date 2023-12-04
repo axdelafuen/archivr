@@ -22,6 +22,6 @@ async function goTo(file,rotation="0 0 0")
   base.parentNode.removeChild(base);
   newScene.setAttribute("id","base")
   
-  let camera = document.querySelector("#camera")
+  let camera = document.querySelector("#player")
   camera.setAttribute("rotation",rotation)
 }
