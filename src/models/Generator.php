@@ -18,7 +18,6 @@ class GeneratorPanorama{
       <script src="scripts/deviceHandler.js"></script>
       <script src="scripts/smartphoneSliderComponent.js"></script>
       <script src="scripts/computerSliderComponent.js"></script>
-
   </head>
 
   <body>

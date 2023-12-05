@@ -9,6 +9,9 @@ function arrayRemove(arr, value) {
 }
 async function goTo(file,rotation="0 0 0")
 { 
+  let camera = document.querySelector("#player")
+  camera.setAttribute("rotation",rotation)
+
   let newScene = document.createElement("a-entity")
   fetch(file)
     .then(response => response.text())
@@ -21,7 +24,4 @@ async function goTo(file,rotation="0 0 0")
   let base = document.querySelector("#base")
   base.parentNode.removeChild(base);
   newScene.setAttribute("id","base")
-  
-  let camera = document.querySelector("#player")
-  camera.setAttribute("rotation",rotation)
 }
