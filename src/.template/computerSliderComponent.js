@@ -59,10 +59,6 @@ AFRAME.registerComponent('sliderelement',{
 
 document.addEventListener("keydown",(event)=>{ 
   let key = event.key
-  if(key === "m")
-  {
-    goTo("test.HTML","0 0 0")
-  }
   let maxValue
   let step
   if(arrayViews.length === 4)
