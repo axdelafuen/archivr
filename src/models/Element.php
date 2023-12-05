@@ -18,11 +18,13 @@ abstract class Element implements JsonSerializable
         return $this->position;
     }
 
-    public function getRotation():Rotation {
+    public function getRotation():Rotation
+    {
         return $this->rotation;
     }
 
-    public function setRotation(Rotation $rotation) {
+    public function setRotation(Rotation $rotation)
+    {
         $this->rotation->setRotation($rotation->getX(), $rotation->getY(), $rotation->getZ());
     }
 
@@ -42,19 +44,23 @@ abstract class Element implements JsonSerializable
         $this->position->setY($y);
     }
 
-    public function setRotationXYZ($x, $y, $z) {
+    public function setRotationXYZ($x, $y, $z)
+    {
         $this->rotation->setRotation($x, $y, $z);
     }
 
-    public function setRotationX($x) {
+    public function setRotationX($x)
+    {
         $this->rotation->setX($x);
     }
 
-    public function setRotationY($y) {
+    public function setRotationY($y)
+    {
         $this->rotation->setY($y);
     }
 
-    public function setRotationZ($z) {
+    public function setRotationZ($z)
+    {
         $this->rotation->setZ($z);
     }
 
@@ -80,11 +86,13 @@ abstract class Element implements JsonSerializable
         $this->rotation = new Rotation();
     }
 
-    public function jsonSerialize():array{
+    public function jsonSerialize():array
+    {
         return get_object_vars($this);
     }
 
-    public function set($data) {
+    public function set($data)
+    {
         $position = new Position();
         $rotation = new Rotation();
 

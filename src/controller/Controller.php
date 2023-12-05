@@ -28,6 +28,9 @@ class Controller
 				case "goToLoadImages":
 					$this->GoToLoadImages($dVueEreur);
 					break;
+				case "goToTutorial":
+					$this->GoToTutorial();
+					break;
 				case "viewsUploaded":
 					$this->UploadViews($dVueEreur);
 					break;
@@ -141,6 +144,13 @@ class Controller
 			unset($_SESSION['panorama']);
 		}
 		require_once($rep . $views['upload']);
+	}
+
+	private function GoToTutorial()
+	{
+		global $rep, $views;
+
+		require_once($rep.$views['tutorial']);
 	}
 
 	private function GoBackToDashboard()

@@ -15,11 +15,13 @@ class AssetImported extends Element implements JsonSerializable
         $this->path = $path;
     }
 
-    public function jsonSerialize(): array{
+    public function jsonSerialize(): array
+    {
         return get_object_vars($this);
     }
 
-    public function set($data) {
+    public function set($data)
+    {
         parent::set($data);
     }
 }

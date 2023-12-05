@@ -5,25 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="icon" type="image/*" href="views/assets/images/map.png">
-    <title>Import - Panorama Generator</title>
+    <title>Tutorial - Panorama Generator</title>
 </head>
 <body class="bg-light">
 <?php
 // load navbar
 require_once(__DIR__.'/templates/navbar.html');
 ?>
-
-<div class="container-fluid mt-5">
-    <h1>Import your data</h1>
-    <div class="row">
-        <form method="post" enctype="multipart/form-data" class="dashboard-map">
-            <div class="d-flex col-md-12">
-                <input class="form-control" type="file" name="jsonFile" required uniq accept="application/JSON">
-                <button class="btn btn-secondary" type="submit">Upload</button>
-                <input type="hidden" name="action" value="loadJsonFile">
-            </div>
-        </form>
-    </div>
+<div class="container-fluid w-100 h-100 mt-5">
+    <h1>Tutorial coming soon...</h1>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

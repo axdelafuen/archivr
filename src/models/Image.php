@@ -13,7 +13,8 @@ abstract class Image implements JsonSerializable
         $this->path = $path;
     }
 
-    public function getPath(){
+    public function getPath()
+    {
         return $this->path;
     }
 
@@ -49,11 +50,13 @@ abstract class Image implements JsonSerializable
         return null;
     }
 
-    public function jsonSerialize():array {
+    public function jsonSerialize():array
+    {
         return get_object_vars($this);
     }
 
-    public function set($data) {
+    public function set($data)
+    {
         $this->elements = $data;
     }
 }

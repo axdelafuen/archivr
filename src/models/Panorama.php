@@ -119,19 +119,23 @@ class Panorama implements JsonSerializable
         unset($this->map);
     }
 
-    public function jsonSerialize():array{
+    public function jsonSerialize():array
+    {
         return get_object_vars($this);
     }
 
-    public function setViews(array $views){
+    public function setViews(array $views)
+    {
         $this->views = $views;
     }
 
-    public function setTimelines(array $timelines){
+    public function setTimelines(array $timelines)
+    {
         $this->timelines = $timelines;
     }
 
-    public function set($data) {
+    public function set($data)
+    {
         $this->id = $data;
     }
 }

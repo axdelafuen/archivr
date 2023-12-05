@@ -49,7 +49,7 @@
     <h4>Change view's date : </h4>
 
     <form  method="post">
-        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->isDate()){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>">
+        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->isDate()){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>" required>
         <?php
         if(isset($_SESSION['selected_element'])) {
             echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';
