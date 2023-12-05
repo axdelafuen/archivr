@@ -13,10 +13,11 @@ AFRAME.registerComponent('map',{
   }
 })
 
+/*
 AFRAME.registerComponent('animationcustom',{
   init: function(){
     this.el.setAttribute("animation","property:opacity;from:0.0;to:1.0;dur:1000")
   }
 })
-
+*/
 

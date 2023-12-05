@@ -1,7 +1,7 @@
 <?php
 
 class GeneratorPanorama{
-    public static function generateHtml($panoramaName, $body):string{
+    public static function generateHtml($panoramaName, $body, $firstView):string{
       $page = '
 <!doctype html>
 <html lang="en">
@@ -18,23 +18,17 @@ class GeneratorPanorama{
       <script src="scripts/deviceHandler.js"></script>
       <script src="scripts/smartphoneSliderComponent.js"></script>
       <script src="scripts/computerSliderComponent.js"></script>
-
   </head>
 
   <body>
     <a-scene>
 
-      <!-- Caméra Rig -->
-      <a-entity id="player" position="0 0 0">
-        <!-- Caméra -->
-        <a-entity position="0 -1.6 0" cursor="rayOrigin: mouse">
-          <a-camera wasd-controls-enabled="false" look-controls id="camera">
-            <a-cursor id="cursor" color="white" position="0 0 -0.2" scale="0.25 0.25 0.25"
-              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 0.25 0.25 0.25; dur: 150">
-            </a-cursor>
-          </a-camera>
-        </a-entity>
+    <a-entity id="player" position="0 0 0" rotation="' . strval($firstView->getCameraRotation()) . '">
+      <!-- Caméra -->
+      <a-entity position="0 0 0" id="camera" camera look-controls="enabled: true; mouseEnabled: true" cursor="rayOrigin: mouse">
       </a-entity>
+    </a-entity>
+
 
       <a-entity id="base">
         '.$body.'
@@ -80,13 +74,19 @@ class GeneratorPanorama{
               <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="class' . $classNumber . '" ' . $opacity . ' ></a-entity>
             ';
           }else{
+            $cameraRotation = '';
+            if(get_class($element->getView()) == Timeline::class){
+              $cameraRotation = strval($element->getView()->getFirstView()->getCameraRotation());
+            } else {
+              $cameraRotation = strval($element->getView()->getCameraRotation());
+            }
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           
             $body .= '
               <a-entity ' . $opacity . ' position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="class' . $classNumber . '" >
               <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
                 animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-                onclick="goTo(\'templates/' . $path . '\')"
+                // onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
                 look-at="#pointer' . $elementId .'">
               </a-entity>
                 <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
@@ -109,6 +109,7 @@ class GeneratorPanorama{
       $folders = array('assets', 'assets/images', 'assets/sounds', '/scripts', '/templates', '/assets/models');
       $panoramaId = $panorama->getId();
       $firstViewBody = '';
+      $firstViewObject = null;
 
       $elements = array();
 
@@ -118,6 +119,9 @@ class GeneratorPanorama{
         if($template->name == explode('.', $fisrtView)[0].'.html'){
           $firstViewBody = $template->body;
         }
+        if($view->getPath() == $fisrtView ){
+          $firstViewObject = $view;
+        }
       }
 
       foreach($panorama->getTimelines() as $key => $timeline) {
@@ -126,9 +130,12 @@ class GeneratorPanorama{
         if($template->name == explode('.', $fisrtView)[0].'.html'){
           $firstViewBody = $template->body;
         }
+        if($timeline->getName() == $fisrtView) {
+          $firstViewObject = $timeline->getFirstView();
+        }
       }
 
-      $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody);
+      $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody, $firstViewObject);
 
       $images = GeneratorPanorama::getImages($panorama);
 
@@ -247,17 +254,25 @@ class GeneratorPanorama{
             <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
         }else{
+          $cameraRotation = '';
+
           if(method_exists($element->getView(), 'getPath')){
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           } else {
             $path = $element->getView()->getName().'.html';
+          }
+
+          if(get_class($element->getView()) == Timeline::class){
+            $cameraRotation = strval($element->getView()->getFirstView()->getCameraRotation());
+          } else {
+            $cameraRotation = strval($element->getView()->getCameraRotation());
           }
         
           $body .= '
             <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
             <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
               animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-              onclick="goTo(\'templates/' . $path . '\')"
+              onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
               look-at="#pointer' . $elementId .'">
             </a-entity>
               <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
@@ -307,6 +322,7 @@ class GeneratorPanorama{
       if(isset($data['views'])){
         foreach($data['views'] as $view){
           $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
+          $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
           $panorama_images_array[$view['path']]['is_view'] = true;
         }
       }
@@ -315,6 +331,7 @@ class GeneratorPanorama{
           $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
           foreach($timeline['views'] as $view) {
             $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+            $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
             $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
             array_push($timelines_views_array, $view);
           }
