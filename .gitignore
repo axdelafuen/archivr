@@ -87,4 +87,4 @@ src/.data/
 
 .phpunit.cache/
 
-./reports.xml
+**/reports.xml
