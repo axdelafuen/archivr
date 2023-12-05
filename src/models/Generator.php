@@ -322,6 +322,7 @@ class GeneratorPanorama{
       if(isset($data['views'])){
         foreach($data['views'] as $view){
           $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
+          $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
           $panorama_images_array[$view['path']]['is_view'] = true;
         }
       }
@@ -330,6 +331,7 @@ class GeneratorPanorama{
           $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
           foreach($timeline['views'] as $view) {
             $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+            $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
             $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
             array_push($timelines_views_array, $view);
           }
