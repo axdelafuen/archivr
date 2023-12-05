@@ -12,12 +12,12 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
       <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-      <script src="scripts/script.js"></script>
       <script src="scripts/functions.js"></script>
       <script src="scripts/components.js"></script>
       <script src="scripts/deviceHandler.js"></script>
       <script src="scripts/smartphoneSliderComponent.js"></script>
       <script src="scripts/computerSliderComponent.js"></script>
+      <script src="scripts/slider.js"></script>
   </head>
 
   <body>
@@ -139,12 +139,6 @@ class GeneratorPanorama{
 
       $images = GeneratorPanorama::getImages($panorama);
 
-      if($panorama->isMap()){
-        $map = GeneratorPanorama::generateMap($panorama->getMap());
-        touch($basePath.'/templates/'.$map->name);
-        file_put_contents($basePath.'/templates/'.$map->name, $map->body);
-      }
-
       if(!file_exists($basePath)){
         mkdir($basePath);
       }else{
@@ -159,15 +153,6 @@ class GeneratorPanorama{
       touch($basePath.'/index.html');
       file_put_contents($basePath.'/index.html',$page);
 
-      foreach($elements as $element){
-        touch($basePath.'/templates/'.$element->name);
-        file_put_contents($basePath.'/templates/'.$element->name, $element->body);
-      }
-
-      foreach($images as $image){
-        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
-      }
-
       $files = scandir(".template");
       foreach($files as $file){
         if($file == "." or $file == ".."){
@@ -180,6 +165,26 @@ class GeneratorPanorama{
           copy('./.template/'.$file, $basePath.'/scripts/'.$file);
         }
       }
+
+      foreach($elements as $element){
+        touch($basePath.'/templates/'.$element->name);
+        file_put_contents($basePath.'/templates/'.$element->name, $element->body);
+      }
+
+      if($panorama->isMap()){
+        $map = GeneratorPanorama::generateMap($panorama->getMap());
+        touch($basePath.'/templates/'.$map['template']->name);
+        file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
+
+        $file = fopen('./.datas/out/scripts/computerSliderComponent.js', 'a');
+        fwrite($file, $map['script']);
+        fclose($file);
+      }
+
+      foreach($images as $image){
+        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
+      }
+      
       copy('./.template/blueWaypoint.png', './.datas/out/assets/images/blueWaypoint.png');
       copy('./.template/sky.png', './.datas/out/assets/images/sky.png');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
@@ -289,9 +294,18 @@ class GeneratorPanorama{
       return $template;
     }
 
-    public static function generateMap($map):Template{
+    public static function generateMap($map):array{
       $path = $map->getPath();
       $template = new Template();
+      $out = array();
+      $map_script = 'document.addEventListener("keydown",(event)=>{   
+        let key = event.key
+        console.log(key)
+        if(key === "m")
+        {
+          goTo("templates/' . explode('.', $path)[0] . '.html","0 0 0");
+        }
+      })';
 
       $body = '<a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky>';
 
@@ -308,7 +322,10 @@ class GeneratorPanorama{
       $template->name = explode('.', $path)[0] . '.html';
       $template->body = $body;
 
-      return $template;
+      $out['template'] = $template;
+      $out['script'] = $map_script;
+
+      return $out;
     }
 
     public static function loadFromFile($data){
