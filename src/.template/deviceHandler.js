@@ -24,6 +24,8 @@ function computerComponent(scene)
   /////////////////////////
   let panel = document.createElement("a-image")
   panel.setAttribute("src","./assets/images/computerBinding.png")
+  panel.setAttribute("rotation","-50 0 0")
+  panel.setAttribute("position","0 -0.8 -0.3")
   scene.append(panel)
   
   document.querySelector('a-scene').addEventListener('enter-vr', function () {
@@ -35,6 +37,9 @@ function computerComponent(scene)
       leftHand.setAttribute("id","left")
       rightHand.setAttribute("id","right")
       
+      rightHand.setAttribute("hand-controls","")
+      leftHand.setAttribute("hand-controls","")
+
       leftHand.setAttribute("laser-controls","hand:left")
       rightHand.setAttribute("laser-controls","hand: right")
       
@@ -56,7 +61,7 @@ function mobileComponent()
   let link = document.createElement('link');
   link.rel="stylesheet";
   link.type ='text/css';
-  link.href ='./assets/styles/style.css';
+  link.href ='./ressources/css/style.css';
   document.getElementsByTagName('HEAD')[0].appendChild(link);
   //////////////////////////////
   // Remove useless button(s) //
