@@ -23,10 +23,27 @@ function computerComponent(scene)
   panel.setAttribute("rotation","-50 0 0")
   panel.setAttribute("position","0 -0.8 -0.3")
   scene.append(panel)
-  
+}
+
+function mobileComponent()
+{  
+  //////////////////////////
+  // Add css file for HUD //
+  //////////////////////////
+  let link = document.createElement('link');
+  link.rel="stylesheet";
+  link.type ='text/css';
+  link.href ='./assets/styles/style.css';
+  document.getElementsByTagName('HEAD')[0].appendChild(link);
   document.querySelector('a-scene').addEventListener('enter-vr', function () {
     if(AFRAME.utils.device.checkHeadsetConnected ())
     {
+      let panel = document.createElement("a-image")
+      panel.setAttribute("src","./assets/images/computerBinding.png")
+      panel.setAttribute("rotation","-50 0 0")
+      panel.setAttribute("position","0 -2 -1")
+      scene.append(panel)
+
       let leftHand = document.createElement("a-entity")
       let rightHand =  document.createElement("a-entity")
 
@@ -47,16 +64,4 @@ function computerComponent(scene)
       console.log(rightHand)
     }
   });
-}
-
-function mobileComponent()
-{  
-  //////////////////////////
-  // Add css file for HUD //
-  //////////////////////////
-  let link = document.createElement('link');
-  link.rel="stylesheet";
-  link.type ='text/css';
-  link.href ='./assets/styles/style.css';
-  document.getElementsByTagName('HEAD')[0].appendChild(link);
 }

@@ -38,6 +38,8 @@ AFRAME.registerComponent('thumbstick-logging',{
       }   
     }
   },
+
+  // To change
   xButtonListener: function(evt){
     goTo("test.html","0 0 0")
   }
