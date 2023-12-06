@@ -44,7 +44,7 @@ class GeneratorPanorama{
       
       $classNumber = 1;
       foreach($timeline->getViews() as $view){
-        $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(class' . $classNumber . ')" id="button1">' . $view->getDate() . '</button>';
+        $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
         $classNumber++;
       }
 

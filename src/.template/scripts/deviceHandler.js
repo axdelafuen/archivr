@@ -1,8 +1,4 @@
 AFRAME.registerComponent('scene', {
-  schema: {
-    renderer: {},
-    sceneSmall: {}
-  },
   init: function () {
     if(AFRAME.utils.device.isMobile ())
     {
@@ -61,28 +57,6 @@ function mobileComponent()
   let link = document.createElement('link');
   link.rel="stylesheet";
   link.type ='text/css';
-  link.href ='./ressources/css/style.css';
+  link.href ='./assets/styles/style.css';
   document.getElementsByTagName('HEAD')[0].appendChild(link);
-  //////////////////////////////
-  // Remove useless button(s) //
-  // ///////////////////////////
-  let skyNumber = document.querySelectorAll("a-sky").length
-  if(skyNumber===1)
-  {
-    console.log("OnlyOne sky")
-  }
-  else
-  {
-    
-    let controlEntity = document.querySelector(".hud")
-
-    let buttonArray = controlEntity.querySelectorAll("button")
-    console.log(buttonArray)
-    buttonArray.forEach(element=>{
-      if(skyNumber === 0)
-      {
-        element.remove()
-      }
-    })
-  }
 }
