@@ -12,23 +12,21 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
       <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-      <script src="scripts/script.js"></script>
       <script src="scripts/functions.js"></script>
       <script src="scripts/components.js"></script>
       <script src="scripts/deviceHandler.js"></script>
       <script src="scripts/smartphoneSliderComponent.js"></script>
       <script src="scripts/computerSliderComponent.js"></script>
+      <script src="scripts/slider.js"></script>
   </head>
 
   <body>
-    <a-scene>
+    <a-scene scene thumbstick-logging>
 
-    <a-entity id="player" position="0 0 0" rotation="' . strval($firstView->getCameraRotation()) . '">
+    <a-entity id="player" position="0 -1.6 0" rotation="' . strval($firstView->getCameraRotation()) . '">
       <!-- Caméra -->
-      <a-entity position="0 0 0" id="camera" camera look-controls="enabled: true; mouseEnabled: true" cursor="rayOrigin: mouse">
-      </a-entity>
+      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: false"></a-camera>
     </a-entity>
-
 
       <a-entity id="base">
         '.$body.'
@@ -43,7 +41,7 @@ class GeneratorPanorama{
 
     public static function generateTimeline($timeline) : Template{
       $template = new Template();
-      $body = '<div class="hud">';
+      $body = '<div class="hud" id="div">';
       
       $classNumber = 1;
       foreach($timeline->getViews() as $view){
@@ -106,7 +104,7 @@ class GeneratorPanorama{
 
   public static function createDirectory($panorama, $fisrtView){
       $basePath = "./.datas/out";
-      $folders = array('assets', 'assets/images', 'assets/sounds', '/scripts', '/templates', '/assets/models');
+      $folders = array('assets', 'assets/images', 'assets/sounds', '/scripts', '/templates', '/assets/models', 'assets/styles');
       $panoramaId = $panorama->getId();
       $firstViewBody = '';
       $firstViewObject = null;
@@ -139,12 +137,6 @@ class GeneratorPanorama{
 
       $images = GeneratorPanorama::getImages($panorama);
 
-      if($panorama->isMap()){
-        $map = GeneratorPanorama::generateMap($panorama->getMap());
-        touch($basePath.'/templates/'.$map->name);
-        file_put_contents($basePath.'/templates/'.$map->name, $map->body);
-      }
-
       if(!file_exists($basePath)){
         mkdir($basePath);
       }else{
@@ -159,15 +151,6 @@ class GeneratorPanorama{
       touch($basePath.'/index.html');
       file_put_contents($basePath.'/index.html',$page);
 
-      foreach($elements as $element){
-        touch($basePath.'/templates/'.$element->name);
-        file_put_contents($basePath.'/templates/'.$element->name, $element->body);
-      }
-
-      foreach($images as $image){
-        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
-      }
-
       $files = scandir(".template");
       foreach($files as $file){
         if($file == "." or $file == ".."){
@@ -180,8 +163,30 @@ class GeneratorPanorama{
           copy('./.template/'.$file, $basePath.'/scripts/'.$file);
         }
       }
+
+      foreach($elements as $element){
+        touch($basePath.'/templates/'.$element->name);
+        file_put_contents($basePath.'/templates/'.$element->name, $element->body);
+      }
+
+      if($panorama->isMap()){
+        $map = GeneratorPanorama::generateMap($panorama->getMap());
+        touch($basePath.'/templates/'.$map['template']->name);
+        file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
+
+        $file = fopen('./.datas/out/scripts/computerSliderComponent.js', 'a');
+        fwrite($file, $map['script']);
+        fclose($file);
+      }
+
+      foreach($images as $image){
+        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
+      }
+      
       copy('./.template/blueWaypoint.png', './.datas/out/assets/images/blueWaypoint.png');
       copy('./.template/sky.png', './.datas/out/assets/images/sky.png');
+      copy('./.template/computerBinding.png', './.datas/out/assets/images/computerBinding.png');
+      copy('./.template/style.css','./.datas/out/assets/styles/style.css');
       Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
       GeneratorPanorama::createJsonFile($panorama);
@@ -289,118 +294,130 @@ class GeneratorPanorama{
       return $template;
     }
 
-    public static function generateMap($map):Template{
-      $path = $map->getPath();
-      $template = new Template();
-
-      $body = '<a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky>';
-
-      $body .= '<a-image src="assets/images/' . $path . '" position="0 0 -0.6" width="2.1"></a-image>';
-
-      foreach($map->getElements() as $element){
-        $elementPath = explode('.', $element->getView()->getPath())[0].'.html';
-        $element->getPosition()->setZ(-0.5);
-        $body .= '
-          <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
-        ';
+  public static function generateMap($map):array{
+    $path = $map->getPath();
+    $template = new Template();
+    $out = array();
+    $map_script = 'document.addEventListener("keydown",(event)=>{   
+      let key = event.key
+      console.log(key)
+      if(key === "m")
+      {
+        goTo("templates/' . explode('.', $path)[0] . '.html","0 0 0");
       }
+    })';
 
-      $template->name = explode('.', $path)[0] . '.html';
-      $template->body = $body;
+    $body = '<a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky>';
 
-      return $template;
+    $body .= '<a-image src="assets/images/' . $path . '" position="0 0 -0.6" width="2.1"></a-image>';
+
+    foreach($map->getElements() as $element){
+      $elementPath = explode('.', $element->getView()->getPath())[0].'.html';
+      $element->getPosition()->setZ(-0.5);
+      $body .= '
+        <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
+      ';
     }
 
-    public static function loadFromFile($data){
-      $panorama = new Panorama($data['name']);
-      $panorama_images_array = array();
-      $timelines_views_array = array();
-      $timelines_array = array();
-      $views_array = array();
+    $template->name = explode('.', $path)[0] . '.html';
+    $template->body = $body;
 
-      // view and timeline object creation
-      if(isset($data['views'])){
-        foreach($data['views'] as $view){
-          $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
-          $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
-          $panorama_images_array[$view['path']]['is_view'] = true;
+    $out['template'] = $template;
+    $out['script'] = $map_script;
+
+    return $out;
+  }
+
+  public static function loadFromFile($data){
+    $panorama = new Panorama($data['name']);
+    $panorama_images_array = array();
+    $timelines_views_array = array();
+    $timelines_array = array();
+    $views_array = array();
+
+    // view and timeline object creation
+    if(isset($data['views'])){
+      foreach($data['views'] as $view){
+        $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
+        $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
+        $panorama_images_array[$view['path']]['is_view'] = true;
+      }
+    }
+    if(isset($data['timelines'])){
+      foreach($data['timelines'] as $timeline){
+        $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
+        foreach($timeline['views'] as $view) {
+          $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
+          $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
+          $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
+          array_push($timelines_views_array, $view);
         }
       }
-      if(isset($data['timelines'])){
-        foreach($data['timelines'] as $timeline){
-          $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
-          foreach($timeline['views'] as $view) {
-            $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
-            $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
-            $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
-            array_push($timelines_views_array, $view);
-          }
-        }
-      }
+    }
 
-      $views = array_merge($data['views'], $timelines_views_array);
+    $views = array_merge($data['views'], $timelines_views_array);
 
-      // waypoint and sign creation
-      foreach($views as $view){
-        $array_element = array();
-        foreach($view['elements'] as $element){
-          $tmp = null;
-          if(isset($element['destination'])){
-            foreach($panorama_images_array as $key => $value){
-              if($key == $element['destination']){
-                $tmp = new Waypoint($value['object']);
-                $tmp->set($element);
-                break;
-              }
-            }
-          } else {
-            $tmp = new Sign($element['content']);
-            $tmp->set($element);
-          }
-          array_push($array_element, $tmp);
-        }
-        // set the data of each view with all the element
-        $keys = array_keys($panorama_images_array);
-        foreach($keys as $key){
-          if($key == $view['path']){
-            $panorama_images_array[$key]['object']->set($array_element);
-            array_push($views_array, $panorama_images_array[$key]['object']);
-            continue;
-          } else {
-            if(isset($panorama_images_array[$key][$view['path']])){
-              $panorama_images_array[$key][$view['path']]->set($array_element);
-              $panorama_images_array[$key]['object']->set($panorama_images_array[$key][$view['path']]);
-              if(!in_array($panorama_images_array[$timeline['name']]['object'], $timelines_array)){
-                array_push($timelines_array, $panorama_images_array[$timeline['name']]['object']);
-              }
-              continue;
-            }
-          }
-        }
-      }
-
-      // map creation
-      if(isset($data['map'])){
-        $map =  new Map($data['map']['path']);
-        $waypoint_array = array();
-        foreach($data['map']['elements'] as $element) {
-          foreach($panorama_images_array as $key => $value) {
+    // waypoint and sign creation
+    foreach($views as $view){
+      $array_element = array();
+      foreach($view['elements'] as $element){
+        $tmp = null;
+        if(isset($element['destination'])){
+          foreach($panorama_images_array as $key => $value){
             if($key == $element['destination']){
-              $waypoint = new Waypoint($value);
-              $waypoint->set($element);
-              array_push($waypoint_array, $waypoint);
+              $tmp = new Waypoint($value['object']);
+              $tmp->set($element);
               break;
             }
           }
+        } else {
+          $tmp = new Sign($element['content']);
+          $tmp->set($element);
         }
-        $map->set($waypoint_array);
-        $panorama->setMap($map);
+        array_push($array_element, $tmp);
       }
-
-      $panorama->setViews($views_array);
-      $panorama->setTimelines($timelines_array);
-      $panorama->set($data['id']);
-
-      return $panorama;
+      // set the data of each view with all the element
+      $keys = array_keys($panorama_images_array);
+      foreach($keys as $key){
+        if($key == $view['path']){
+          $panorama_images_array[$key]['object']->set($array_element);
+          array_push($views_array, $panorama_images_array[$key]['object']);
+          continue;
+        } else {
+          if(isset($panorama_images_array[$key][$view['path']])){
+            $panorama_images_array[$key][$view['path']]->set($array_element);
+            $panorama_images_array[$key]['object']->set($panorama_images_array[$key][$view['path']]);
+            if(!in_array($panorama_images_array[$timeline['name']]['object'], $timelines_array)){
+              array_push($timelines_array, $panorama_images_array[$timeline['name']]['object']);
+            }
+            continue;
+          }
+        }
+      }
     }
+
+    // map creation
+    if(isset($data['map'])){
+      $map =  new Map($data['map']['path']);
+      $waypoint_array = array();
+      foreach($data['map']['elements'] as $element) {
+        foreach($panorama_images_array as $key => $value) {
+          if($key == $element['destination']){
+            $waypoint = new Waypoint($value);
+            $waypoint->set($element);
+            array_push($waypoint_array, $waypoint);
+            break;
+          }
+        }
+      }
+      $map->set($waypoint_array);
+      $panorama->setMap($map);
+    }
+
+    $panorama->setViews($views_array);
+    $panorama->setTimelines($timelines_array);
+    $panorama->set($data['id']);
+
+    return $panorama;
+  }
 }

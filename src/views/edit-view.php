@@ -284,7 +284,7 @@
 
     <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
-        <a-entity position="0 0 0" id="camera" rotation="<?php echo $_SESSION['selected_view']->getCameraRotation(); ?>" cursor="rayOrigin: mouse">
+        <a-entity position="0 -1.6 0" id="camera" rotation="<?php echo $_SESSION['selected_view']->getCameraRotation(); ?>" cursor="rayOrigin: mouse">
           <a-camera wasd-controls-enabled="false" look-controls id="a-camera">
           </a-camera>
         </a-entity>
