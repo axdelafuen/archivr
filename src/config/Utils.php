@@ -39,7 +39,9 @@ class Utils{
 
     public static function directory_copy($sourceDirectory, $destinationDirectory)
     {
-        mkdir($destinationDirectory);
+        if(!file_exists($destinationDirectory)){
+            mkdir($destinationDirectory);
+        }
 
         foreach (scandir($sourceDirectory) as $item) {
             if($item != "." && $item != '..'){
