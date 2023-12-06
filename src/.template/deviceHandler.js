@@ -23,7 +23,7 @@ function computerComponent(scene)
   // Show control pannel //
   /////////////////////////
   let panel = document.createElement("a-image")
-  panel.setAttribute("src","./ressources/assets/computerPane.png")
+  panel.setAttribute("src","./assets/images/computerBinding.png")
   scene.append(panel)
   
   document.querySelector('a-scene').addEventListener('enter-vr', function () {
@@ -56,7 +56,7 @@ function mobileComponent()
   let link = document.createElement('link');
   link.rel="stylesheet";
   link.type ='text/css';
-  link.href ='./ressources/css/style.css';
+  link.href ='./assets/styles/style.css';
   document.getElementsByTagName('HEAD')[0].appendChild(link);
   //////////////////////////////
   // Remove useless button(s) //
