@@ -23,12 +23,10 @@ class GeneratorPanorama{
   <body>
     <a-scene scene thumbstick-logging>
 
-    <a-entity id="player" position="0 0 0" rotation="' . strval($firstView->getCameraRotation()) . '">
+    <a-entity id="player" position="0 -1.6 0" rotation="' . strval($firstView->getCameraRotation()) . '">
       <!-- Caméra -->
-      <a-entity position="0 0 0" id="camera" camera look-controls="enabled: true; mouseEnabled: true" cursor="rayOrigin: mouse">
-      </a-entity>
+      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: false"></a-camera>
     </a-entity>
-
 
       <a-entity id="base">
         '.$body.'
