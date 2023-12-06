@@ -116,13 +116,21 @@
             <select name="selectedElementChanged" require onchange="this.form.submit()">
                 <option>--Change element--</option>
                 <?php
-                foreach ($_SESSION['selected_view']->getElements() as $element){
-                    if($element != $_SESSION['selected_element']){
-                        if(get_class($element)=="Sign"){
+                foreach ($_SESSION['selected_view']->getElements() as $element)
+                {
+                    if($element != $_SESSION['selected_element'])
+                    {
+                        if(get_class($element)=="Sign")
+                        {
                             echo "<option value='".$element->getId()."'>Sign : ".$element->getContent()."</option>";
                         }
-                        elseif(get_class($element)=="Waypoint"){
+                        elseif(get_class($element)=="Waypoint")
+                        {
                             echo "<option value='".$element->getId()."'>Waypoint : ".$element->getViewName()."</option>";
+                        }
+                        elseif(get_class($element)=="AssetImported")
+                        {
+                            echo "<option value='".$element->getId()."'>Custom asset : ".$element->getName()."</option>";
                         }
                     }
                 }
@@ -148,17 +156,24 @@
 
     <?php
 
-    if(isset($_SESSION['selected_element'])){
-
+    if(isset($_SESSION['selected_element']))
+    {
         $element = $_SESSION['selected_element'];
 
-        if(get_class($element)=="Sign"){
+        if(get_class($element)=="Sign")
+        {
             echo "Sign : ";
             echo $element->getContent();
         }
-        elseif(get_class($element)=="Waypoint"){
+        elseif(get_class($element)=="Waypoint")
+        {
             echo "Waypoint : ";
             echo $element->getViewName();
+        }
+        elseif(get_class($element)=="AssetImported")
+        {
+            echo "Custom asset : ";
+            echo $element->getName();
         }
         ?>
         <div id="positionSliders">
@@ -195,11 +210,10 @@
                 Z: <span><?php echo $element->getRotation()->getZ() ?></span>
             </div>
         </div>
-
-        Scale:
-        <?php 
+        <?php
                 if(get_class($element) == "Waypoint"){
                     echo '
+                    Scale:
                         <div>
                         <input type="range" min="0" max="2" value="' . $element->getScaleInt() . '" step="0.005" class="slider" name="scale" id="scale" oninput="sliderChangedScale(this, \'' . $element->getId() . '\'), changeScale()">
                         Scale: <span>' . $element->getScaleInt() . '</span>
@@ -278,6 +292,28 @@
         }
         ?>
     </form>
+
+    <h4>Add a custom asset (.gtlf / .zip) :</h4>
+
+    <form  method="post" enctype="multipart/form-data">
+        <input class="form-control" type="file" name="assetImported" accept=".gltf,.zip" onchange="this.form.submit()">
+
+        <input type="hidden" name="action" value="addAssetImported">
+
+        <?php
+        if(isset($_SESSION['selected_element'])){
+            echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+            echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+            echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+                echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+            }
+            echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+            echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+            echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
+        }
+        ?>
+    </form>
 </div>
 
 <a-scene id="preview" embedded>
@@ -292,14 +328,16 @@
     <?php
     $elementId = 1;
     foreach ($_SESSION['selected_view']->getElements() as $element) {
-        if (get_class($element) == "Sign") {
+        if (get_class($element) == "Sign")
+        {
             ?>
              <a-entity id="<?php echo $element->getId() ?>" position="<?php echo $element->getPosition()->getPosition() ?>"
               rotation="<?php echo $element->getRotation()->getRotation() ?>"
               text="value: <?php echo $element->getContent() ?>; align:center; side:double">
             </a-entity>
             <?php
-        } elseif (get_class($element) == "Waypoint") {
+        } elseif (get_class($element) == "Waypoint")
+        {
             ?>
             <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
                 <a-entity gltf-model=".template/direction_arrow/scene.gltf" id="model"
@@ -307,6 +345,15 @@
                 look-at="#pointer<?php echo $elementId ?>">
                 </a-entity>
                 <a-entity id="pointer<?php echo $elementId ?>"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
+            </a-entity>
+            <?php
+        }
+        elseif (get_class($element) == "AssetImported")
+        {
+            ?>
+            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>"?>">
+                <a-entity gtlf-model=".data/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath() ?>">
                 </a-entity>
             </a-entity>
             <?php

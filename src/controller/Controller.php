@@ -109,6 +109,9 @@ class Controller
 				case "changeCameraRotation":
 					$this->ChangeCameraRotation();
 					break;
+				case "addAssetImported":
+					$this->AddAssetImported();
+					break;
 				//mauvaise action
 				default:
 					$dVueEreur[] = "This php action doesn't exist";
@@ -679,6 +682,74 @@ class Controller
 		$_SESSION['selected_view']->setCameraRotation(floatval($_REQUEST['camera_rotation_x']), floatval($_REQUEST['camera_rotation_y']), floatval($_REQUEST['camera_rotation_z']));
 
 		require_once ($rep.$views['editView']);
+	}
+
+	private function AddAssetImported()
+	{
+		global $rep, $views, $dVueEreur;
+
+		if (!file_exists("./.datas")) {
+			mkdir("./.datas");
+		}
+		if (!isset($_SESSION['panorama']) || !isset($_SESSION['selected_view'])) {
+			$dVueEreur[] = "Session expired";
+			require_once $rep . $views['error'];
+			return;
+		}
+
+		if (!empty($_FILES['assetImported']['name']))
+		{
+			$fileName = $_FILES['assetImported']['name'];
+			if(!move_uploaded_file($_FILES['assetImported']['tmp_name'], "./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName))
+			{
+				$dVueEreur[] = "file cannot be uploaded";
+				$dVueEreur[] = $fileName;
+				$dVueEreur[] = $_FILES['assetImported']['error'];
+				require_once $rep.$views['error'];
+				return;
+			}
+			if (strtolower(substr(strrchr($fileName, "."), 1)) == "zip")
+			{
+				$zip = new ZipArchive;
+				$res = $zip->open("./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName);
+				if ($res === TRUE) {
+					$zip->extractTo("./.datas/" . $_SESSION['panorama']->getId() . "/");
+					$zip->close();
+				} else {
+					$dVueEreur[] = "unzip error";
+					require_once $rep.$views['error'];
+					return;
+				}
+				// TROUVE LE .gtlf
+				// CREER UN ELEMENT gtlf
+				// AJOUTE A LA SELECTED VIEW
+			}
+			elseif(strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gtlf")
+			{
+				$_SESSION['selected_view']->addElement(new AssetImported($_FILES['assetImported']['name']));
+			}
+			else
+			{
+				$dVueEreur[] = "Bad file extension";
+				require_once $rep.$views['error'];
+				return;
+			}
+		}
+		else
+		{
+			$dVueEreur[] = "File not found";
+			require_once $rep.$views['error'];
+			return;
+		}
+
+		if(count($_SESSION['selected_view']->getElements()) > 0){
+			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+		}
+		else{
+			unset($_SESSION['selected_element']);
+		}
+
+		require_once $rep.$views['editView'];
 	}
 
 }//fin class
