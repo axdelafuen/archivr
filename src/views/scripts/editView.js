@@ -15,9 +15,40 @@ function sliderChangedScale(slider, id) {
     slider.parentNode.querySelector("span").innerHTML = slider.value
 
     scale = "" + slider.value + " " + slider.value + " " + slider.value;
-    console.log(scale);
 
     document.getElementById(id).setAttribute("scale", scale);
+}
+
+function sliderChangedRotation(slider, id) {
+    slider.parentNode.querySelector("span").innerHTML = slider.value
+    
+    output = slider.parentNode.parentNode.querySelectorAll("input")
+
+    rotation = ""
+
+    output.forEach(pos => {
+        rotation = rotation + pos.value.toString() + " "
+    })
+
+    document.getElementById(id).setAttribute("rotation", rotation)
+}
+
+function changeRotationX() {
+    document.querySelectorAll(".elementRotationX").forEach(element => {
+        element.setAttribute("value", document.getElementById("rotationX").value.toString())
+    })
+}
+
+function changeRotationY() {
+    document.querySelectorAll(".elementRotationY").forEach(element => {
+        element.setAttribute("value", document.getElementById("rotationY").value.toString())
+    })
+}
+
+function changeRotationZ() {
+    document.querySelectorAll(".elementRotationZ").forEach(element => {
+        element.setAttribute("value", document.getElementById("rotationZ").value.toString())
+    })
 }
 
 function sliderChangedX(){
@@ -42,4 +73,10 @@ function changeScale(){
     document.querySelectorAll(".elementScale").forEach(element => {
         element.setAttribute("value", document.getElementById("scale").value.toString())
     })
+}
+
+function setCameraRotation(){
+    document.querySelector(".cameraRotationX").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").x)
+    document.querySelector(".cameraRotationY").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").y)
+    document.querySelector(".cameraRotationZ").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").z)
 }

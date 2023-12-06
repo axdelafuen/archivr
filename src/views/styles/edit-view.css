@@ -1,8 +1,12 @@
+body{
+    margin: 0;
+}
+
 #preview{
     height: 100vh;
 }
 
-.hud{
+.hud-left{
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
     width: fit-content;
@@ -11,4 +15,21 @@
     border-bottom-right-radius: 5vh;
     overflow: auto;
     max-width: 100vh;
+    padding: 10px;
+}
+
+.hud-right{
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    width: fit-content;
+    position: absolute;
+    z-index: 2;
+    border-bottom-left-radius: 5vh;
+    overflow: auto;
+    max-width: 100vh;
+    padding: 10px;
+}
+
+.elements{
+    right:0;
 }

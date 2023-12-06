@@ -1,6 +1,9 @@
 <head>
     <title>Map edition</title>
     <link rel="stylesheet" href="views/styles/edit-view.css">
+    <link rel="icon" type="image/*" href="views/assets/images/map.png">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 
 <div class="hud p-2">
@@ -117,7 +120,7 @@
 
 <a-scene id="preview" embedded>
     <a-assets>
-        <img id="arrow" src="views/assets/images/arrow.png">
+        <img id="arrow" src="views/assets/images/arrow.png" alt="arrow-image">
     </a-assets>
 
     <?php echo '<a-sky></a-sky>'?>
@@ -140,11 +143,6 @@
                 <?php
             }
         }?>
-
-</a-image><?php ;?>
-
-
-    ?>
 </a-scene>
 
 <script src="views/scripts/editView.js"></script>

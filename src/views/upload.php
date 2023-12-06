@@ -1,5 +1,13 @@
-<title>Panorama Generator</title>
-
+<head>
+    <title>Panorama Generator</title>
+    <link rel="icon" type="image/*" href="views/assets/images/map.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<?php
+// load navbar
+require_once(__DIR__.'/templates/navbar.html');
+?>
 <div class="mt-5">
 
     <h1 class="text-center font-weight-bold mb-5">Load your image</h1>
@@ -33,3 +41,4 @@
         </div>
     </form>
 </div>
+</body>

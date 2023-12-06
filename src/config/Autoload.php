@@ -1,5 +1,4 @@
 <?php
-
 class Autoload
 {
     private static $_instance = null;
@@ -14,7 +13,7 @@ class Autoload
 
 
         if (!spl_autoload_register(array(self::$_instance, '_autoload'))) {
-            throw RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
+            throw new RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
         }
     }
 
@@ -37,14 +36,10 @@ class Autoload
         $dir = array('models/', './', 'config/', 'controller/');
         foreach ($dir as $d) {
             $file = $rep . $d . $filename;
-            //echo $file."<br>";
             if (file_exists($file)) {
-                include $file;
+                include_once $file;
             }
         }
 
     }
 }
-
-
-?>

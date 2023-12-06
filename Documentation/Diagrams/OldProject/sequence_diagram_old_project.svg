@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1169" height="1206" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--WillInclude_umdx-->
+<path d="M 101.40 123.77 L 101.40 130.51 L 85.76 130.51 L 85.76 136.49 L 101.40 136.49 L 101.40 136.49 L 101.40 156.70 L 85.76 173.91 L 90.25 178.40 L 104.39 163.44 L 118.54 178.40 L 123.03 173.91 L 107.39 156.70 L 107.39 136.49 L 123.03 136.49 L 123.03 130.51 L 107.39 130.51 L 107.39 123.77 Z M 111.54 106.53 C 115.48 110.47 115.48 116.87 111.54 120.81 C 107.59 124.76 101.20 124.76 97.25 120.81 C 93.31 116.87 93.31 110.47 97.25 106.53 C 101.20 102.58 107.59 102.58 111.54 106.53" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 49.94 195.70 L 158.84 195.70 L 158.84 216.70 L 49.94 216.70 Z M 49.94 195.70" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 104.39 216.70 L 104.39 962.70" stroke-width="2.00" stroke="black" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="6.00,6.00" fill="none"  />
+
+<text x="77.05" y="210.94" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >:utilisateur</text>
+<path d="M 384.11 195.70 L 505.69 195.70 L 505.69 216.70 L 384.11 216.70 Z M 384.11 195.70" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 444.90 216.70 L 444.90 962.70" stroke-width="2.00" stroke="black" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="6.00,6.00" fill="none"  />
+
+<text x="414.21" y="210.94" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >:générateur</text>
+<path d="M 404.72 250.00 L 437.32 250.00 M 430.82 251.38 L 437.32 250.00 L 430.82 248.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 250.00 L 437.32 250.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="221.13" y="261.88" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Ajoute des images</text>
+<path d="M 437.32 243.15 L 452.48 243.15 L 452.48 894.05 L 437.32 894.05 Z M 437.32 243.15" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 706.90 195.70 L 828.48 195.70 L 828.48 216.70 L 706.90 216.70 Z M 706.90 195.70" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 767.69 216.70 L 767.69 962.70" stroke-width="2.00" stroke="black" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="6.00,6.00" fill="none"  />
+
+<text x="737.68" y="210.94" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >:file system</text>
+<path d="M 727.51 260.00 L 760.11 260.00 M 753.61 261.38 L 760.11 260.00 L 753.61 258.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 260.00 L 760.11 260.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="478.08" y="272.03" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Enregistre les images à la racine de l&#x27;application</text>
+<path d="M 727.51 330.00 L 760.11 330.00 M 753.61 331.38 L 760.11 330.00 L 753.61 328.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 330.00 L 760.11 330.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="515.11" y="342.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Récupère l&#x27;image dans les fichiers</text>
+<path d="M 136.99 340.00 L 104.39 340.00 M 110.89 338.62 L 104.39 340.00 L 110.89 341.38" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 437.32 340.00 L 104.39 340.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="181.01" y="352.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Créer la scène a-frame et l&#x27;affiche</text>
+<path d="M 404.72 380.00 L 437.32 380.00 M 430.82 381.38 L 437.32 380.00 L 430.82 378.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 380.00 L 437.32 380.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="194.81" y="392.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Ajoute et modifie un élément</text>
+<text x="513.10" y="404.81" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Ajoute/Modifie l’élément</text>
+<text x="524.32" y="419.89" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >dans la page HTML</text>
+<path d="M 76.95 277.64 L 128.14 277.64 L 128.14 288.14 L 117.64 298.64 L 76.95 298.64 Z M 76.95 277.64 L 76.95 450.89 M 76.95 277.64 L 799.73 277.64 M 799.73 277.64 L 799.73 450.89 M 76.95 450.89 L 799.73 450.89" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<text x="81.45" y="292.88" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Loop</text>
+<path d="M 479.98 430.00 L 452.48 430.00 M 458.98 428.62 L 452.48 430.00 L 458.98 431.38" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 390.00 L 507.48 390.00 L 507.48 430.00 L 452.48 430.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="631.94" y="297.31" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >[LesPhotos.length &gt; 0]</text>
+<path d="M 760.11 249.15 L 775.27 249.15 L 775.27 503.12 L 760.11 503.12 Z M 760.11 249.15" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<path d="M 404.72 480.00 L 437.32 480.00 M 430.82 481.38 L 437.32 480.00 L 430.82 478.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 480.00 L 437.32 480.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="201.51" y="492.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Choisi l&#x27;image de la carte</text>
+<path d="M 735.09 490.00 L 767.69 490.00 M 761.19 491.38 L 767.69 490.00 L 761.19 488.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 490.00 L 767.69 490.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="508.08" y="502.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Enregistre l&#x27;image à la racine du projet</text>
+<path d="M 136.99 510.00 L 104.39 510.00 M 110.89 508.62 L 104.39 510.00 L 110.89 511.38" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 437.32 510.00 L 104.39 510.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="181.01" y="522.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Créer la scène a-frame et l&#x27;affiche</text>
+<path d="M 404.72 560.00 L 437.32 560.00 M 430.82 561.38 L 437.32 560.00 L 430.82 558.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 560.00 L 437.32 560.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="130.63" y="572.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Ajoute des points de navigation vers d&#x27;autres images</text>
+<path d="M 76.95 526.45 L 128.14 526.45 L 128.14 536.95 L 117.64 547.45 L 76.95 547.45 Z M 76.95 526.45 L 76.95 694.93 M 76.95 526.45 L 799.73 526.45 M 799.73 526.45 L 799.73 694.93 M 76.95 694.93 L 799.73 694.93" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="white"  />
+
+<text x="81.45" y="541.69" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Loop</text>
+<text x="672.91" y="540.86" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >[keydown != &#x27;j&#x27;]</text>
+<path d="M 701.83 632.61 L 922.44 681.86 L 1123.69 681.86 L 1123.69 790.99 L 855.35 790.99 L 855.35 709.14 Z M 701.83 632.61" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="918.82" y="696.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Actuellement, on ne vérifie</text>
+<text x="903.80" y="711.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >pas si l’image est connu ou non,</text>
+<text x="892.13" y="726.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >il est donc possible de créer un point</text>
+<text x="895.79" y="741.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >de navigation qui ne mène nul part.</text>
+<text x="859.11" y="756.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Les points de navigation ainsi créer mènent alors</text>
+<text x="870.43" y="771.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >vers une page blanche depuis laquelle on ne</text>
+<text x="952.83" y="786.16" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >peut rien faire</text>
+<path d="M 475.48 650.00 L 452.48 650.00 M 458.98 648.62 L 452.48 650.00 L 458.98 651.38" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 580.00 L 498.48 580.00 L 498.48 650.00 L 452.48 650.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="522.16" y="590.55" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Créer le point dans la page html</text>
+<text x="518.83" y="605.55" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >et lie l’action de regarder ce point</text>
+<text x="499.15" y="620.55" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >à un déplacement vers l’image dont on a</text>
+<text x="565.53" y="635.55" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >spécifié le nom.</text>
+<path d="M 855.35 143.63 L 855.35 230.01 L 773.38 258.80 L 855.35 263.51 L 855.35 277.64 L 1153.59 277.64 L 1153.59 143.63 Z M 855.35 143.63" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="935.77" y="170.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Cela implique donc que si</text>
+<text x="919.42" y="185.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >on fait plusieurs panorama avec</text>
+<text x="872.07" y="200.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >le même ordinateur, on peut récupérer les images</text>
+<text x="914.75" y="215.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >utilisées pour d’ancien panorama.</text>
+<text x="897.41" y="230.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Fonctionnalité qui peut être gardée mais</text>
+<text x="894.41" y="245.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >qui doit être testée pour vérifier qu’elle ne</text>
+<text x="952.76" y="260.38" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >génère pas de bug.</text>
+<path d="M 883.06 340.37 L 883.06 377.90 L 733.06 390.42 L 883.06 411.74 L 883.06 475.70 L 1123.69 475.70 L 1123.69 340.37 Z M 883.06 340.37" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="891.96" y="390.28" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Si on a déjà fait un panorama de 4 photos</text>
+<text x="891.63" y="405.28" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >puis qu’on veut en faire en autre avec une</text>
+<text x="902.32" y="420.28" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >seule photos. Il va quand même falloir</text>
+<text x="942.34" y="435.28" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >passer par les 4 autres</text>
+<path d="M 475.48 800.00 L 452.48 800.00 M 458.98 798.62 L 452.48 800.00 L 458.98 801.38" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 730.00 L 498.48 730.00 L 498.48 800.00 L 452.48 800.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="517.32" y="770.97" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Créer le fichier zip contenant le panorama</text>
+<text x="509.31" y="785.97" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >aves les images, pages et codes nécessaire.</text>
+<path d="M 735.09 850.00 L 767.69 850.00 M 761.19 851.38 L 767.69 850.00 L 761.19 848.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 452.48 850.00 L 767.69 850.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="507.36" y="862.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Place le fichier zip à la racine du projet</text>
+<path d="M 404.72 870.00 L 437.32 870.00 M 430.82 871.38 L 437.32 870.00 L 430.82 868.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 870.00 L 437.32 870.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="205.62" y="881.92" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Télécharge le panorama</text>
+<path d="M 735.09 920.00 L 767.69 920.00 M 761.19 921.38 L 767.69 920.00 L 761.19 918.62" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<path d="M 104.39 920.00 L 767.69 920.00" stroke-width="1.00" stroke="black" stroke-linecap="round" stroke-linejoin="round" fill="none"  />
+
+<text x="246.23" y="932.24" font-family="Helvetica" font-size="12.00px" fill="black" opacity="1.00" >Place le zip téléchargé dans le dossier Téléchargements de l&#x27;ordinateur</text>
+
+</svg>
+<!--OldSVGSize:15036 -->
+<!--Data_umdx_bIncluded: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-->

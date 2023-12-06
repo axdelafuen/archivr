@@ -1,5 +1,6 @@
-
-<title>Erreur</title>
+<head>
+    <title>Error</title>
+</head>
 
 <h1>ERROR !</h1>
 <?php

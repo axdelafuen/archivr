@@ -1,19 +1,6 @@
 <?php
 
-//gen
 $rep=__DIR__.'/../';
-
-// liste des modules à inclure
-
-//$dConfig['includes']= array('controleur/Validation.php');
-
-
-
-//BD
-
-$base="sasa";
-$login="";
-$mdp="";
 
 //Vues
 
@@ -23,6 +10,6 @@ $views['upload']='views/upload.php';
 $views['dashboard']='views/dashboard.php';
 $views['editView']='views/edit-view.php';
 $views['editMap']='views/edit-map.php';
+$views['editTimeline']='views/edit-timeline.php';
 $views['download']= 'views/download.php';
-
-?>
+$views['import'] = 'views/import.php';

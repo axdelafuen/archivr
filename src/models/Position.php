@@ -1,6 +1,6 @@
 <?php
 
-class Position
+class Position implements JsonSerializable
 {
     private float $x;
 
@@ -61,6 +61,8 @@ class Position
     public function __toString(): string{
         return "$this->x " . "$this->y " . "$this->z";
     }
-}
 
-?>
+    public function jsonSerialize(): array{
+        return get_object_vars($this);
+    }
+}
