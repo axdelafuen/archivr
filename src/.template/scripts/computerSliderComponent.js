@@ -10,7 +10,7 @@ let arrayViews = []
 AFRAME.registerComponent('thumbstick-logging',{
   init: function () {
     this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-    this.el.addEventListener('x-button-listener',this.xButtonListener)
+    this.el.addEventListener('xbuttondown',this.xButtonListener)
   },
   logThumbstick: function (evt) {
     if(arrayViews.length === 4)
@@ -41,7 +41,7 @@ AFRAME.registerComponent('thumbstick-logging',{
 
   // To change
   xButtonListener: function(evt){
-    goTo("test.html","0 0 0")
+    goTo("templates/planPrincipal.html","0 0 0")
   }
 });
 
