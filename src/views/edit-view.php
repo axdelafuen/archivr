@@ -35,7 +35,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -56,7 +56,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -97,7 +97,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -142,7 +142,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -211,7 +211,7 @@
             </div>
         </div>
         <?php
-                if(get_class($element) == "Waypoint"){
+                if(get_class($element) == "Waypoint" || get_class($element) == "AssetImported"){
                     echo '
                     Scale:
                         <div>
@@ -249,7 +249,7 @@
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
             echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
             echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
         }
@@ -283,7 +283,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -305,7 +305,7 @@
             echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
             echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
             echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
-            if(get_class($_SESSION['selected_element']) == "Waypoint") {
+            if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
                 echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
             }
             echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
@@ -352,7 +352,7 @@
         elseif (get_class($element) == "AssetImported")
         {
             ?>
-            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>">
+            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
                 <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath() ?>">
                 </a-entity>
             </a-entity>

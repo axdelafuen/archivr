@@ -4,6 +4,19 @@ class AssetImported extends Element implements JsonSerializable
 {
     private string $path;
 
+    private float $scale;
+
+    public function getScale():string{
+        return $this->scale . " " . $this->scale . " " . $this->scale;
+    }
+
+    public function setScale($scale):void{
+        $this->scale = $scale;
+    }
+
+    public function getScaleInt(){
+        return $this->scale;
+    }
     public function getPath():string
     {
         return $this->path;
@@ -18,6 +31,7 @@ class AssetImported extends Element implements JsonSerializable
     {
         parent::__construct($path);
         $this->path = $path;
+        $this->scale = 1;
     }
 
     public function jsonSerialize(): array
