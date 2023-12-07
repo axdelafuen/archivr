@@ -3,15 +3,17 @@ AFRAME.registerComponent('scene', {
     if(AFRAME.utils.device.isMobile ())
     {
       mobileComponent(this.el)
-    }
-    else
-    {
+      this.el.addEventListener('enter-vr', function () {
+      addPanel(false);
+
+    });
+    } else {
       computerComponent(this.el)
+      this.el.addEventListener('enter-vr', function () {
+      addPanel(true);
+    })
     }
-  },
-});
-
-
+}});
 
 function computerComponent(scene)
 {
@@ -35,33 +37,4 @@ function mobileComponent()
   link.type ='text/css';
   link.href ='./assets/styles/style.css';
   document.getElementsByTagName('HEAD')[0].appendChild(link);
-  document.querySelector('a-scene').addEventListener('enter-vr', function () {
-    if(AFRAME.utils.device.checkHeadsetConnected ())
-    {
-      let panel = document.createElement("a-image")
-      panel.setAttribute("src","./assets/images/computerBinding.png")
-      panel.setAttribute("rotation","-50 0 0")
-      panel.setAttribute("position","0 -2 -1")
-      scene.append(panel)
-
-      let leftHand = document.createElement("a-entity")
-      let rightHand =  document.createElement("a-entity")
-
-      leftHand.setAttribute("id","left")
-      rightHand.setAttribute("id","right")
-      
-      rightHand.setAttribute("hand-controls","")
-      leftHand.setAttribute("hand-controls","")
-
-      leftHand.setAttribute("laser-controls","hand:left")
-      rightHand.setAttribute("laser-controls","hand: right")
-      
-      leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1")
-      rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1")
-      
-      scene.append(leftHand)
-      scene.append(rightHand)
-      console.log(rightHand)
-    }
-  });
 }
