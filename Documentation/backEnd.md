@@ -119,3 +119,13 @@ Permet d'inclure des fonctions, évènements et éléments en fonction du suppor
 
 #### `mobileComponent()`
 - Ajoute le fichier css permettant d'afficher les boutons pour naviguer entre les temporalités (si il y en a)
+
+
+# Model 3D 
+Il suffit d'ajouter une balise `a-entity` et d'ajouter le composant `gltf-model='source du fichier'` (marche pour les models gltf __ET__ glb)
+
+
+### Exemple
+```html
+<a-entity gltf-model="./assets/sign.glb" position="0 0 -1"></a-entity>
+```
