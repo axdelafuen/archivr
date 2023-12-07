@@ -6,6 +6,7 @@ $rep=__DIR__.'/../';
 
 $views['error']='views/error.php';
 $views['home']='views/home-page.php';
+$views['tutorial']='views/tutorial.php';
 $views['upload']='views/upload.php';
 $views['dashboard']='views/dashboard.php';
 $views['editView']='views/edit-view.php';

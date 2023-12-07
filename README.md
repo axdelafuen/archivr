@@ -29,6 +29,29 @@ Start app using php :
 php -S 127.0.0.1:8000 -t ./archivr/src/
 ```
 
+#### Optional
+
+If you want to upload personal 3D models _(.gltf)_, in your panorama, you have to update your `php.ini` (3D model files are too large for basic php config)
+
+A script is available to update settings (currently bug with macOS) :
+
+```
+sudo ./3d-models-support.sh
+```
+
+If the script does not work, modify the following lines in your `php.ini` :
+
+```
+upload_max_filesize=20M
+post_max_size=21M
+```
+
+To find your `php.ini` you can use :
+
+```
+php --ini
+```
+
 # Authors
 
 This project was developed by students from the IUT of Aubière (UCA), as part of a university project. The team members are:

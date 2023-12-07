@@ -12,4 +12,3 @@ if(!empty(getenv("DEPLOYED"))){
 }
 
 $cont = new Controller();
-?>

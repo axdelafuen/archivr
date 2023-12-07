@@ -62,7 +62,8 @@ class Position implements JsonSerializable
         return "$this->x " . "$this->y " . "$this->z";
     }
 
-    public function jsonSerialize(): array{
+    public function jsonSerialize(): array
+    {
         return get_object_vars($this);
     }
 }
