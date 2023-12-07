@@ -74,3 +74,48 @@ function addPanel(computer)
       camera.append(rightHand)
     }
 }
+
+
+function clickHandler(pane)
+{
+  if(pane.visibility === false)
+  {
+    pane.visibility = true
+    let className = pane.getAttribute("class")
+    fadeIn(className,pane)
+    pane.setAttribute("opacity","1.0")
+  }
+  else
+  {
+    pane.visibility = false
+    let className = pane.getAttribute("class")
+    fadeOut(className,pane)
+    pane.setAttribute("opacity","1.0")
+  }
+}
+
+function fadeIn(className,exept)
+{
+  let array = document.querySelectorAll("."+className)
+  array.forEach(element => {
+    if(element !== exept)
+    {
+      element.setAttribute("animation","property: opacity;to: 1.0;dur: 700")
+    }
+  });
+}
+
+
+
+function fadeOut(className,exept)
+{
+  let array = document.querySelectorAll("."+className)
+  array.forEach(element => {
+    if(element !== exept){
+      element.setAttribute("animation","property: opacity;to: 0.0;dur: 700")
+    }
+  });
+}
+
+
+

@@ -18,4 +18,8 @@ AFRAME.registerComponent('animationcustom',{
   }
 })
 
-
+AFRAME.registerComponent('houdini',{
+  init: function(){
+    this.visibility = false
+  }
+})
