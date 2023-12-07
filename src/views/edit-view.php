@@ -352,8 +352,8 @@
         elseif (get_class($element) == "AssetImported")
         {
             ?>
-            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>"?>">
-                <a-entity gtlf-model=".data/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath() ?>">
+            <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>">
+                <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath() ?>">
                 </a-entity>
             </a-entity>
             <?php

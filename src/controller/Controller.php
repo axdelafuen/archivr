@@ -720,11 +720,23 @@ class Controller
 					require_once $rep.$views['error'];
 					return;
 				}
-				// TROUVE LE .gtlf
-				// CREER UN ELEMENT gtlf
-				// AJOUTE A LA SELECTED VIEW
+				$modelFileName = "";
+				foreach (scandir("./.datas/" . $_SESSION['panorama']->getId() . "/") as $file)
+				{
+					if(strtolower(substr(strrchr($file, "."), 1)) == "gltf")
+					{
+						$modelFileName = $file;
+					}
+				}
+				if($modelFileName == "")
+				{
+					$dVueEreur[] = "no gtlf file in your zip";
+					require_once $rep.$views['error'];
+					return;
+				}
+				$_SESSION['selected_view']->addElement(new AssetImported($modelFileName));
 			}
-			elseif(strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gtlf")
+			elseif(strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gltf")
 			{
 				$_SESSION['selected_view']->addElement(new AssetImported($_FILES['assetImported']['name']));
 			}
