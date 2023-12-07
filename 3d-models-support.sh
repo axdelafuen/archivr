@@ -9,17 +9,38 @@
 # - post_max_size: 21M
 
 update_php_ini() {
-    local ini_file="$1"
-    
-    if [ ! -f "$ini_file" ]; then
-        echo "Erreur : Le fichier php.ini n'existe pas."
-        exit 1
-    fi
+	local ini_file="$1"
 
-    sed -i 's/upload_max_filesize\s*=.*/upload_max_filesize=20M/g' "$ini_file"
-    sed -i 's/post_max_size\s*=.*/post_max_size=21M/g' "$ini_file"
+	if [ ! -f "$ini_file" ]; then
+		echo "Error : php.ini not found."
+		exit 1
+	else
+		echo "php.ini found : $ini_file"
+	fi
 
-    echo "upload_max_filesize and post_max_size updated in $ini_file."
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+        	# macOS
+		echo "macOS detected";
+		sed -i '' -e 's/upload_max_filesize\s*=.*/upload_max_filesize=20M/g' "$ini_file"
+		sed -i '' -e 's/post_max_size\s*=.*/post_max_size=21M/g' "$ini_file"
+
+
+		if [ $? -ne 0 ]; then
+			echo "Error : sed failed (mac)"
+			exit 1
+		fi
+    	else
+		#GNU Linux        	
+		sed -i 's/upload_max_filesize\s*=.*/upload_max_filesize=20M/g' "$ini_file"
+		sed -i 's/post_max_size\s*=.*/post_max_size=21M/g' "$ini_file"
+		
+		if [ $? -ne 0 ]; then
+			echo "Error : sed failed"
+			exit 1
+		fi
+	fi
+
+	echo "upload_max_filesize (20M) and post_max_size updated (21M) in $ini_file."
 }
 
 php_ini_path=$(php -i | grep -E 'Loaded Configuration File' | awk '{print $NF}')
