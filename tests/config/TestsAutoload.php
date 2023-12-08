@@ -33,7 +33,7 @@ class TestsAutoload
     private static function _autoload($class)
     {
         $filename = $class . '.php';
-        $dir = array('./src/models/', './src/', './src/config/', './src/controller/');
+        $dir = array('./src/models/', './src/', './src/config/', './src/controller/', './src/businesses/');
         foreach ($dir as $d) {
             $file = $d . $filename;
             //echo $file."<br>";

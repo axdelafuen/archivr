@@ -13,7 +13,20 @@
 
 # About the project
 
-lorem ipsum
+Welcome to **ArchiVR**, a cutting-edge web application that allows you to craft immersive experiences from 360-degree images. Effortlessly transform your panoramic photos into interactive tours tailored to your specific needs.
+
+### Key Features
+
+- **360 Image Integration:** Upload your panoramic images to create a 360-degree immersive experience.
+- **Custom Maps:** Add an interactive map to guide visitors through the virtual tour.
+- **Environment Customization:** Incorporate 3D elements to personalize the environment and make the experience truly unique.
+- **Multi-Platform Compatibility:** Generated virtual tours are compatible with Oculus, PC, and mobile devices, offering maximum flexibility for your users.
+
+### How It Works
+
+1. **Import Your Images:** Upload your panoramic images directly into the application.
+2. **Customize Your Environment:** Add 3D elements, a map, and adjust settings to create the desired atmosphere.
+3. **Generate Your Virtual Tour:** With a single click, obtain an HTML file ready to be deployed on Oculus, PC, or mobile.
 
 # Getting started
 
