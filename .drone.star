@@ -79,17 +79,18 @@ def archivr_active_container(ctx):
 
 def CD(ctx):
   out = []
-  out.append(archivr_tests(ctx))
+  if ctx.build.event == "push":
+    out.append(archivr_tests(ctx))
 
-  if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1:
-    return out
+    if ctx.build.message.find("[no_ci]") != -1 or ctx.build.message.find("README.md") != -1:
+      return out
 
-  if ctx.build.message.find("[sonar]") != -1:
+    if ctx.build.message.find("[sonar]") != -1:
       out.append(archivr_code_inspection(ctx))
       return out
 
-  if ctx.build.branch == "master" or ctx.build.message.find("[force_ci]") != -1:
-    out.append(archivr_code_inspection(ctx))
-    return out
+    if ctx.build.branch == "master" or ctx.build.message.find("[force_ci]") != -1:
+      out.append(archivr_code_inspection(ctx))
+      return out
 
-  return out
+    return out
