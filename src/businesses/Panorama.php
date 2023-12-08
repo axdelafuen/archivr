@@ -55,10 +55,8 @@ class Panorama implements JsonSerializable
 
     public function getTimelineById($id)
     {
-        foreach($this->getTimelines() as $timeline)
-        {
-            if($timeline->getId() === $id)
-            {
+        foreach ($this->getTimelines() as $timeline) {
+            if ($timeline->getId() === $id) {
                 return $timeline;
             }
         }
@@ -77,10 +75,8 @@ class Panorama implements JsonSerializable
 
     public function getViewByPath($path)
     {
-        foreach($this->getViews() as $view)
-        {
-            if($view->getPath() === $path)
-            {
+        foreach ($this->getViews() as $view) {
+            if ($view->getPath() === $path) {
                 return $view;
             }
         }
@@ -89,15 +85,13 @@ class Panorama implements JsonSerializable
 
     public function isView(View $value)
     {
-        foreach ($this->views as $view) {
-            if($view == $value){
-                return true;
-            }
+        if (in_array($value, $this->views)) {
+            return true;
         }
         return false;
     }
 
-    public function addView($i,$view)
+    public function addView($i, $view)
     {
         $this->views[$i] = $view;
     }

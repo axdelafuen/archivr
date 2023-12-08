@@ -2,8 +2,6 @@
 
 $rep=__DIR__.'/../';
 
-//Vues
-
 $views['error']='views/error.php';
 $views['home']='views/home-page.php';
 $views['tutorial']='views/tutorial.php';

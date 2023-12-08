@@ -9,14 +9,14 @@ class Timeline implements JsonSerializable
 
     private array $views = array();
 
-    public function getViews()
+    public function getViews():array
     {
         return $this->views;
     }
 
     public function getFirstView()
     {
-        if(count($this->views) > 0){
+        if (count($this->views) > 0) {
             return $this->views[0];
         }
         return null;
@@ -24,10 +24,8 @@ class Timeline implements JsonSerializable
 
     public function isView(View $value)
     {
-        foreach ($this->views as $view) {
-            if($view == $value){
-                return true;
-            }
+        if (in_array($value, $this->views)) {
+            return true;
         }
         return false;
     }
@@ -44,10 +42,8 @@ class Timeline implements JsonSerializable
 
     public function getViewByPath($path)
     {
-        foreach($this->getViews() as $view)
-        {
-            if($view->getPath() === $path)
-            {
+        foreach ($this->getViews() as $view) {
+            if ($view->getPath() === $path) {
                 return $view;
             }
         }
@@ -75,11 +71,13 @@ class Timeline implements JsonSerializable
         return $this->name;
     }
 
-    public function set(View $view){
-        array_push($this->views, $view);
+    public function set(View $view)
+    {
+        $this->views[] = $view;
     }
 
-    public function jsonSerialize(): array{
+    public function jsonSerialize(): array
+    {
         return get_object_vars($this);
     }
 }

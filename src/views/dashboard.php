@@ -19,11 +19,8 @@ require_once(__DIR__.'/templates/navbar.html');
         <h5 class="font-weight-bold">Project's name</h5>
         <form method="post">
             <div class="d-flex">
-                <label for="projectName"></label>
                 <input id="projectName" class="form-control" type="text" placeholder="My amazing panorama" name="projectName" value="<?php echo $_SESSION['panorama']->getName()?>">
-                <label for="updateProjectName"></label>
                 <button id="updateProjectName" type="submit" class="btn btn-primary mb-3">Update</button>
-                <label for="updateProjectNameSubmit"></label>
                 <input id="updateProjectNameSubmit" type="hidden" name="action" value="updateProjectName">
             </div>
         </form>

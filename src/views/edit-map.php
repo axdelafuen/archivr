@@ -120,7 +120,7 @@
 
 <a-scene id="preview" embedded>
     <a-assets>
-        <img id="arrow" src="views/assets/images/arrow.png" alt="arrow-image">
+        <img id="arrow" src="views/assets/images/arrow.png" alt="arrow-image" width="auto" height="auto">
     </a-assets>
 
     <?php echo '<a-sky></a-sky>'?>

@@ -8,19 +8,23 @@ class AssetImported extends Element implements JsonSerializable
 
     private float $scale;
 
-    public function getModel (): string {
+    public function getModel(): string
+    {
         return $this->model;
     }
 
-    public function setModel (string $model): void {
+    public function setModel(string $model): void
+    {
         $this->model = $model;
     }
 
-    public function getScale():string{
+    public function getScale():string
+    {
         return $this->scale . " " . $this->scale . " " . $this->scale;
     }
 
-    public function setScale($scale):void{
+    public function setScale($scale):void
+    {
         $this->scale = $scale;
     }
 

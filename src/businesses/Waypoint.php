@@ -6,11 +6,13 @@ class Waypoint extends Element implements JsonSerializable
 
     private float $scale;
 
-    public function getScale():string{
+    public function getScale():string
+    {
         return $this->scale . " " . $this->scale . " " . $this->scale;
     }
 
-    public function setScale($scale):void{
+    public function setScale($scale):void
+    {
         $this->scale = $scale;
     }
 
@@ -30,13 +32,13 @@ class Waypoint extends Element implements JsonSerializable
 
     public function __construct($destination)
     {
-        if(get_class($destination) == View::class){
+        if (get_class($destination) == View::class) {
             parent::__construct($destination->getPath());
         } else {
             parent::__construct($destination->getName());
         }
         
-        if(get_class($destination) != "View" and get_class($destination) != "Timeline"){
+        if (get_class($destination) != "View" && get_class($destination) != "Timeline") {
             // to handle
             return null;
         }
@@ -44,19 +46,21 @@ class Waypoint extends Element implements JsonSerializable
         $this->scale = 1;
     }
 
-    public function jsonSerialize():array {
+    public function jsonSerialize():array
+    {
         $out = parent::jsonSerialize();
         $out["scale"] = $this->scale;
-        if(get_class($this->destination) == "View"){
+        if (get_class($this->destination) == "View") {
             $out["destination"] = $this->getView()->getPath();
-        }else{
+        } else {
             $out["destination"] = $this->getView()->getName();
         }
 
         return $out;
     }
 
-    public function set($data) {
+    public function set($data)
+    {
         $this->scale = $data['scale'];
         parent::set($data);
     }

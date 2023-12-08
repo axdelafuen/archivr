@@ -35,7 +35,7 @@ abstract class Element implements JsonSerializable
 
     public function setPositionXYZ($x, $y, $z)
     {
-        $this->position->setPosition($x,$y,$z);
+        $this->position->setPosition($x, $y, $z);
     }
 
     public function setPositionXY($x, $y)
