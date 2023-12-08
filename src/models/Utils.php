@@ -39,13 +39,13 @@ class Utils{
 
     public static function directory_copy($sourceDirectory, $destinationDirectory)
     {
-        if(!file_exists($destinationDirectory)){
+        if (!file_exists($destinationDirectory)) {
             mkdir($destinationDirectory);
         }
 
         foreach (scandir($sourceDirectory) as $item) {
-            if($item != "." && $item != '..'){
-                if(is_dir($sourceDirectory . DIRECTORY_SEPARATOR . $item)) {
+            if ($item != "." && $item != '..') {
+                if (is_dir($sourceDirectory . DIRECTORY_SEPARATOR . $item)) {
                     self::directory_copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
                 } else {
                     copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);

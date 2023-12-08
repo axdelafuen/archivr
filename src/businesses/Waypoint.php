@@ -16,7 +16,8 @@ class Waypoint extends Element implements JsonSerializable
         $this->scale = $scale;
     }
 
-    public function getScaleInt(){
+    public function getScaleInt()
+    {
         return $this->scale;
     }
 
