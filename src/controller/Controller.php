@@ -735,6 +735,7 @@ class Controller
 					return;
 				}
 				$_SESSION['selected_view']->addElement(new AssetImported(explode('.', $fileName)[0], $modelFileName));
+				unlink("./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName);
 			}
 			elseif(strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gltf")
 			{

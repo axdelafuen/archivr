@@ -196,7 +196,11 @@ class GeneratorPanorama{
 
       // copy all the images in the out directory
       foreach($images as $image){
-        copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
+        if(is_dir('./.datas/' . $panoramaId . "/" . $image)) {
+          Utils::directory_copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/models/'.$image);
+        } else {
+          copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
+        }
       }
       
       copy('./.template/style.css','./.datas/out/assets/styles/style.css');
