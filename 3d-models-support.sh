@@ -14,12 +14,15 @@ update_php_ini() {
 	if [ ! -f "$ini_file" ]; then
 		echo "Error : php.ini not found."
 		exit 1
+	else
+		echo "php.ini found : $ini_file"
+	fi
 
 	if [[ "$OSTYPE" == "darwin"* ]]; then
         	# macOS
 		echo "macOS detected";
-		sed -i '' -e 's/upload_max_filesize\s*=.*/upload_max_filesize=20M/g' "$ini_file"
-		sed -i '' -e 's/post_max_size\s*=.*/post_max_size=21M/g' "$ini_file"
+		sed -i '' -e 's/upload_max_filesize\s* = .*/upload_max_filesize = 20M/g' "$ini_file"
+		sed -i '' -e 's/post_max_size\s* = .*/post_max_size = 21M/g' "$ini_file"
 
 
 		if [ $? -ne 0 ]; then
