@@ -302,7 +302,7 @@ class GeneratorPanorama{
           ';
         } elseif(get_class($element) == AssetImported::class){ 
           $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
-                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'"
+                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'"></a-entity>
                     </a-entity>';
         }
         $elementId += 1;
