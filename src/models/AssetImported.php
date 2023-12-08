@@ -52,6 +52,7 @@ class AssetImported extends Element implements JsonSerializable
 
     public function set($data)
     {
+        $this->scale = $data['scale'];
         parent::set($data);
     }
 }

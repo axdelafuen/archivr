@@ -37,7 +37,7 @@ if(AFRAME.utils.device.checkHeadsetConnected ())
     {
       panel.setAttribute("src","./assets/images/computerBinding.png")
       panel.setAttribute("rotation","-50 0 0")
-      panel.setAttribute("position","0 -2 -1")
+      panel.setAttribute("position","0 -3 -1")
       document.querySelector("a-scene").append(panel)
     }
           

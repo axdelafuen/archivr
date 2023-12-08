@@ -66,11 +66,12 @@ class GeneratorPanorama{
           } else {
             $opacity = 'opacity="0.0"';
           }
-          if(get_class($element) == 'Sign'){
+          if(get_class($element) == Sign::class){
             $body .= '
               <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom class="class' . $classNumber . '" ' . $opacity . ' ></a-entity>
             ';
-          }else{
+          } elseif(get_class($element) == Waypoint::class)
+          {
             $cameraRotation = '';
             if(get_class($element->getView()) == Timeline::class){
               $cameraRotation = strval($element->getView()->getFirstView()->getCameraRotation());
@@ -90,6 +91,11 @@ class GeneratorPanorama{
                 </a-entity>
               </a-entity>
             ';
+          } elseif(get_class($element) == AssetImported::class)
+          {
+            $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
+                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'"></a-entity>
+                    </a-entity>';
           }
           $elementId += 1;
         }
@@ -390,12 +396,18 @@ class GeneratorPanorama{
               break;
             }
           }
-        } else {
+        } elseif(isset($element['model'])) 
+        {
+          $tmp = new AssetImported($element['path'], $element['model']);
+          $tmp->set($element);
+        } else 
+        {
           $tmp = new Sign($element['content']);
           $tmp->set($element);
         }
         array_push($array_element, $tmp);
       }
+
       // set the data of each view with all the element
       $keys = array_keys($panorama_images_array);
       foreach($keys as $key){
