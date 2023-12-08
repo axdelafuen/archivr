@@ -4,8 +4,8 @@
 
 <h1>ERROR !</h1>
 <?php
-if (isset($dVueEreur)) {
-foreach ($dVueEreur as $value){
+if (isset($errorList)) {
+foreach ($errorList as $value){
     echo $value."<br>";
 }
 }

@@ -14,6 +14,7 @@ update_php_ini() {
 	if [ ! -f "$ini_file" ]; then
 		echo "Error : php.ini not found."
 		exit 1
+	fi
 
 	if [[ "$OSTYPE" == "darwin"* ]]; then
         	# macOS

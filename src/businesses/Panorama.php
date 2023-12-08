@@ -3,22 +3,22 @@
 class Panorama implements JsonSerializable
 {
 
-    private string $id; // string ? int ?
+    private string $id;
 
     private string $name;
 
     private Map $map;
 
-    private array $timelines = array(); // list de timeline, elle meme list de views
+    private array $timelines = array();
 
     private array $views = array();
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -68,7 +68,7 @@ class Panorama implements JsonSerializable
         array_splice($this->timelines, array_search($timeline, $this->timelines), 1);
     }
 
-    public function getViews()
+    public function getViews(): array
     {
         return $this->views;
     }
@@ -83,7 +83,7 @@ class Panorama implements JsonSerializable
         return null;
     }
 
-    public function isView(View $value)
+    public function isView(View $value): bool
     {
         if (in_array($value, $this->views)) {
             return true;

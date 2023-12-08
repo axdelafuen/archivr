@@ -1,6 +1,7 @@
 <?php
 
-class Rotation implements JsonSerializable {
+class Rotation implements JsonSerializable
+{
 
     private float $x;
 

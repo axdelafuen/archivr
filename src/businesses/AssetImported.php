@@ -28,7 +28,8 @@ class AssetImported extends Element implements JsonSerializable
         $this->scale = $scale;
     }
 
-    public function getScaleInt(){
+    public function getScaleInt()
+    {
         return $this->scale;
     }
     public function getPath():string
