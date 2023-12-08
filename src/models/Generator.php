@@ -266,11 +266,11 @@ class GeneratorPanorama{
       $elementId = 1;
 
       foreach($view->getElements() as $element){
-        if(get_class($element) == 'Sign'){
+        if(get_class($element) == Sign::class){
           $body .= '
             <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
           ';
-        }else{
+        }elseif(get_class($element) == Waypoint::class){
           $cameraRotation = '';
 
           if(method_exists($element->getView(), 'getPath')){
@@ -296,6 +296,10 @@ class GeneratorPanorama{
               </a-entity>
             </a-entity>
           ';
+        } elseif(get_class($element) == AssetImported::class){ 
+          $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
+                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'"
+                    </a-entity>';
         }
         $elementId += 1;
       }

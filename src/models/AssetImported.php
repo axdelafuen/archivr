@@ -4,7 +4,17 @@ class AssetImported extends Element implements JsonSerializable
 {
     private string $path;
 
+    private string $model;
+
     private float $scale;
+
+    public function getModel (): string {
+        return $this->model;
+    }
+
+    public function setModel (string $model): void {
+        $this->model = $model;
+    }
 
     public function getScale():string{
         return $this->scale . " " . $this->scale . " " . $this->scale;
@@ -27,10 +37,11 @@ class AssetImported extends Element implements JsonSerializable
         return substr($this->path, 0, strpos($this->path, "."));
     }
 
-    public function __construct($path)
+    public function __construct($path, $model)
     {
         parent::__construct($path);
         $this->path = $path;
+        $this->model = $model;
         $this->scale = 1;
     }
 
