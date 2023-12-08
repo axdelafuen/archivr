@@ -65,7 +65,7 @@ class GeneratorPanorama{
           if($classNumber == 1){
             $opacity = 'opacity="1"';
           } else {
-            $opacity = 'opacity="0.0"';
+            $opacity = 'visible="false"';
           }
           if(get_class($element) == Sign::class){
             $body .= '
@@ -119,9 +119,9 @@ class GeneratorPanorama{
       // create the html of all the views templates
       foreach($panorama->getViews() as $view){
         if($panorama->isMap()) {
-          $template = GeneratorPanorama::generateBase($view, $panorama->getMap());
+          $template = self::generateBase($view, $panorama->getMap());
         } else {
-          $template = GeneratorPanorama::generateBase($view);
+          $template = self::generateBase($view);
         }
         array_push($elements, $template);
         if($template->name == explode('.', $fisrtView)[0].'.html'){
@@ -134,21 +134,19 @@ class GeneratorPanorama{
 
       // create the html of all the timelines templates
       foreach($panorama->getTimelines() as $key => $timeline) {
-        $template = GeneratorPanorama::generateTimeline($timeline);
+        $template = self::generateTimeline($timeline);
         array_push($elements, $template);
-        if($template->name == explode('.', $fisrtView)[0].'.html'){
+        if($timeline->getId() == $fisrtView) {
           $firstViewBody = $template->body;
-        }
-        if($timeline->getName() == $fisrtView) {
           $firstViewObject = $timeline->getFirstView();
         }
       }
 
       // generate the html of the index.html page
-      $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody, $firstViewObject);
+      $page = self::generateHtml($panorama->getName(), $firstViewBody, $firstViewObject);
 
       // get all the images added by the user
-      $images = GeneratorPanorama::getImages($panorama);
+      $images = self::getImages($panorama);
 
       // recreate the out directory
       if(!file_exists($basePath)){
@@ -196,7 +194,7 @@ class GeneratorPanorama{
 
       // create the map
       if($panorama->isMap()){
-        $map = GeneratorPanorama::generateMap($panorama->getMap());
+        $map = self::generateMap($panorama->getMap());
         touch($basePath.'/templates/'.$map['template']->name);
         file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
 
@@ -217,8 +215,8 @@ class GeneratorPanorama{
       copy('./.template/style.css','./.datas/out/assets/styles/style.css');
 
       // create the json file and generate the zip file
-      GeneratorPanorama::createJsonFile($panorama);
-      GeneratorPanorama::generateZip($panorama->getName());
+      self::createJsonFile($panorama);
+      self::generateZip($panorama->getName());
     }
 
     public static function createJsonFile($panorama){

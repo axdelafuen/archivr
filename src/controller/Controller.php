@@ -481,7 +481,6 @@ class Controller
 				}
 			}
 		}
-
 		GeneratorPanorama::createDirectory($panorama, $firstView);
 
 		require_once($rep . $views['download']);
