@@ -13,19 +13,19 @@ final class TestAssetImported extends TestCase
     /**
      * @covers AssetImported::__construct
      * @covers AssetImported::getPath
-     * @covers AssetImported::getName
+     * @covers AssetImported::getModel
      */
     public function testCanBeCreatedAssetImportedAndGetPath(): void
     {
-        $name = "&àcàç&cn&ciosc";
+        $nameZip = "&àcàç&cn&ciosc";
 
-        $path = $name.".gltf";
+        $path = $nameZip.".gltf";
 
-        $asset = new AssetImported($path);
+        $asset = new AssetImported($nameZip, $path);
 
-        $this->assertSame($path, $asset->getPath());
+        $this->assertSame($nameZip, $asset->getPath());
 
-        $this->assertSame($name, $asset->getName());
+        $this->assertSame($path, $asset->getModel());
     }
     /**
      * @covers AssetImported::setScale
@@ -35,7 +35,11 @@ final class TestAssetImported extends TestCase
     public function testScaleAttributes():void
     {
 
-        $asset = new AssetImported("test.path");
+        $name = "&àcàç&cn&ciosc";
+
+        $path = $name.".gltf";
+
+        $asset = new AssetImported($name, $path);
 
         $scale = 1.2;
 

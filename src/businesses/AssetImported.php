@@ -32,11 +32,6 @@ class AssetImported extends Element implements JsonSerializable
         return $this->path;
     }
 
-    public function getName():string
-    {
-        return substr($this->path, 0, strpos($this->path, "."));
-    }
-
     public function __construct($path, $model)
     {
         parent::__construct($path);
