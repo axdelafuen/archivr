@@ -8,8 +8,11 @@ AFRAME.registerComponent('map',{
     document.querySelector("#camera").setAttribute("look-controls","enabled: true; mouseEnabled: true");
   },
   init: function(){
+    if(!AFRAME.utils.device.isMobile ())
+    {
+      document.querySelector("#camera").setAttribute("look-controls","enabled: false; mouseEnabled: false");
+    }
     document.querySelector("#camera").setAttribute("rotation","0 0 0");
-    document.querySelector("#camera").setAttribute("look-controls","enabled: false; mouseEnabled: false");
   }
 })
 
