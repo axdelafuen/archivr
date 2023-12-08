@@ -6,8 +6,11 @@ AFRAME.registerComponent('map',{
   },
   init: function(){
     // If a map is added in the html, set camera's rotation to 0 0 0 and disabled camera's movement
+    if(!AFRAME.utils.device.isMobile ())
+    {
+      document.querySelector("#camera").setAttribute("look-controls","enabled: false; mouseEnabled: false");
+    }
     document.querySelector("#camera").setAttribute("rotation","0 0 0");
-    document.querySelector("#camera").setAttribute("look-controls","enabled: false; mouseEnabled: false");
   }
 })
 
