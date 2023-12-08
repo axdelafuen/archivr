@@ -45,7 +45,11 @@ class Utils{
 
         foreach (scandir($sourceDirectory) as $item) {
             if($item != "." && $item != '..'){
-                copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
+                if(is_dir($sourceDirectory . DIRECTORY_SEPARATOR . $item)) {
+                    self::directory_copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
+                } else {
+                    copy($sourceDirectory . DIRECTORY_SEPARATOR . $item, $destinationDirectory . DIRECTORY_SEPARATOR . $item);
+                }
             }
         }
     }

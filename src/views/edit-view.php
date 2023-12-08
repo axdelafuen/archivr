@@ -353,7 +353,7 @@
         {
             ?>
             <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
-                <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath() ?>">
+                <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath()."/".$element->getModel() ?>">
                 </a-entity>
             </a-entity>
             <?php

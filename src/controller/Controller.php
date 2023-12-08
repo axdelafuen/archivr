@@ -713,7 +713,7 @@ class Controller
 				$zip = new ZipArchive;
 				$res = $zip->open("./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName);
 				if ($res === TRUE) {
-					$zip->extractTo("./.datas/" . $_SESSION['panorama']->getId() . "/");
+					$zip->extractTo("./.datas/" . $_SESSION['panorama']->getId() . "/" . explode(".", $fileName)[0] . "/");
 					$zip->close();
 				} else {
 					$dVueEreur[] = "unzip error";
@@ -721,7 +721,7 @@ class Controller
 					return;
 				}
 				$modelFileName = "";
-				foreach (scandir("./.datas/" . $_SESSION['panorama']->getId() . "/") as $file)
+				foreach (scandir("./.datas/" . $_SESSION['panorama']->getId() . "/" . explode(".", $fileName)[0]) as $file)
 				{
 					if(strtolower(substr(strrchr($file, "."), 1)) == "gltf")
 					{
@@ -734,11 +734,12 @@ class Controller
 					require_once $rep.$views['error'];
 					return;
 				}
-				$_SESSION['selected_view']->addElement(new AssetImported($modelFileName));
+				$_SESSION['selected_view']->addElement(new AssetImported(explode('.', $fileName)[0], $modelFileName));
+				unlink("./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName);
 			}
 			elseif(strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gltf")
 			{
-				$_SESSION['selected_view']->addElement(new AssetImported($_FILES['assetImported']['name']));
+				$_SESSION['selected_view']->addElement(new AssetImported(explode(".", $_FILES['assetImported']['name'])[0], $_FILES['assetImported']['name']));
 			}
 			else
 			{
