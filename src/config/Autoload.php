@@ -1,35 +1,34 @@
 <?php
 class Autoload
 {
-    private static $_instance = null;
+    private static $instance = null;
 
     public static function load()
     {
-        if (null !== self::$_instance) {
+        if (null !== self::$instance) {
             throw new RuntimeException(sprintf('%s is already started', __CLASS__));
         }
 
-        self::$_instance = new self();
+        self::$instance = new self();
 
-
-        if (!spl_autoload_register(array(self::$_instance, '_autoload'))) {
+        if (!spl_autoload_register(array(self::$instance, 'autoload'))) {
             throw new RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
         }
     }
 
     public static function shutDown()
     {
-        if (null !== self::$_instance) {
+        if (null !== self::$instance) {
 
-            if (!spl_autoload_unregister(array(self::$_instance, '_autoload'))) {
+            if (!spl_autoload_unregister(array(self::$instance, '_autoload'))) {
                 throw new RuntimeException('Could not stop the autoload');
             }
 
-            self::$_instance = null;
+            self::$instance = null;
         }
     }
 
-    private static function _autoload($class)
+    private static function autoload($class)
     {
         global $rep;
         $filename = $class . '.php';

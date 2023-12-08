@@ -40,10 +40,8 @@ abstract class Image implements JsonSerializable
 
     public function getElementById($id)
     {
-        foreach($this->elements as $element)
-        {
-            if($element->getId() === $id)
-            {
+        foreach ($this->elements as $element) {
+            if ($element->getId() === $id) {
                 return $element;
             }
         }

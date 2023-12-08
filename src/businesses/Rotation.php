@@ -1,6 +1,6 @@
 <?php
 
-Class Rotation implements JsonSerializable {
+class Rotation implements JsonSerializable {
 
     private float $x;
 
@@ -52,17 +52,16 @@ Class Rotation implements JsonSerializable {
 
     public function __construct($x = 0, $y = 180, $z = 0)
     {
-        $this->x = $x;
-        $this->y = $y;
-        $this->z = $z;
+        $this->setRotation($x, $y, $z);
     }
 
-
-    public function __toString(): string{
+    public function __toString(): string
+    {
         return "$this->x " . "$this->y " . "$this->z";
     }
 
-    public function jsonSerialize(): array{
+    public function jsonSerialize(): array
+    {
         return get_object_vars($this);
     }
 }

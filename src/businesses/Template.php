@@ -1,6 +1,8 @@
 <?php
 
-class Template{
-    public $name; 
+class Template
+{
+    public $name;
+
     public $body;
 }

@@ -36,14 +36,12 @@ class View extends Image implements JsonSerializable
     public function __construct($path)
     {
         parent::__construct($path);
-        $this->cameraRotation = new Rotation(0,0,0);
+        $this->cameraRotation = new Rotation(0, 0, 0);
     }
 
-    public function jsonSerialize():array{
+    public function jsonSerialize():array
+    {
         return get_object_vars($this);
     }
 
-    public function set($data){
-        parent::set($data);
-    }
 }
