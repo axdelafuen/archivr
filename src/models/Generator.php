@@ -17,7 +17,6 @@ class GeneratorPanorama{
       <script src="scripts/deviceHandler.js"></script>
       <script src="scripts/smartphoneSliderComponent.js"></script>
       <script src="scripts/computerSliderComponent.js"></script>
-      <script src="scripts/slider.js"></script>
   </head>
 
   <body>
@@ -45,7 +44,7 @@ class GeneratorPanorama{
       
       $classNumber = 1;
       foreach($timeline->getViews() as $view){
-        $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(class' . $classNumber . ')" id="button1">' . $view->getDate() . '</button>';
+        $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
         $classNumber++;
       }
 
@@ -108,9 +107,9 @@ class GeneratorPanorama{
       $panoramaId = $panorama->getId();
       $firstViewBody = '';
       $firstViewObject = null;
-
       $elements = array();
 
+      // create the html of all the views templates
       foreach($panorama->getViews() as $view){
         $template = GeneratorPanorama::generateBase($view);
         array_push($elements, $template);
@@ -122,6 +121,7 @@ class GeneratorPanorama{
         }
       }
 
+      // create the html of all the timelines templates
       foreach($panorama->getTimelines() as $key => $timeline) {
         $template = GeneratorPanorama::generateTimeline($timeline);
         array_push($elements, $template);
@@ -133,10 +133,13 @@ class GeneratorPanorama{
         }
       }
 
+      // generate the html of the index.html page
       $page = GeneratorPanorama::generateHtml($panorama->getName(), $firstViewBody, $firstViewObject);
 
+      // get all the images added by the user
       $images = GeneratorPanorama::getImages($panorama);
 
+      // recreate the out directory
       if(!file_exists($basePath)){
         mkdir($basePath);
       }else{
@@ -148,27 +151,39 @@ class GeneratorPanorama{
         mkdir($basePath.'/'.$folder);
       }
 
+      // create the index.html file
       touch($basePath.'/index.html');
       file_put_contents($basePath.'/index.html',$page);
 
+      // copy all the necessary base file
       $files = scandir(".template");
       foreach($files as $file){
         if($file == "." or $file == ".."){
           continue;
         }
         if(is_dir('.template/'.$file)){
-          continue;
+          $path = "";
+          if($file == "direction_arrow") {
+            $path = "/assets/models/";
+          } elseif($file == "images") {
+            $path = "/assets/";
+          } else {
+            $path = "/";
+          }
+          Utils::directory_copy('./.template/'.$file, $basePath.$path.$file);
         }
-        if(explode(".",$file)[1] == "js"){
-          copy('./.template/'.$file, $basePath.'/scripts/'.$file);
+        if($file == "fiveserver.config.js"){
+          copy('./.template/'.$file, $basePath.'/'.$file);
         }
       }
 
+      // create all the template file
       foreach($elements as $element){
         touch($basePath.'/templates/'.$element->name);
         file_put_contents($basePath.'/templates/'.$element->name, $element->body);
       }
 
+      // create the map
       if($panorama->isMap()){
         $map = GeneratorPanorama::generateMap($panorama->getMap());
         touch($basePath.'/templates/'.$map['template']->name);
@@ -179,16 +194,14 @@ class GeneratorPanorama{
         fclose($file);
       }
 
+      // copy all the images in the out directory
       foreach($images as $image){
         copy('./.datas/'.$panoramaId.'/'.$image, $basePath.'/assets/images/'.$image);
       }
       
-      copy('./.template/blueWaypoint.png', './.datas/out/assets/images/blueWaypoint.png');
-      copy('./.template/sky.png', './.datas/out/assets/images/sky.png');
-      copy('./.template/computerBinding.png', './.datas/out/assets/images/computerBinding.png');
       copy('./.template/style.css','./.datas/out/assets/styles/style.css');
-      Utils::directory_copy('./.template/direction_arrow', './.datas/out/assets/models/direction_arrow');
 
+      // create the json file and generate the zip file
       GeneratorPanorama::createJsonFile($panorama);
       GeneratorPanorama::generateZip($panorama->getName());
     }
@@ -248,8 +261,7 @@ class GeneratorPanorama{
       $path = $view->getPath();
       $template = new Template();
 
-      $body = '<a-sky id="skybox" src="./assets/images/'.$path.'" animationcustom></a-sky>
-      ';
+      $body = '<a-sky id="skybox" src="./assets/images/'.$path.'" animationcustom></a-sky>';
 
       $elementId = 1;
 
