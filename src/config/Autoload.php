@@ -39,6 +39,5 @@ class Autoload
                 include_once $file;
             }
         }
-
     }
 }
