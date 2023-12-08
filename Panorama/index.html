@@ -26,15 +26,15 @@
       <!-- Caméra Rig -->
     <a-entity id="player" position="0 0 0">
       <!-- Caméra -->
-      <a-entity position="0 0 0" id="camera" camera look-controls="enabled: true; mouseEnabled: true" cursor="rayOrigin: mouse">
+      <a-entity id="camera" camera look-controls="enabled: true; mouseEnabled: true" cursor="rayOrigin: mouse">
       </a-entity>
     </a-entity>
 
   <a-entity id="base">
-    <a-sky color="black" sliderelement class="class1"></a-sky>
-    <a-sky color="green" sliderelement opacity="0.0" class="class2"></a-sky>
-    <a-sky color="blue" sliderelement opacity="0.0" class="class3"></a-sky>
-    <a-sky color="red" sliderelement opacity="0.0" class="class4"></a-sky>
+    <a-box houdini class="toto" position="0 0 -4" onclick="clickHandler(this)" color="blue"></a-box>
+      <a-box class="toto" color="blue" position ="0 2 -3" opacity="0.0"></a-box>
+  </a-entity>
+
   </a-entity>
 
 </a-scene>
