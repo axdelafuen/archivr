@@ -1,8 +1,9 @@
 <?php
 
 class GeneratorPanorama{
-    public static function generateHtml($panoramaName, $body, $firstView):string{
-      $page = '
+  public static function generateHtml($panoramaName, $body, $firstView):string
+  {
+    $page = '
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,8 +36,8 @@ class GeneratorPanorama{
 </html>
       ';
 
-      return $page;
-    }
+    return $page;
+  }
 
     public static function generateTimeline($timeline) : Template{
       $template = new Template();
@@ -117,7 +118,11 @@ class GeneratorPanorama{
 
       // create the html of all the views templates
       foreach($panorama->getViews() as $view){
-        $template = GeneratorPanorama::generateBase($view);
+        if($panorama->isMap()) {
+          $template = GeneratorPanorama::generateBase($view, $panorama->getMap());
+        } else {
+          $template = GeneratorPanorama::generateBase($view);
+        }
         array_push($elements, $template);
         if($template->name == explode('.', $fisrtView)[0].'.html'){
           $firstViewBody = $template->body;
@@ -267,11 +272,19 @@ class GeneratorPanorama{
       return $images;
     }
 
-    public static function generateBase($view):Template{
+    public static function generateBase($view, $map = null):Template{
       $path = $view->getPath();
       $template = new Template();
 
       $body = '<a-sky id="skybox" src="./assets/images/'.$path.'" animationcustom></a-sky>';
+
+      if($map != null) {
+        $body .= '
+        <div class="hud" id="div">
+          <button class="button-74" role="button" onclick="goTo(\'templates/'. explode('.', $map->getPath())[0].'.html\')" id="buttonMap">Map</button>
+        </div>
+        ';
+      }
 
       $elementId = 1;
 
@@ -333,15 +346,15 @@ class GeneratorPanorama{
       }
     })';
 
-    $body = '<a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky>';
+    $body = '<a-sky id="skybox" src="assets/images/sky.png" class="classMap" animationcustom></a-sky>';
 
-    $body .= '<a-image src="assets/images/' . $path . '" position="0 0 -0.6" width="2.1"></a-image>';
+    $body .= '<a-image src="assets/images/' . $path . '" position="0 0 -0.6" width="2.1" class="classMap"></a-image>';
 
     foreach($map->getElements() as $element){
       $elementPath = explode('.', $element->getView()->getPath())[0].'.html';
       $element->getPosition()->setZ(-0.5);
       $body .= '
-        <a-image onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
+        <a-image class="classMap" onclick="goTo(\'templates/' . $elementPath . '\')" animationcustom  position="' . strval($element->getPosition()) . '" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
       ';
     }
 
@@ -429,15 +442,14 @@ class GeneratorPanorama{
     }
 
     // map creation
-    if(isset($data['map'])){
-      $map =  new Map($data['map']['path']);
+    if(isset($data['map'])) {
+      $map = new Map($data['map']['path']);
       $waypoint_array = array();
       foreach($data['map']['elements'] as $element) {
-        foreach($panorama_images_array as $key => $value) {
-          if($key == $element['destination']){
-            $waypoint = new Waypoint($value);
-            $waypoint->set($element);
-            array_push($waypoint_array, $waypoint);
+        foreach($views_array as $view) {
+          if($view->getPath() == $element['destination']) {
+            $waypoint = new Waypoint($view);
+            $waypoint_array[] = $waypoint;
             break;
           }
         }
