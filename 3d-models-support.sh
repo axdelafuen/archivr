@@ -46,3 +46,4 @@ update_php_ini() {
 php_ini_path=$(php -i | grep -E 'Loaded Configuration File' | awk '{print $NF}')
 
 update_php_ini "$php_ini_path"
+

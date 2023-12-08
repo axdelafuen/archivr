@@ -11,7 +11,7 @@ class Autoload
 
         self::$instance = new self();
 
-        if (!spl_autoload_register(array(self::$instance, 'autoload'))) {
+        if (!spl_autoload_register(array(self::$instance, '_autoload'))) {
             throw new RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
         }
     }
@@ -28,7 +28,7 @@ class Autoload
         }
     }
 
-    private static function autoload($class)
+    private static function _autoload($class)
     {
         global $rep;
         $filename = $class . '.php';
