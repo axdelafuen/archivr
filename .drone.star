@@ -90,8 +90,6 @@ def CD(ctx):
 
   if ctx.build.branch == "master" or ctx.build.message.find("[force_ci]") != -1:
     out.append(archivr_code_inspection(ctx))
-    out.append(archivr_image(ctx))
-    out.append(archivr_active_container(ctx))
     return out
 
   return out
