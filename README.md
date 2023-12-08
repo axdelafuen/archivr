@@ -75,7 +75,7 @@ This project was developed by students from the IUT of Aubière (UCA), as part o
 
 # Acknowledgements
 
-Thanks to ours professors for their invaluable guidance and feedback throughout the development of this project.
+Thanks to ours professors for their guidance and feedback throughout the development of this project.
 
 - Sebastien SALVA (project tutor)
 
