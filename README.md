@@ -48,7 +48,7 @@ php -S 127.0.0.1:8000 -t ./archivr/src/
 
 If you want to upload personal 3D models _(.gltf)_, in your panorama, you have to update your `php.ini` (3D model files are too large for basic php config)
 
-A script is available to update settings (currently bug with macOS) :
+A script is available to update settings :
 
 ```
 sudo ./3d-models-support.sh
