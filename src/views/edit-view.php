@@ -6,7 +6,7 @@
     <script src="views/scripts/editView.js"></script>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src=".template/script.js"></script>
+    <script src=".template/scripts/script.js"></script>
 </head>
 
 <div class="hud-left">
