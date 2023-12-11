@@ -130,7 +130,7 @@
                         }
                         elseif(get_class($element)=="AssetImported")
                         {
-                            echo "<option value='".$element->getId()."'>Custom asset : ".$element->getName()."</option>";
+                            echo "<option value='".$element->getId()."'>Custom asset : ".$element->getPath()."</option>";
                         }
                     }
                 }
@@ -173,7 +173,7 @@
         elseif(get_class($element)=="AssetImported")
         {
             echo "Custom asset : ";
-            echo $element->getName();
+            echo $element->getPath();
         }
         ?>
         <div id="positionSliders">
