@@ -82,8 +82,8 @@ class GeneratorPanorama{
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           
             $body .= '
-              <a-entity ' . $opacity . ' position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' class="class' . $classNumber . '" >
-              <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' " >
+              <a-entity ' . $opacity . ' class="class' . $classNumber . ' gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
                 animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
                 // onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
                 look-at="#pointer' . $elementId .'">
@@ -94,7 +94,7 @@ class GeneratorPanorama{
             ';
           } elseif(get_class($element) == AssetImported::class)
           {
-            $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
+            $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'" class="class' . $classNumber . '" ' . $opacity . '>
                       <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'"></a-entity>
                     </a-entity>';
           }
