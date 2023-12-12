@@ -14,6 +14,7 @@ final class TestAssetImported extends TestCase
      * @covers AssetImported::__construct
      * @covers AssetImported::getPath
      * @covers AssetImported::getModel
+     * @covers AssetImported::setModel
      */
     public function testCanBeCreatedAssetImportedAndGetPath(): void
     {
@@ -51,5 +52,28 @@ final class TestAssetImported extends TestCase
         $this->assertSame($asset->getScaleInt(), $scale);
 
         $this->assertSame($asset->getScale(), (string)$scale." ".(string)$scale." ".(string)$scale);
+    }
+
+    /**
+     * @covers AssetImported::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $name = "&àcàç&cn&ciosc";
+
+        $path = $name.".gltf";
+
+        $asset = new AssetImported($name, $path);
+
+        $json = $asset->jsonSerialize();
+
+        $this->assertCount(6, $json);
+
+        $this->assertArrayHasKey("id", $json);
+        $this->assertArrayHasKey("position", $json);
+        $this->assertArrayHasKey("rotation", $json);
+        $this->assertArrayHasKey("path", $json);
+        $this->assertArrayHasKey("model", $json);
+        $this->assertArrayHasKey("scale", $json);
     }
 }
