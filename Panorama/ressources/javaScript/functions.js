@@ -67,8 +67,8 @@ function addPanel(computer)
       leftHand.setAttribute("laser-controls","hand:left")
       rightHand.setAttribute("laser-controls","hand: right")
 
-      leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1;objects: [animationcustom]")
-      rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1;objects: [animationcustom]")
+      leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1;objects: [class]")
+      rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1;objects: [class]")
 
       camera.append(leftHand)
       camera.append(rightHand)
