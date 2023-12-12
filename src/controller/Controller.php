@@ -648,7 +648,7 @@ class Controller
 			return;
 		}
 
-		$_SESSION['selected_view']->setCameraRotation(floatval($_REQUEST['camera_rotation_x']), floatval($_REQUEST['camera_rotation_y']), floatval($_REQUEST['camera_rotation_z']));
+		$_SESSION['selected_view']->setCameraRotation($_SESSION['selected_view']->getCameraRotation()->getY() + floatval($_REQUEST['camera_rotation_y']));
 
 		require_once ($rep.$views['editView']);
 	}

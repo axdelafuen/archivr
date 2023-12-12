@@ -320,10 +320,9 @@
 
     <?php echo '<a-sky src=".datas/'. $_SESSION['panorama']->getId().'/'.$_SESSION['selected_view']->getPath().'" ></a-sky>'?>
 
-        <a-entity position="0 -1.6 0" id="camera" rotation="<?php echo $_SESSION['selected_view']->getCameraRotation(); ?>" cursor="rayOrigin: mouse">
-          <a-camera wasd-controls-enabled="false" look-controls id="a-camera">
-          </a-camera>
-        </a-entity>
+    <a-entity position="0 -1.6 0" rotation="0 <?php echo $_SESSION['selected_view']->getCameraRotation()->getY(); ?> 0">
+        <a-camera id="camera" wasd-controls="enabled: false"></a-camera>
+    </a-entity>
 
     <?php
     $elementId = 1;
