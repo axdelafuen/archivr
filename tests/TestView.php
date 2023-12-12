@@ -68,11 +68,11 @@ final class TestView extends TestCase
     {
         $view = new View('test.jpg');
 
-        $rotation = new Rotation();
+        $y = 2;
 
-        $view->setCameraRotation($rotation->getX(), $rotation->getY(), $rotation->getX());
+        $view->setCameraRotation($y);
 
-        $this->assertSame($view->getCameraRotation()->getRotation(), $rotation->getRotation());
+        $this->assertSame($view->getCameraRotation()->getRotation(), "0 ".$y." 0");
     }
     /**
      * @covers View::set

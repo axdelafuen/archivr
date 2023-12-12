@@ -76,7 +76,7 @@ function changeScale(){
 }
 
 function setCameraRotation(){
-    document.querySelector(".cameraRotationX").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").x)
-    document.querySelector(".cameraRotationY").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").y)
-    document.querySelector(".cameraRotationZ").setAttribute("value", document.querySelector("#a-camera").getAttribute("rotation").z)
+    document.querySelector(".cameraRotationX").setAttribute("value", document.querySelector("#camera").getAttribute("rotation").x)
+    document.querySelector(".cameraRotationY").setAttribute("value", document.querySelector("#camera").getAttribute("rotation").y)
+    document.querySelector(".cameraRotationZ").setAttribute("value", document.querySelector("#camera").getAttribute("rotation").z)
 }
