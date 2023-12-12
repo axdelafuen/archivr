@@ -89,4 +89,20 @@ final class TestView extends TestCase
 
         $this->assertSame($data[0], $view->getElements()[0]);
     }
+
+    /**
+     * @covers View::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $view = new View("path.path");
+
+        $json = $view->jsonSerialize();
+
+        $this->assertCount(3, $json);
+
+        $this->assertArrayHasKey("path", $json);
+        $this->assertArrayHasKey("elements", $json);
+        $this->assertArrayHasKey("cameraRotation", $json);
+    }
 }

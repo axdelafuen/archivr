@@ -52,4 +52,24 @@ final class TestWaypoint extends TestCase
 
         $this->assertSame($waypoint->getScale(), (string)$scale." ".(string)$scale." ".(string)$scale);
     }
+    /**
+     * @covers Waypoint::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $view = new View("test.path");
+
+        $waypoint = new Waypoint($view);
+
+        $json = $waypoint->jsonSerialize();
+
+        $this->assertCount(5, $json);
+
+        $this->assertArrayHasKey("id", $json);
+        $this->assertArrayHasKey("position", $json);
+        $this->assertArrayHasKey("rotation", $json);
+        $this->assertArrayHasKey("scale", $json);
+        $this->assertArrayHasKey("destination", $json);
+    }
+
 }

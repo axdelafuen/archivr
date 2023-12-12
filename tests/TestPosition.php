@@ -94,4 +94,20 @@ final class TestPosition extends TestCase
         $position = new Position(1,2,3);
         $this->assertSame($position->__toString(), "1 2 3");
     }
+
+    /**
+     * @covers Position::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $position = new Position(1,2,3);
+
+        $json = $position->jsonSerialize();
+
+        $this->assertCount(3, $json);
+
+        $this->assertArrayHasKey("x", $json);
+        $this->assertArrayHasKey("y", $json);
+        $this->assertArrayHasKey("z", $json);
+    }
 }

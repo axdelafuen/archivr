@@ -126,4 +126,20 @@ final class TestSign extends TestCase
         $this->assertSame($sign->getRotation()->getZ(),floatval($z));
     }
 
+    /**
+     * @covers Sign::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $sign = new Sign("test");
+
+        $json = $sign->jsonSerialize();
+
+        $this->assertCount(4, $json);
+
+        $this->assertArrayHasKey("id", $json);
+        $this->assertArrayHasKey("position", $json);
+        $this->assertArrayHasKey("rotation", $json);
+        $this->assertArrayHasKey("content", $json);
+    }
 }
