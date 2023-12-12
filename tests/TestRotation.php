@@ -94,4 +94,20 @@ final class TestRotation extends TestCase
         $rotation = new Rotation(1,2,3);
         $this->assertSame($rotation->__toString(), "1 2 3");
     }
+
+    /**
+     * @covers Rotation::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $rotation = new Rotation(1,2,3);
+
+        $json = $rotation->jsonSerialize();
+
+        $this->assertCount(3, $json);
+
+        $this->assertArrayHasKey("x", $json);
+        $this->assertArrayHasKey("y", $json);
+        $this->assertArrayHasKey("z", $json);
+    }
 }

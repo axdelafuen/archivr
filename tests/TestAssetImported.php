@@ -27,6 +27,12 @@ final class TestAssetImported extends TestCase
         $this->assertSame($nameZip, $asset->getPath());
 
         $this->assertSame($path, $asset->getModel());
+
+        $newPath = "test.gltf";
+
+        $asset->setModel($newPath);
+
+        $this->assertSame($newPath, $asset->getModel());
     }
     /**
      * @covers AssetImported::setScale

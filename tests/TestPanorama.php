@@ -124,4 +124,28 @@ final class TestPanorama extends TestCase
 
         $this->assertSame(1,count($panorama->getTimelines()));
     }
+
+    /**
+     * @covers Panorama::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $panorama = new Panorama("test");
+        $json = $panorama->jsonSerialize();
+
+        $this->assertCount(4, $json);
+
+        $this->assertArrayHasKey("id", $json);
+        $this->assertArrayHasKey("name", $json);
+        $this->assertArrayHasKey("timelines", $json);
+        $this->assertArrayHasKey("views", $json);
+
+        $map = new Map("path.path");
+        $panorama->setMap($map);
+        $json = $panorama->jsonSerialize();
+
+        $this->assertCount(5, $json);
+
+        $this->assertArrayHasKey("map", $json);
+    }
 }

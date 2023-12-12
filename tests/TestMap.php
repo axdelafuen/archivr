@@ -70,4 +70,19 @@ final class TestMap extends TestCase
 
         $this->assertSame($elementById->getId(), $element->getId());
     }
+
+    /**
+     * @covers Map::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $map = new Map("path.path");
+
+        $json = $map->jsonSerialize();
+
+        $this->assertCount(2, $json);
+
+        $this->assertArrayHasKey("path", $json);
+        $this->assertArrayHasKey("elements", $json);
+    }
 }

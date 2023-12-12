@@ -57,4 +57,20 @@ final class TestTimeline extends TestCase
 
         $this->assertFalse($timeline->isView($view));
     }
+
+    /**
+     * @covers Timeline::jsonSerialize
+     */
+    public function testJsonSerialize():void
+    {
+        $timeline = new Timeline("test");
+
+        $json = $timeline->jsonSerialize();
+
+        $this->assertCount(3, $json);
+
+        $this->assertArrayHasKey("id", $json);
+        $this->assertArrayHasKey("name", $json);
+        $this->assertArrayHasKey("views", $json);
+    }
 }
