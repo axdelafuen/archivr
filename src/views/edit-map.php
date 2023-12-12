@@ -6,8 +6,8 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 
-<div class="hud p-2">
-    <h3>Edit your view : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
+<div class="hud-left p-2">
+    <h3>Edit your map : <?php echo $_SESSION['selected_view']->getName(); ?></h3>
     <form  method="post">
         <label>
             <select name="selectedMapElementChanged" require onchange="this.form.submit()">
