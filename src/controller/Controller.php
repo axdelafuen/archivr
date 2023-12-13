@@ -315,13 +315,7 @@ class Controller
 
 		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']), floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']), floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
 		if (count($_SESSION['selected_view']->getElements()) > 0) {
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
@@ -348,20 +342,14 @@ class Controller
 			require_once $rep.$views['error'];
 		}
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
-		if (count($_SESSION['selected_view']->getElements()) > 0) {
-			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
-		} else {
-			unset($_SESSION['selected_element']);
-		}
-	}
+        if (count($_SESSION['selected_view']->getElements()) > 0) {
+            $_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+        } else {
+            unset($_SESSION['selected_element']);
+        }
+    }
 
 	private function addViewWaypoint()
 	{
@@ -383,7 +371,7 @@ class Controller
 
 		$elementId = $_REQUEST['selected_element'];
 
-		if (!isset($elementId) || empty($elementId)) {
+		if (empty($elementId)) {
 			require_once ($rep.$views['error']);
 		} else {
 			$element = $_SESSION['selected_view']->getElementById($elementId);
@@ -429,13 +417,7 @@ class Controller
 	{
 		global $rep, $views;
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
@@ -609,6 +591,8 @@ class Controller
 			return;
 		}
 
+        $this->saveElement();
+
 		$_SESSION['selected_view']->setDate($_REQUEST['changedDate']);
 
 		require_once($rep.$views['editView']);
@@ -647,6 +631,8 @@ class Controller
 			require_once ($rep.$views['error']);
 			return;
 		}
+
+        $this->saveElement();
 
 		$_SESSION['selected_view']->setCameraRotation($_SESSION['selected_view']->getCameraRotation()->getY() + floatval($_REQUEST['camera_rotation_y']));
 
@@ -712,6 +698,8 @@ class Controller
 			return;
 		}
 
+        $this->saveElement();
+
 		if (count($_SESSION['selected_view']->getElements()) > 0) {
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 		} else {
@@ -720,5 +708,16 @@ class Controller
 
 		require_once $rep.$views['editView'];
 	}
+
+    private function saveElement(): void
+    {
+        if (isset($_SESSION['selected_element'])) {
+            $_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']), floatval($_REQUEST['elementPositionZ']));
+            $_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']), floatval($_REQUEST['elementRotationZ']));
+            if (isset($_REQUEST['elementScale'])) {
+                $_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+            }
+        }
+    }
 
 }

@@ -76,6 +76,17 @@
             echo '<input class="cameraRotationX" type="hidden" name="camera_rotation_x" value="'.$_SESSION['selected_view']->getCameraRotation()->getX() .'">';
             echo '<input class="cameraRotationY" type="hidden" name="camera_rotation_y" value="'.$_SESSION['selected_view']->getCameraRotation()->getY() .'">';
             echo '<input class="cameraRotationZ" type="hidden" name="camera_rotation_z" value="'.$_SESSION['selected_view']->getCameraRotation()->getZ() .'">';
+            if(isset($_SESSION['selected_element'])){
+                echo '<input class="elementPositionX" type="hidden" name="elementPositionX" value="'.$_SESSION['selected_element']->getPosition()->getX() .'">';
+                echo '<input class="elementPositionY" type="hidden" name="elementPositionY" value="'.$_SESSION['selected_element']->getPosition()->getY() .'">';
+                echo '<input class="elementPositionZ" type="hidden" name="elementPositionZ" value="'.$_SESSION['selected_element']->getPosition()->getZ() .'">';
+                if(get_class($_SESSION['selected_element']) == "Waypoint" || get_class($_SESSION['selected_element']) == "AssetImported") {
+                    echo '<input class="elementScale" type="hidden" name="elementScale" value="'.$_SESSION['selected_element']->getScaleInt() .'">';
+                }
+                echo '<input class="elementRotationX" type="hidden" name="elementRotationX" value="'.$_SESSION['selected_element']->getRotation()->getX().'">';
+                echo '<input class="elementRotationY" type="hidden" name="elementRotationY" value="'.$_SESSION['selected_element']->getRotation()->getY().'">';
+                echo '<input class="elementRotationZ" type="hidden" name="elementRotationZ" value="'.$_SESSION['selected_element']->getRotation()->getZ().'">';
+            }
         ?>
         <input type="hidden" name="action" value="changeCameraRotation">
     </form>
