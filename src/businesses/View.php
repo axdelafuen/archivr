@@ -5,12 +5,6 @@ class View extends Image implements JsonSerializable
     private int $date;
 
     private Rotation $cameraRotation;
-
-    public function isDate():bool
-    {
-        return isset($this->date);
-    }
-
     public function getDate():int
     {
         return $this->date;

@@ -34,15 +34,6 @@ final class TestView extends TestCase
 
         $this->assertSame($name, $view->getName());
     }
-    /**
-     * @covers View::isDate
-     */
-    public function testIsDate():void
-    {
-        $view = new View('test.jpg');
-
-        $this->assertFalse($view->isDate());
-    }
 
     /**
      * @covers View::getDate
