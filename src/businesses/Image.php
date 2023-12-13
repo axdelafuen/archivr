@@ -23,7 +23,7 @@ abstract class Image implements JsonSerializable
         return substr($this->path, 0, strpos($this->path, "."));
     }
 
-    public function getElements()
+    public function getElements():array
     {
         return $this->elements;
     }

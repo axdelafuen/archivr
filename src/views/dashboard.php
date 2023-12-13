@@ -174,7 +174,7 @@ require_once(__DIR__.'/templates/navbar.html');
                              <h5 class="m-0 mr-3"><?php echo $timeline->getName() ?></h5>
                              <form method="post" class="m-0">
                                  <button class="btn btn-secondary" type="submit">Delete</button>
-                                 <input type="hidden" name="selected_timeline" value=" <?php $timeline->getId() ?>">
+                                 <input type="hidden" name="selected_timeline" value="<?php echo $timeline->getId() ?>">
                                  <input type="hidden" name="action" value="deleteTimeline">
                              </form>
                          </div>

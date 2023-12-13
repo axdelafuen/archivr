@@ -266,7 +266,14 @@ class Controller
 
 	private function deleteView()
 	{
-		global $rep, $views;
+		global $rep, $views, $errorList;
+
+        if (isset($_SESSION['panorama'])) {
+            $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+        }
 
 		if (isset($_SESSION['selected_timeline'])) {
 			$_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
@@ -315,13 +322,7 @@ class Controller
 
 		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']), floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']), floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
 		if (count($_SESSION['selected_view']->getElements()) > 0) {
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
@@ -348,20 +349,14 @@ class Controller
 			require_once $rep.$views['error'];
 		}
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
-		if (count($_SESSION['selected_view']->getElements()) > 0) {
-			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
-		} else {
-			unset($_SESSION['selected_element']);
-		}
-	}
+        if (count($_SESSION['selected_view']->getElements()) > 0) {
+            $_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
+        } else {
+            unset($_SESSION['selected_element']);
+        }
+    }
 
 	private function addViewWaypoint()
 	{
@@ -383,7 +378,7 @@ class Controller
 
 		$elementId = $_REQUEST['selected_element'];
 
-		if (!isset($elementId) || empty($elementId)) {
+		if (empty($elementId)) {
 			require_once ($rep.$views['error']);
 		} else {
 			$element = $_SESSION['selected_view']->getElementById($elementId);
@@ -429,13 +424,7 @@ class Controller
 	{
 		global $rep, $views;
 
-		if (isset($_SESSION['selected_element'])) {
-			$_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']),floatval($_REQUEST['elementPositionZ']));
-			$_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']),floatval($_REQUEST['elementRotationZ']));
-			if (isset($_REQUEST['elementScale'])) {
-				$_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
-			}
-		}
+        $this->saveElement();
 
 		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
 
@@ -491,14 +480,14 @@ class Controller
 	{
 		global $rep, $views, $errorList;
 
-		$timelineName=Validation::valTexte($_POST['timelineName']);
+		$timelineName=Validation::valTexte($_REQUEST['timelineName']);
 
-		if (!isset($timelineName)) {
+		if (!isset($timelineName) || $timelineName == null) {
 			$errorList[]='error in timeline name';
 			require_once($rep . $views['error']);
 		}
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			$errorList[]='projet inexistant';
 			require_once($rep . $views['error']);
 		}
@@ -552,10 +541,21 @@ class Controller
 	{
 		global $rep, $views, $errorList;
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			$errorList[]='projet inexistant';
 			require_once($rep . $views['error']);
 		}
+
+        if (isset($_SESSION['panorama'])) {
+            if (isset($_SESSION['selected_timeline'])) {
+                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_timeline']);
+            } else {
+                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
+            }
+        } else {
+            $errorList[] = "Panorama not found";
+            require_once $rep.$views['error'];
+        }
 
 		$_SESSION['panorama']->removeTimeline($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
 
@@ -567,7 +567,7 @@ class Controller
 	private function editTimeline(){
 		global $rep, $views;
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			require_once($rep . $views['error']);
 		}
 		if (!isset($_POST['selected_timeline']) || empty($_POST['selected_timeline'])) {
@@ -609,6 +609,8 @@ class Controller
 			return;
 		}
 
+        $this->saveElement();
+
 		$_SESSION['selected_view']->setDate($_REQUEST['changedDate']);
 
 		require_once($rep.$views['editView']);
@@ -647,6 +649,8 @@ class Controller
 			require_once ($rep.$views['error']);
 			return;
 		}
+
+        $this->saveElement();
 
 		$_SESSION['selected_view']->setCameraRotation($_SESSION['selected_view']->getCameraRotation()->getY() + floatval($_REQUEST['camera_rotation_y']));
 
@@ -712,6 +716,8 @@ class Controller
 			return;
 		}
 
+        $this->saveElement();
+
 		if (count($_SESSION['selected_view']->getElements()) > 0) {
 			$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 		} else {
@@ -720,5 +726,16 @@ class Controller
 
 		require_once $rep.$views['editView'];
 	}
+
+    private function saveElement(): void
+    {
+        if (isset($_SESSION['selected_element'])) {
+            $_SESSION['selected_element']->setPositionXYZ(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']), floatval($_REQUEST['elementPositionZ']));
+            $_SESSION['selected_element']->setRotationXYZ(floatval($_REQUEST['elementRotationX']), floatval($_REQUEST['elementRotationY']), floatval($_REQUEST['elementRotationZ']));
+            if (isset($_REQUEST['elementScale'])) {
+                $_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
+            }
+        }
+    }
 
 }

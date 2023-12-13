@@ -3,7 +3,7 @@
 class Timeline implements JsonSerializable
 {
 
-    private string $id; // string ? int ?
+    private string $id;
 
     private string $name;
 
@@ -22,7 +22,7 @@ class Timeline implements JsonSerializable
         return null;
     }
 
-    public function isView(View $value)
+    public function isView(View $value):bool
     {
         if (in_array($value, $this->views)) {
             return true;
@@ -50,12 +50,12 @@ class Timeline implements JsonSerializable
         return null;
     }
 
-    public function getName()
+    public function getName():string
     {
         return $this->name;
     }
 
-    public function getId()
+    public function getId():string
     {
         return $this->id;
     }
