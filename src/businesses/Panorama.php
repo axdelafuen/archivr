@@ -132,4 +132,29 @@ class Panorama implements JsonSerializable
     {
         $this->id = $data;
     }
+
+    public function removeEveryWaypointTo($destination):void
+    {
+        foreach ($this->views as $view) {
+            foreach ($view->getElements() as $element) {
+                if (get_class($element) == "Waypoint") {
+                    if ($element->getView() == $destination) {
+                        $view->removeElement($element);
+                    }
+                }
+            }
+        }
+
+        foreach ($this->timelines as $timeline) {
+            foreach ($timeline->getViews() as $view) {
+                foreach ($view->getElements() as $element) {
+                    if (get_class($element) == "Waypoint") {
+                        if ($element->getView() == $destination) {
+                            $view->removeElement($element);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

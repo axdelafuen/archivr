@@ -266,7 +266,14 @@ class Controller
 
 	private function deleteView()
 	{
-		global $rep, $views;
+		global $rep, $views, $errorList;
+
+        if (isset($_SESSION['panorama'])) {
+            $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+        }
 
 		if (isset($_SESSION['selected_timeline'])) {
 			$_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
@@ -473,14 +480,14 @@ class Controller
 	{
 		global $rep, $views, $errorList;
 
-		$timelineName=Validation::valTexte($_POST['timelineName']);
+		$timelineName=Validation::valTexte($_REQUEST['timelineName']);
 
-		if (!isset($timelineName)) {
+		if (!isset($timelineName) || $timelineName == null) {
 			$errorList[]='error in timeline name';
 			require_once($rep . $views['error']);
 		}
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			$errorList[]='projet inexistant';
 			require_once($rep . $views['error']);
 		}
@@ -534,10 +541,21 @@ class Controller
 	{
 		global $rep, $views, $errorList;
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			$errorList[]='projet inexistant';
 			require_once($rep . $views['error']);
 		}
+
+        if (isset($_SESSION['panorama'])) {
+            if (isset($_SESSION['selected_timeline'])) {
+                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_timeline']);
+            } else {
+                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
+            }
+        } else {
+            $errorList[] = "Panorama not found";
+            require_once $rep.$views['error'];
+        }
 
 		$_SESSION['panorama']->removeTimeline($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
 
@@ -549,7 +567,7 @@ class Controller
 	private function editTimeline(){
 		global $rep, $views;
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
+		if (empty($_SESSION['panorama'])) {
 			require_once($rep . $views['error']);
 		}
 		if (!isset($_POST['selected_timeline']) || empty($_POST['selected_timeline'])) {
