@@ -148,4 +148,27 @@ final class TestPanorama extends TestCase
 
         $this->assertArrayHasKey("map", $json);
     }
+    /**
+     * @covers Panorama::removeEveryWaypointTo
+     */
+    public function testRemoveWaypoint():void
+    {
+        $panorama = new Panorama("test");
+
+        $view1 = new View("view1.path");
+        $view2 = new View("view2.path");
+
+        $waypoint = new Waypoint($view2);
+
+        $panorama->addView(0, $view1);
+        $panorama->addView(1, $view2);
+
+        $panorama->getViewByPath($view1->getPath())->addElement($waypoint);
+
+        $this->assertCount(1, $panorama->getViewByPath($view1->getPath())->getElements());
+
+        $panorama->removeEveryWaypointTo($view2);
+
+        $this->assertCount(0, $panorama->getViewByPath($view1->getPath())->getElements());
+    }
 }
