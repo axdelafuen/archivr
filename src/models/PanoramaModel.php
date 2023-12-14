@@ -76,7 +76,8 @@ class PanoramaModel{
             foreach ($view->getElements() as $element) {
                 if (get_class($element) == "Waypoint") {
                     if ($element->getView() == $destination) {
-                        $view->removeElement($element);
+                        $imageMdl = new ImageModel($view);
+                        $imageMdl->removeElement($element);
                     }
                 }
             }
@@ -87,7 +88,8 @@ class PanoramaModel{
                 foreach ($view->getElements() as $element) {
                     if (get_class($element) == "Waypoint") {
                         if ($element->getView() == $destination) {
-                            $view->removeElement($element);
+                            $imageMdl = new ImageModel($view);
+                            $imageMdl->removeElement($element);
                         }
                     }
                 }
