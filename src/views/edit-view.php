@@ -19,7 +19,8 @@
             <option>--Add timeline--</option>
             <?php
             foreach ($_SESSION['panorama']->getTimelines() as $timeline){
-                if(!$timeline->isView($_SESSION['selected_view'])) {
+                $timelineMdl = new TimelineModel($timeline);
+                if(!$timelineMdl->isView($_SESSION['selected_view'])) {
                     echo "<option value='" . $timeline->getId() . "'>" . $timeline->getName() . "</option>";
                 }
             }
@@ -27,7 +28,8 @@
         </select>
         <?php
         foreach ($_SESSION['panorama']->getTimelines() as $timeline){
-            if($timeline->isView($_SESSION['selected_view'])) {
+            $timelineMdl = new TimelineModel($timeline);
+            if($timelineMdl->isView($_SESSION['selected_view'])) {
                 echo "Actual timeline : ".$timeline->getName();
             }
         }
@@ -49,7 +51,7 @@
     <h4>Change view's date : </h4>
 
     <form  method="post">
-        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->isDate()){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>" required>
+        <input type="number" min="-3000" max="10000" name="changedDate" value="<?php if($_SESSION['selected_view']->getDate() !== null){echo $_SESSION['selected_view']->getDate();} else{echo '';} ?>" required>
         <?php
         if(isset($_SESSION['selected_element'])) {
             echo '<input type="hidden" name="selected_element" value="' . $_SESSION['selected_element']->getId() . '">';

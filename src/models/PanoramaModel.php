@@ -9,11 +9,6 @@ class PanoramaModel{
         $this->panorama = $panorama;
     }
 
-    public function isMap():bool
-    {
-        return $this->panorama->getMap() !== null;
-    }
-
     public function addTimeline($timeline)
     {
         $array = $this->panorama->getTimelines();
@@ -36,10 +31,10 @@ class PanoramaModel{
         return false;
     }
 
-    public function addView($i, $view)
+    public function addView($view)
     {
         $array = $this->panorama->getViews();
-        $array[$i] = $view;
+        $array[] = $view;
         $this->panorama->setViews($array);
     }
 

@@ -7,7 +7,7 @@ class Panorama implements JsonSerializable
 
     private string $name;
 
-    private ?Map $map;
+    private ?Map $map = null;
 
     private array $timelines = array();
 
@@ -33,7 +33,7 @@ class Panorama implements JsonSerializable
         $this->name = $name;
     }
 
-    public function getMap():Map
+    public function getMap():?Map
     {
         return $this->map;
     }
@@ -67,7 +67,6 @@ class Panorama implements JsonSerializable
     {
         $this->name = $name;
         $this->id = Utils::idGenerator($name);
-        unset($this->map);
     }
 
     public function jsonSerialize():array

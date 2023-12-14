@@ -2,15 +2,15 @@
 
 class View extends Image implements JsonSerializable
 {
-    private int $date;
+    private ?int $date = null;
 
     private Rotation $cameraRotation;
-    public function getDate():int
+    public function getDate():?int
     {
         return $this->date;
     }
 
-    public function setDate(int $date)
+    public function setDate(?int $date)
     {
         $this->date = $date;
     }

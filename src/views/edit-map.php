@@ -15,10 +15,7 @@
                 <?php
                 foreach ($_SESSION['selected_view']->getElements() as $element){
                     if($element != $_SESSION['selected_element']){
-                        if(get_class($element)=="Sign"){
-                            //echo "<option value='".$element->getId()."'>Sign : ".$element->getContent()."</option>";
-                        }
-                        elseif(get_class($element)=="Waypoint"){
+                        if(get_class($element)=="Waypoint"){
                             echo "<option value='".$element->getId()."'>Waypoint : ".$element->getViewName()."</option>";
                         }
                     }
@@ -41,11 +38,7 @@
 
         $element = $_SESSION['selected_element'];
 
-        if(get_class($element)=="Sign"){
-            //echo "Sign : ";
-            //echo $element->getContent();
-        }
-        elseif(get_class($element)=="Waypoint"){
+        if(get_class($element)=="Waypoint"){
             echo "Waypoint : ";
             echo $element->getViewName();
         }
@@ -81,6 +74,10 @@
                 if($view != $_SESSION['selected_view']){
                     echo "<option value='".$view->getPath()."'>".$view->getName()."</option>";
                 }
+            }
+            foreach ($_SESSION['panorama']->getTimelines() as $timeline)
+            {
+                echo "<option value='" . $timeline->getId() . "'>" . $timeline->getName() . "</option>";
             }
             ?>
         </select>
