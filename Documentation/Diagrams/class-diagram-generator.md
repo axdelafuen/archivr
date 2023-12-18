@@ -41,6 +41,10 @@ class Waypoint{
 class Sign{
     - content
 }
+class AssetImported{
+    - path
+    - scale
+}
 
 User --> Panorama:*panoramas
 
@@ -48,6 +52,7 @@ View --|> Image
 Map --|> Image
 Waypoint --|> Element
 Sign --|> Element
+AssetImported --|> Element
 
 Image --> Element : *elements
 
