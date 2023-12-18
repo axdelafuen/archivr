@@ -3,18 +3,11 @@ classDiagram
 
 direction LR
 
-class Validation
 class Controller
 
-Validation <-- Controller
-
-class User{
-    - id
-    - name
-    - password
-}
 class Panorama{
     - id
+    - name
 }
 class Image{
     <<abstract>>
@@ -26,9 +19,10 @@ class View{
 }
 class Timeline{
     - id
+    - name
 }
 class Map{
-    -position
+    
 }
 class Element{
     <<abstract>>
@@ -36,7 +30,7 @@ class Element{
     - position
 }
 class Waypoint{
-    - path
+    - scale
 }
 class Sign{
     - content
@@ -46,27 +40,45 @@ class AssetImported{
     - scale
 }
 
-User --> Panorama:*panoramas
-
-View --|> Image
-Map --|> Image
-Waypoint --|> Element
-Sign --|> Element
-AssetImported --|> Element
-
-Image --> Element : *elements
-
-Panorama --> Map: map
-Timeline --> View : *views
-Panorama --> Timeline : *timelines
-
-Controller --> Panorama : selectedPanorama
-
+class Position{
+    - x
+    - y
+    - z
+}
+class Rotation{
+    - x
+    - y
+    - z
+}
 class Generator{
     + download
     + upload
     + save
 }
 
+Controller --> Panorama : selectedPanorama
 Controller --> Generator : generator
+
+Panorama --> View: *views
+Panorama --> Timeline : *timelines
+Panorama --> Map: map
+
+Timeline --> View : *views
+
+Image --> Element : *elements
+
+View --|> Image
+View --> Rotation:cameraRotation
+
+Map --|> Image
+
+Waypoint --|> Element
+Sign --|> Element
+AssetImported --|> Element
+
+Element --|> Position 
+Element --|> Rotation
+
+Waypoint --> View:destination
+
 ```
