@@ -43,5 +43,3 @@ function mobileComponent()
   link.href ='./ressources/css/style.css';
   document.getElementsByTagName('HEAD')[0].appendChild(link);
 }
-
-

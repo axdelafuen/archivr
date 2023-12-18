@@ -38,22 +38,29 @@ async function goTo(file,rotation="0 0 0")
 }
 
 
-
 function addPanel(computer)
 {
   if(AFRAME.utils.device.checkHeadsetConnected ())
     {
-      let camera = document.querySelector("#player")
+      let camera = document.querySelector("#player")      
+      let leftHand = document.createElement("a-entity")
+      let rightHand =  document.createElement("a-entity")
 
-      let panel = document.createElement("a-image")
-      if(!computer)
-      {
-        panel.setAttribute("src","./ressources/assets/computerBinding.png")
-        panel.setAttribute("rotation","-50 0 0")
-        panel.setAttribute("position","0 -2 -1")
-        document.querySelector("a-scene").append(panel)
-      }
-  }
+      leftHand.setAttribute("id","left")
+      rightHand.setAttribute("id","right")
+
+      rightHand.setAttribute("hand-controls")
+      leftHand.setAttribute("hand-controls")
+
+      leftHand.setAttribute("laser-controls","hand:left")
+      rightHand.setAttribute("laser-controls","hand: right")
+
+      leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1;objects: [class]")
+      rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1;objects: [class]")
+
+      camera.append(leftHand)
+      camera.append(rightHand)
+    }
 }
 
 

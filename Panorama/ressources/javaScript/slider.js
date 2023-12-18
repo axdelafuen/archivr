@@ -1,8 +1,8 @@
 AFRAME.registerComponent('slider', {
     schema: {
-        width: {
-            default: 0.25
-        }
+      width: {
+        default: 0.25
+      },
     },
     init: function() {
         var trackEl = this.trackEl = document.createElement('a-entity');

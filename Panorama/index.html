@@ -11,7 +11,6 @@
     <script src="./ressources/javaScript/deviceHandler.js"></script>
     <script src="./ressources/javaScript/slider/smartphoneSliderComponent.js"></script>
     <script src="./ressources/javaScript/slider/computerSliderComponent.js"></script>
-    <script src="https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js"></script>
     
     <script src="ressources/javaScript/menu.js"></script>
     <script src="ressources/javaScript/slider.js"></script>
@@ -22,12 +21,16 @@
     <script src="ressources/javaScript/pressable.js"></script>
     <script src="ressources/javaScript/event-manager.js"></script>
     <script src="ressources/javaScript/pinchBar.js"></script>
+    <script src="ressources/javaScript/buttonVr.js"></script>
     <script>
     function debug(){
-      document.querySelector("#pinched").emit("pinchedmoved")
+      console.log("debug")
+      document.querySelector("#debug").setAttribute("color","red")
+
     }
     </script>
   </head>
+  <a-scene scene thumbstick-logging>
   <body>
     <div class="hud" id="div">
       <button class="button-74" role="button" onclick="mobileOpacityHandler('classe1')" id="button1"></button>
@@ -36,31 +39,21 @@
       <button class="button-74" role="button" onclick="mobileOpacityHandler('classe4')" id="button4"></button>
     </div>
     
-    <a-scene scene thumbstick-logging event-manager>
       <!-- Caméra Rig -->
     <a-entity id="player" position="0 0 0">
       <!-- Caméra -->
-      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: true">
+      <a-camera  id="camera" cursor="rayOrigin: mouse" wasd-controls="enabled: true">
       </a-camera>
-      </a-entity>
+    </a-entity>
 
-  <a-entity id="base" time-change>
-        <a-box id="pinched" depth="0.060" height="0.060" width="0.4" color="black" rotation="-35 0 90" position="0.4 1 -0.5" pinchbar>
-          <a-entity id="menu" menu position="0.05 0.35 0.300" rotation="0 0 -90">
-            <a-entity id="darkModeButton" button="label: Toggle" position="-0.15 0.1 0"> </a-entity>
-            <a-entity slider position="0 0 0"></a-entity>
-          </a-entity>
-        </a-box>
-    <a-sky color="lightBlue" sliderelement></a-sky>
-    <a-sky color="Green" opacity="0.0" sliderelement></a-sky>
-    <a-sky color="red" opacity="0.0" sliderelement></a-sky>
-    <a-sky color="purple" opacity="0.0" sliderelement></a-sky>
-        <a-box position="0 3 0" id="debug" onclick="debug()"></a-box>
-      
+  <a-entity id="base" >
+    <a-sky color="lightBlue" sliderelement class="class1"></a-sky>
+    <a-sky color="Green" opacity="0.0" sliderelement class="class2"></a-sky>
+    <a-sky color="red" opacity="0.0" sliderelement class="class3"></a-sky>
+    <a-sky color="purple" opacity="0.0" sliderelement class="class4"></a-sky>
+    <a-box position="0 3 0" id="debug" onclick="debug()" class="clickable"></a-box>
+    <a-entity button-vr="class1: 2003;class2: 2004;class3: 2005;class4: 2020" rotation="-50 0 0" position="0 0.4 -0.5"></a-entity> 
   </a-entity>
-  <a-entity hand-tracking-controls="hand: left"></a-entity>
-  <a-entity hand-tracking-controls="hand: right"></a-entity>
-
 </a-scene>
 </body>
 </html>
