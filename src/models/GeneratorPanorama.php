@@ -115,10 +115,11 @@ class GeneratorPanorama{
       $firstViewBody = '';
       $firstViewObject = null;
       $elements = array();
+      $panoramaModel = new PanoramaModel($panorama);
 
       // create the html of all the views templates
       foreach($panorama->getViews() as $view){
-        if($panorama->isMap()) {
+        if($panoramaModel->isMap()) {
           $template = self::generateBase($view, $panorama->getMap());
         } else {
           $template = self::generateBase($view);
@@ -193,7 +194,7 @@ class GeneratorPanorama{
       }
 
       // create the map
-      if($panorama->isMap()){
+      if($panoramaModel->isMap()){
         $map = self::generateMap($panorama->getMap());
         touch($basePath.'/templates/'.$map['template']->name);
         file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
