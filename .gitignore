@@ -88,3 +88,6 @@ src/.data/
 .phpunit.cache/
 
 **/reports.xml
+.DS_Store
+.vscode/
+src/.DS_Store

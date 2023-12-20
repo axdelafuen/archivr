@@ -9,6 +9,13 @@ class PanoramaModel{
         $this->panorama = $panorama;
     }
 
+    public function isMap() :bool {
+        if($this->panorama->getMap() != null) {
+            return true;
+        }
+        return false;
+    }
+
     public function addTimeline($timeline)
     {
         $array = $this->panorama->getTimelines();
