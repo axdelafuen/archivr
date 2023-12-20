@@ -217,11 +217,11 @@ class Controller
 			}
 		}
 
-		$currentAmountViews = count($panorama->getViews());
+        $panoramaMdl = new PanoramaModel($panorama);
 
 		for ($i = 0; $i < count($_FILES['views']['name']); $i++) {
 			move_uploaded_file($_FILES['views']['tmp_name'][$i], "./.datas/". $panorama->getId()."/". $_FILES['views']['name'][$i]);
-			$panorama->addView($i+$currentAmountViews, new View($_FILES['views']['name'][$i]));
+            $panoramaMdl->addView(new View($_FILES['views']['name'][$i]));
 		}
 
 		$_SESSION['panorama'] = &$panorama;
@@ -235,9 +235,11 @@ class Controller
 
 		$selectedView = $_REQUEST['selected_view'];
 
-		$_SESSION['selected_view'] = $_SESSION['panorama']->getViewByPath($selectedView);
+        $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
 
-		if (!isset($_SESSION['selected_view']) || empty($_SESSION['selected_view'])) {
+		$_SESSION['selected_view'] = $panoramaMdl->getViewByPath($selectedView);
+
+		if (empty($_SESSION['selected_view'])) {
 			require_once $rep.$views['error'];
 		} else {
 			if (count($_SESSION['selected_view']->getElements()) > 0) {
@@ -269,16 +271,20 @@ class Controller
 		global $rep, $views, $errorList;
 
         if (isset($_SESSION['panorama'])) {
-            $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_view']);
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
         } else {
             $errorList[] = "Panorama not set";
             require_once $rep.$views['error'];
+            return;
         }
 
+        $panoramaMdl->removeEveryWaypointTo($_SESSION['selected_view']);
+
 		if (isset($_SESSION['selected_timeline'])) {
-			$_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
+			$timelineMdl = new TimelineModel($_SESSION['selected_timeline']);
+            $timelineMdl->removeView($_SESSION['selected_view']);
 		} else {
-			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
+            $panoramaMdl->removeView($_SESSION['selected_view']);
 		}
 
 		unset($_SESSION['selected_view']);
@@ -290,7 +296,15 @@ class Controller
 	{
 		global $rep, $views;
 
-		$_SESSION['panorama']->removeMap();
+        if (isset($_SESSION['panorama'])) {
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+            return;
+        }
+
+		$panoramaMdl->removeMap();
 
 		unset($_SESSION['selected_view']);
 
@@ -320,7 +334,15 @@ class Controller
 	{
 		global $rep, $views;
 
-		$_SESSION['selected_view']->addElement(new Sign($_REQUEST['signContent']));
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
+		$imageMdl->addElement(new Sign($_REQUEST['signContent']));
 
         $this->saveElement();
 
@@ -341,10 +363,26 @@ class Controller
 			require_once $rep.$views['error'];
 		}
 
-		if ($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])) {
-			$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getViewByPath($_REQUEST['destinationView'])));
-		} elseif ($_SESSION['panorama']->getTimelineById($_REQUEST['destinationView'])) {
-			$_SESSION['selected_view']->addElement(new Waypoint($_SESSION['panorama']->getTimelineById($_REQUEST['destinationView'])));
+        if (isset($_SESSION['panorama'])) {
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+            return;
+        }
+
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
+		if ($panoramaMdl->getViewByPath($_REQUEST['destinationView'])) {
+            $imageMdl->addElement(new Waypoint($panoramaMdl->getViewByPath($_REQUEST['destinationView'])));
+		} elseif ($panoramaMdl->getTimelineById($_REQUEST['destinationView'])) {
+            $imageMdl->addElement(new Waypoint($panoramaMdl->getTimelineById($_REQUEST['destinationView'])));
 		} else {
 			require_once $rep.$views['error'];
 		}
@@ -376,14 +414,22 @@ class Controller
 	{
 		global $rep, $views;
 
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
 		$elementId = $_REQUEST['selected_element'];
 
 		if (empty($elementId)) {
 			require_once ($rep.$views['error']);
 		} else {
-			$element = $_SESSION['selected_view']->getElementById($elementId);
+			$element = $imageMdl->getElementById($elementId);
 			if ($element != null) {
-				$_SESSION['selected_view']->removeElement($element);
+                $imageMdl->removeElement($element);
 				if (count($_SESSION['selected_view']->getElements()) > 0) {
 					$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 				} else {
@@ -400,14 +446,22 @@ class Controller
 	{
 		global $rep, $views;
 
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
 		$elementId = $_REQUEST['selected_element'];
 
-		if (!isset($elementId) || empty($elementId)) {
+		if (empty($elementId)) {
 			require_once ($rep.$views['error']);
 		} else {
-			$element = $_SESSION['selected_view']->getElementById($elementId);
+			$element = $imageMdl->getElementById($elementId);
 			if ($element != null) {
-				$_SESSION['selected_view']->removeElement($element);
+                $imageMdl->removeElement($element);
 				if (count($_SESSION['selected_view']->getElements()) > 0) {
 					$_SESSION['selected_element'] = $_SESSION['selected_view']->getElements()[0];
 				} else {
@@ -424,9 +478,17 @@ class Controller
 	{
 		global $rep, $views;
 
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
         $this->saveElement();
 
-		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedElementChanged']);
+		$_SESSION['selected_element'] = $imageMdl->getElementById($_REQUEST['selectedElementChanged']);
 
 		require_once($rep.$views['editView']);
 	}
@@ -435,6 +497,14 @@ class Controller
 	{
 		global $rep, $views;
 
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
 		if (isset($_SESSION['selected_element'])) {
 			$_SESSION['selected_element']->setPositionXY(floatval($_REQUEST['elementPositionX']), floatval($_REQUEST['elementPositionY']));
 			if (isset($_REQUEST['elementScale'])) {
@@ -442,7 +512,7 @@ class Controller
 			}
 		}
 
-		$_SESSION['selected_element'] = $_SESSION['selected_view']->getElementById($_REQUEST['selectedMapElementChanged']);
+		$_SESSION['selected_element'] = $imageMdl->getElementById($_REQUEST['selectedMapElementChanged']);
 
 		require_once($rep.$views['editMap']);
 	}
@@ -487,12 +557,15 @@ class Controller
 			require_once($rep . $views['error']);
 		}
 
-		if (empty($_SESSION['panorama'])) {
-			$errorList[]='projet inexistant';
-			require_once($rep . $views['error']);
-		}
+        if (isset($_SESSION['panorama'])) {
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+            return;
+        }
 
-		$_SESSION['panorama']->addTimeline(new Timeline($timelineName));
+        $panoramaMdl->addTimeline(new Timeline($timelineName));
 
 		require_once ($rep.$views['dashboard']);
 	}
@@ -501,19 +574,22 @@ class Controller
 	{
 		global $rep, $views, $errorList;
 
-		if (!isset($_SESSION['panorama']) || empty($_SESSION['panorama'])) {
-			$errorList[]='projet inexistant';
-			require_once($rep . $views['error']);
-		}
+        if (isset($_SESSION['panorama'])) {
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
+        } else {
+            $errorList[] = "Panorama not set";
+            require_once $rep.$views['error'];
+            return;
+        }
 
-		$timeline = $_SESSION['panorama']->getTimelineById($_POST['changeTimeline']);
+		$timeline = $panoramaMdl->getTimelineById($_POST['changeTimeline']);
 
 		if (!$timeline) {
 			$errorList[]='timeline inexistante';
 			require_once($rep . $views['error']);
 		}
 
-		if (!isset($_SESSION['selected_view']) || empty($_SESSION['selected_view'])) {
+		if (empty($_SESSION['selected_view'])) {
 			require_once($rep . $views['error']);
 		}
 
@@ -523,15 +599,21 @@ class Controller
 			return;
 		}
 
-		$timeline->addView($_SESSION['selected_view']);
+        $timelineMdl = new TimelineModel($timeline);
+
+        $timelineMdl->addView($_SESSION['selected_view']);
 
 
-		if ($_SESSION['panorama']->isView($_SESSION['selected_view'])) {
-			$_SESSION['panorama']->removeView($_SESSION['selected_view']);
+		if ($panoramaMdl->isView($_SESSION['selected_view'])) {
+            $panoramaMdl->removeView($_SESSION['selected_view']);
 		}
-		if (isset($_SESSION['selected_timeline']) && $_SESSION['selected_timeline']->isView($_SESSION['selected_view'])) {
-            $_SESSION['selected_timeline']->removeView($_SESSION['selected_view']);
-		}
+
+        if (isset($_SESSION['selected_timeline'])) {
+            $timelineMdl = new TimelineModel($_SESSION['selected_timeline']);
+            if ($timelineMdl->isView($_SESSION['selected_view'])) {
+                $timelineMdl->removeView($_SESSION['selected_view']);
+            }
+        }
 
 		$_SESSION['selected_timeline'] = $timeline;
 		require_once ($rep.$views['editView']);
@@ -547,34 +629,41 @@ class Controller
 		}
 
         if (isset($_SESSION['panorama'])) {
+            $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
             if (isset($_SESSION['selected_timeline'])) {
-                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['selected_timeline']);
+                $panoramaMdl->removeEveryWaypointTo($_SESSION['selected_timeline']);
             } else {
-                $_SESSION['panorama']->removeEveryWaypointTo($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
+                $panoramaMdl->removeEveryWaypointTo($panoramaMdl->getTimelineById($_REQUEST['selected_timeline']));
             }
+
+            $panoramaMdl->removeTimeline($panoramaMdl->getTimelineById($_REQUEST['selected_timeline']));
         } else {
             $errorList[] = "Panorama not found";
             require_once $rep.$views['error'];
+            return;
         }
-
-		$_SESSION['panorama']->removeTimeline($_SESSION['panorama']->getTimelineById($_REQUEST['selected_timeline']));
 
 		unset($_SESSION['selected_timeline']);
 
 		require_once ($rep.$views['dashboard']);
 	}
 
-	private function editTimeline(){
+	private function editTimeline()
+    {
 		global $rep, $views;
 
 		if (empty($_SESSION['panorama'])) {
 			require_once($rep . $views['error']);
+            return;
 		}
-		if (!isset($_POST['selected_timeline']) || empty($_POST['selected_timeline'])) {
+		if (empty($_POST['selected_timeline'])) {
 			require_once($rep . $views['error']);
+            return;
 		}
 
-		$_SESSION['selected_timeline'] = $_SESSION['panorama']->getTimelineById($_POST['selected_timeline']);
+        $panoramaMdl = new PanoramaModel($_SESSION['panorama']);
+
+		$_SESSION['selected_timeline'] = $panoramaMdl->getTimelineById($_POST['selected_timeline']);
 
 		require_once ($rep.$views['editTimeline']);
 	}
@@ -583,11 +672,24 @@ class Controller
 	{
 		global $rep, $views;
 
-		$selectedView = $_REQUEST['selected_view'];
+        if (isset($_SESSION['selected_timeline'])) {
+            $timelineMdl = new TimelineModel($_SESSION['selected_timeline']);
+        } else {
+            $errorList[] = "No timeline selected";
+            require_once $rep.$views['error'];
+            return;
+        }
 
-		$_SESSION['selected_view'] = $_SESSION['selected_timeline']->getViewByPath($selectedView);
+        if (isset($_REQUEST['selected_view'])) {
+            $_SESSION['selected_view'] = $timelineMdl->getViewByPath($_REQUEST['selected_view']);
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
 
-		if (!isset($_SESSION['selected_view']) || empty($_SESSION['selected_view'])) {
+		if (empty($_SESSION['selected_view'])) {
 			require_once $rep.$views['error'];
 		} else {
 			if (count($_SESSION['selected_view']->getElements()) > 0) {
@@ -670,6 +772,14 @@ class Controller
 			return;
 		}
 
+        if (isset($_SESSION['selected_view'])) {
+            $imageMdl = new ImageModel($_SESSION['selected_view']);
+        } else {
+            $errorList[] = "No view selected";
+            require_once $rep.$views['error'];
+            return;
+        }
+
 		if (!empty($_FILES['assetImported']['name'])) {
 			$fileName = $_FILES['assetImported']['name'];
 			if (!move_uploaded_file($_FILES['assetImported']['tmp_name'], "./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName)) {
@@ -701,10 +811,11 @@ class Controller
 					require_once $rep.$views['error'];
 					return;
 				}
-				$_SESSION['selected_view']->addElement(new AssetImported(explode('.', $fileName)[0], $modelFileName));
+                $imageMdl->addElement(new AssetImported(explode('.', $fileName)[0], $modelFileName));
 				unlink("./.datas/" . $_SESSION['panorama']->getId() . "/" . $fileName);
 			} elseif (strtolower(substr(strrchr($_FILES['assetImported']['name'], "."), 1)) == "gltf") {
-				$_SESSION['selected_view']->addElement(new AssetImported(explode(".", $_FILES['assetImported']['name'])[0], $_FILES['assetImported']['name']));
+                $imageMdl->addElement(new AssetImported(explode(".", $_FILES['assetImported']['name'])[0], $_FILES['assetImported']['name']));
+                $imageMdl->addElement(new AssetImported(explode(".", $_FILES['assetImported']['name'])[0], $_FILES['assetImported']['name']));
 			} else {
 				$errorList[] = "Bad file extension";
 				require_once $rep.$views['error'];

@@ -87,13 +87,14 @@ require_once(__DIR__.'/templates/navbar.html');
             $panorama = $_SESSION['panorama'];
 
             foreach ($panorama->getTimelines() as $timeline) {
+                $timelineMdl = new TimelineModel($timeline);
                 if(count($timeline->getViews()) > 0){
             ?>
                     <div class="align-self-center bg-white shadow p-0 divRounded mt-3">
                         <div class="p-0">
                             <?php
                             echo '<form method="post">
-                            <input src="./.datas/'.$panorama->getId() ."/". $timeline->getFirstView()->getPath().'" type="image" class="w-100 imgRounded">   
+                            <input src="./.datas/'.$panorama->getId() ."/". $timelineMdl->getFirstView()->getPath().'" type="image" class="w-100 imgRounded">   
                             <input type="hidden" name="selected_timeline" value="'.$timeline->getId().'">
                             <input type="hidden" name="action" value="editTimeline">
                         </form>';
@@ -141,7 +142,7 @@ require_once(__DIR__.'/templates/navbar.html');
         </div>
 
         <?php
-        if ($panorama->isMap())
+        if ($panorama->getMap() !== null)
         {?>
         <div class="d-flex justify-content-center">
             <div class="align-self-center bg-white shadow p-0 divMapRounded mt-3">

@@ -34,8 +34,6 @@ final class TestPanorama extends TestCase
     /**
      * @covers Panorama::setMap
      * @covers Panorama::getMap
-     * @covers Panorama::isMap
-     * @covers Panorama::removeMap
      */
     public function testSetAndGetMap():void
     {
@@ -47,20 +45,14 @@ final class TestPanorama extends TestCase
 
         $this->assertSame($map->getPath(),$panorama->getMap()->getPath());
 
-        $this->assertTrue($panorama->isMap());
+        $panorama->setMap(null);
 
-        $panorama->removeMap();
-
-        $this->assertFalse($panorama->isMap());
+        $this->assertNull($panorama->getMap());
     }
 
     /**
      * @covers Panorama::setViews
      * @covers Panorama::getViews
-     * @covers Panorama::addView
-     * @covers Panorama::getViewByPath
-     * @covers Panorama::isView
-     * @covers Panorama::removeView
      */
     public function testSetAndGetViews():void
     {
@@ -75,27 +67,11 @@ final class TestPanorama extends TestCase
 
         $this->assertSame($views[0]->getPath(), $panorama->getViews()[0]->getPath());
 
-        $panorama->addView(1,$view);
-
-        $this->assertSame($view->getPath(), $panorama->getViews()[1]->getPath());
-
-        $viewById = $panorama->getViewByPath($view->getPath());
-
-        $this->assertSame($viewById->getPath(), $view->getPath());
-
-        $this->assertTrue($panorama->isView($view));
-
-        $panorama->removeView($view);
-
-        $this->assertFalse($panorama->isView($view));
     }
 
     /**
      * @covers Panorama::setTimelines
      * @covers Panorama::getTimelines
-     * @covers Panorama::addTimeline
-     * @covers Panorama::getTimelineById
-     * @covers Panorama::removeTimeline
      */
     public function testSetAndGetTimelines():void
     {
@@ -109,20 +85,6 @@ final class TestPanorama extends TestCase
         $panorama->setTimelines($timelines);
 
         $this->assertSame($timelines[0]->getName(), $panorama->getTimelines()[0]->getName());
-
-        $panorama->addTimeline($timeline);
-
-        $this->assertSame($timeline->getId(), $panorama->getTimelines()[1]->getId());
-
-        $timelineById = $panorama->getTimelineById($timeline->getId());
-
-        $this->assertSame($timelineById->getId(), $timeline->getId());
-
-        $this->assertSame(2, count($panorama->getTimelines()));
-
-        $panorama->removeTimeline($timeline);
-
-        $this->assertSame(1,count($panorama->getTimelines()));
     }
 
     /**
@@ -133,42 +95,12 @@ final class TestPanorama extends TestCase
         $panorama = new Panorama("test");
         $json = $panorama->jsonSerialize();
 
-        $this->assertCount(4, $json);
+        $this->assertCount(5, $json);
 
         $this->assertArrayHasKey("id", $json);
         $this->assertArrayHasKey("name", $json);
         $this->assertArrayHasKey("timelines", $json);
         $this->assertArrayHasKey("views", $json);
-
-        $map = new Map("path.path");
-        $panorama->setMap($map);
-        $json = $panorama->jsonSerialize();
-
-        $this->assertCount(5, $json);
-
         $this->assertArrayHasKey("map", $json);
-    }
-    /**
-     * @covers Panorama::removeEveryWaypointTo
-     */
-    public function testRemoveWaypoint():void
-    {
-        $panorama = new Panorama("test");
-
-        $view1 = new View("view1.path");
-        $view2 = new View("view2.path");
-
-        $waypoint = new Waypoint($view2);
-
-        $panorama->addView(0, $view1);
-        $panorama->addView(1, $view2);
-
-        $panorama->getViewByPath($view1->getPath())->addElement($waypoint);
-
-        $this->assertCount(1, $panorama->getViewByPath($view1->getPath())->getElements());
-
-        $panorama->removeEveryWaypointTo($view2);
-
-        $this->assertCount(0, $panorama->getViewByPath($view1->getPath())->getElements());
     }
 }
