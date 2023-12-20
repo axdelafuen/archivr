@@ -34,15 +34,6 @@ final class TestView extends TestCase
 
         $this->assertSame($name, $view->getName());
     }
-    /**
-     * @covers View::isDate
-     */
-    public function testIsDate():void
-    {
-        $view = new View('test.jpg');
-
-        $this->assertFalse($view->isDate());
-    }
 
     /**
      * @covers View::getDate
@@ -99,10 +90,11 @@ final class TestView extends TestCase
 
         $json = $view->jsonSerialize();
 
-        $this->assertCount(3, $json);
+        $this->assertCount(4, $json);
 
         $this->assertArrayHasKey("path", $json);
         $this->assertArrayHasKey("elements", $json);
+        $this->assertArrayHasKey("date", $json);
         $this->assertArrayHasKey("cameraRotation", $json);
     }
 }

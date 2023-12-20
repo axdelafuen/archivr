@@ -26,36 +26,19 @@ final class TestTimeline extends TestCase
 
     /**
      * @covers Timeline::getViews
-     * @covers Timeline::getFirstView
-     * @covers Timeline::getViewByPath
-     * @covers Timeline::isView
-     * @covers Timeline::addView
-     * @covers Timeline::removeView
+     * @covers Timeline::setViews
      */
     public function testViewAttribute():void
     {
         $views = array();
         $views[] = new View("views.path");
 
-        $view = new View("view.path");
-
         $timeline = new Timeline("test");
 
-        $timeline->addView($views[0]);
+        $timeline->setViews($views);
 
         $this->assertSame($views[0]->getPath(), $timeline->getViews()[0]->getPath());
 
-        $timeline->addView($view);
-
-        $viewById = $timeline->getViewByPath($view->getPath());
-
-        $this->assertSame($viewById->getPath(), $view->getPath());
-
-        $this->assertTrue($timeline->isView($view));
-
-        $timeline->removeView($view);
-
-        $this->assertFalse($timeline->isView($view));
     }
 
     /**

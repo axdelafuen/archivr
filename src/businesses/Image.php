@@ -6,14 +6,14 @@ abstract class Image implements JsonSerializable
 
     protected string $path;
 
-    protected array $elements = array(); // list of elements
+    protected array $elements = array();
 
     public function __construct($path)
     {
         $this->path = $path;
     }
 
-    public function getPath()
+    public function getPath():string
     {
         return $this->path;
     }
@@ -28,24 +28,9 @@ abstract class Image implements JsonSerializable
         return $this->elements;
     }
 
-    public function addElement($element)
+    public function setElements(array $elements)
     {
-        $this->elements[] = $element;
-    }
-
-    public function removeElement($element)
-    {
-        array_splice($this->elements, array_search($element, $this->elements), 1);
-    }
-
-    public function getElementById($id)
-    {
-        foreach ($this->elements as $element) {
-            if ($element->getId() === $id) {
-                return $element;
-            }
-        }
-        return null;
+        $this->elements = $elements;
     }
 
     public function jsonSerialize():array

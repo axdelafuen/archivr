@@ -14,40 +14,9 @@ class Timeline implements JsonSerializable
         return $this->views;
     }
 
-    public function getFirstView()
+    public function setViews(array $views)
     {
-        if (count($this->views) > 0) {
-            return $this->views[0];
-        }
-        return null;
-    }
-
-    public function isView(View $value):bool
-    {
-        if (in_array($value, $this->views)) {
-            return true;
-        }
-        return false;
-    }
-
-    public function addView(View $view)
-    {
-        $this->views[] = $view;
-    }
-
-    public function removeView($view)
-    {
-        array_splice($this->views, array_search($view, $this->views), 1);
-    }
-
-    public function getViewByPath($path)
-    {
-        foreach ($this->getViews() as $view) {
-            if ($view->getPath() === $path) {
-                return $view;
-            }
-        }
-        return null;
+        $this->views = $views;
     }
 
     public function getName():string

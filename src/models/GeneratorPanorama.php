@@ -115,10 +115,11 @@ class GeneratorPanorama{
       $firstViewBody = '';
       $firstViewObject = null;
       $elements = array();
+      $panoramaModel = new PanoramaModel($panorama);
 
       // create the html of all the views templates
       foreach($panorama->getViews() as $view){
-        if($panorama->isMap()) {
+        if($panoramaModel->isMap()) {
           $template = self::generateBase($view, $panorama->getMap());
         } else {
           $template = self::generateBase($view);
@@ -193,7 +194,7 @@ class GeneratorPanorama{
       }
 
       // create the map
-      if($panorama->isMap()){
+      if($panoramaModel->isMap()){
         $map = self::generateMap($panorama->getMap());
         touch($basePath.'/templates/'.$map['template']->name);
         file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
@@ -376,7 +377,7 @@ class GeneratorPanorama{
     if(isset($data['views'])){
       foreach($data['views'] as $view){
         $panorama_images_array[$view['path']]['object'] = new View($view['path']); 
-        $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
+        $panorama_images_array[$view['path']]['object']->setCameraRotation($view['cameraRotation']['y']);
         $panorama_images_array[$view['path']]['is_view'] = true;
       }
     }
@@ -385,7 +386,7 @@ class GeneratorPanorama{
         $panorama_images_array[$timeline['name']]['object'] = new Timeline($timeline['name']);
         foreach($timeline['views'] as $view) {
           $panorama_images_array[$timeline['name']][$view['path']] = new View($view['path']);
-          $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['x'], $view['cameraRotation']['y'], $view['cameraRotation']['z']);
+          $panorama_images_array[$timeline['name']][$view['path']]->setCameraRotation($view['cameraRotation']['y']);
           $panorama_images_array[$timeline['name']][$view['path']]->setDate($view['date']);
           array_push($timelines_views_array, $view);
         }
@@ -423,12 +424,18 @@ class GeneratorPanorama{
       $keys = array_keys($panorama_images_array);
       foreach($keys as $key){
         if($key == $view['path']){
-          $panorama_images_array[$key]['object']->set($array_element);
+          $image_model = new ImageModel($panorama_images_array[$key]['object']);
+          foreach($array_element as $element) {
+            $image_model->addElement($element);
+          }
           array_push($views_array, $panorama_images_array[$key]['object']);
           continue;
         } else {
           if(isset($panorama_images_array[$key][$view['path']])){
-            $panorama_images_array[$key][$view['path']]->set($array_element);
+            $image_model = new ImageModel($panorama_images_array[$key][$view['path']]);
+            foreach($array_element as $element) { 
+              $image_model->addElement($element);
+            };
             $panorama_images_array[$key]['object']->set($panorama_images_array[$key][$view['path']]);
             if(!in_array($panorama_images_array[$timeline['name']]['object'], $timelines_array)){
               array_push($timelines_array, $panorama_images_array[$timeline['name']]['object']);
@@ -458,7 +465,7 @@ class GeneratorPanorama{
 
     $panorama->setViews($views_array);
     $panorama->setTimelines($timelines_array);
-    $panorama->set($data['id']);
+    $panorama->setId($data['id']);
 
     return $panorama;
   }
