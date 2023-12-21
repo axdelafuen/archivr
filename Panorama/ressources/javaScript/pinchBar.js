@@ -1,3 +1,4 @@
+// Add pinch event to a component with hand handling (unused)
 AFRAME.registerComponent('pinchbar', {
   init: function() {
     this.localPositionValue = new THREE.Vector3();

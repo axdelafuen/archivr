@@ -1,3 +1,4 @@
+// Create a slider component for hands (unsed)
 AFRAME.registerComponent('slider', {
     schema: {
       width: {

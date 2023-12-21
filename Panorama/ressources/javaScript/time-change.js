@@ -1,3 +1,4 @@
+// update opacity depenting on slider 3d element's value (unused)
 AFRAME.registerComponent('time-change', {
     init: function() {
       this.bindMethods();

@@ -1,3 +1,4 @@
+// Add event onclik on button with #map id
 AFRAME.registerComponent('event-manager', {
     init: function() {
         this.bindMethods();

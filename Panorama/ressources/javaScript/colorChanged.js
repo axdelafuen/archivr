@@ -1,3 +1,4 @@
+// Change color of pressable elements
 AFRAME.registerComponent('color-change', {
     schema: {
         color: {

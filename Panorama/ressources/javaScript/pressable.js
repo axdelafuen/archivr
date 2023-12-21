@@ -1,3 +1,4 @@
+// Add hand interaction (unsed)
 AFRAME.registerComponent('pressable', {
   schema: {
     pressDistance: {

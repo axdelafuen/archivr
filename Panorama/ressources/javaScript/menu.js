@@ -1,3 +1,4 @@
+// Menu preset for hands handling (unused)
 AFRAME.registerComponent('menu', {
   init: function() {
     var el = this.el;
@@ -16,3 +17,4 @@ AFRAME.registerComponent('menu', {
     el.appendChild(menuBackGroundEl);
   },
 });
+

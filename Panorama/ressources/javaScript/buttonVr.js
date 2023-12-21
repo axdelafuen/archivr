@@ -6,6 +6,7 @@ AFRAME.registerComponent('button-vr', {
     class4: {default: 'none'}
   },
   init: function() {
+    // Adding button depending on number of temporality (4 max)
     if(!AFRAME.utils.device.checkHeadsetConnected ())return
     if(this.data.class1 !== 'none'){
       let emptyPane = document.createElement("a-entity")

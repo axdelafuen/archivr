@@ -1,3 +1,4 @@
+// handle pinch event for hand handling (unused)
 AFRAME.registerComponent('pinchable', {
     schema: {
         pinchDistance: {
@@ -35,7 +36,7 @@ AFRAME.registerComponent('pinchable', {
         pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
         return pinchDistance;
     },
-    onPinchEnded: function(evt) {
+    onPinchEnded: function() {
         if (this.pinched) {
             this.pinched = false;
             this.el.emit('pinchedended');
@@ -53,3 +54,4 @@ AFRAME.registerComponent('pinchable', {
     }
   }
 });
+
