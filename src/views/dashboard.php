@@ -47,8 +47,8 @@ require_once(__DIR__.'/templates/navbar.html');
                     <input type="hidden" name="action" value="generate">
                 </form>
                 <?php 
-                    if(isset($dVueErreur['date'])){
-                        echo '<p class="text-danger">' . $dVueErreur['date'] .' </p>';
+                    if(isset($errorList['date'])){
+                        echo '<p class="text-danger">' . $errorList['date'] .' </p>';
                     }
                 ?>
             </div>

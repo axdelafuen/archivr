@@ -32,4 +32,14 @@ class ImageModel
         }
         return null;
     }
+
+    public function isDate():bool 
+    {
+        if(get_class($this->image) == View::class) {
+            if($this->image->getDate() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

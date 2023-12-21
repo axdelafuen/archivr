@@ -536,8 +536,9 @@ class Controller
 
 		foreach ($panorama->getTimelines() as $timeline) {
 			foreach ($timeline->getViews() as $view) {
-				if (!$view->isDate()) {
-					$errorList[] = "Add a date to every views on your timelines";
+				$imageModel = new ImageModel($view);
+				if (!$imageModel->isDate()) {
+					$errorList['date'] = "Add a date to every views on your timelines";
 					require_once($rep . $views["dashboard"]);
 				}
 			}
