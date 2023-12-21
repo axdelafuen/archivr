@@ -104,6 +104,9 @@ class Controller
 				case "addAssetImported":
 					$this->addAssetImported();
 					break;
+                case "setAnimation":
+                    $this->setAnimation();
+                    break;
 				default:
 					$errorList[] = "This php action doesn't exist";
 					require_once($rep . $views['error']);
@@ -848,6 +851,24 @@ class Controller
                 $_SESSION['selected_element']->setScale(floatval($_REQUEST['elementScale']));
             }
         }
+    }
+
+    private function setAnimation():void
+    {
+        global $rep, $views, $errorList;
+
+        if (!isset($_SESSION['selected_element'])) {
+            $errorList[] = "no element selected";
+            require_once $rep.$views['error'];
+        }
+
+        if ($_SESSION['selected_element']->getAnimate()) {
+            $_SESSION['selected_element']->setAnimate(false);
+        } else {
+            $_SESSION['selected_element']->setAnimate(true);
+        }
+
+        require_once $rep.$views['editView'];
     }
 
 }
