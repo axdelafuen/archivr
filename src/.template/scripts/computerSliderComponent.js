@@ -69,7 +69,6 @@ document.addEventListener("keydown",(event)=>{
   let key = event.key
   if(key === "m")
   {
-    // to change dynamicaly
     goTo("test.HTML","0 0 0")
   }
   let maxValue
