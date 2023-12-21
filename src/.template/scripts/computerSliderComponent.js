@@ -45,7 +45,7 @@ AFRAME.registerComponent('thumbstick-logging',{
   },
   // Must be edited during panorama generation to point on the right place
   xButtonListener: function(){
-    goTo("templates/planPrincipal.html","0 0 0")
+    goTo("test.html","0 0 0")
   }
 });
 
@@ -67,6 +67,10 @@ AFRAME.registerComponent('sliderelement',{
 // M key to go on map (must be also edited during the panorama's generation)
 document.addEventListener("keydown",(event)=>{ 
   let key = event.key
+  if(key === "m")
+  {
+    goTo("test.HTML","0 0 0")
+  }
   let maxValue
   let step
   if(arrayViews.length === 4)
