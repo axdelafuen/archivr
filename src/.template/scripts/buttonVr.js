@@ -80,23 +80,3 @@ AFRAME.registerComponent('button-vr', {
     }
   },
 });
-
-
-
-// To add when generating the file
-const HTMLPHONE = `
-<a-entity>
-    <a-box scale="0.05 0.05 0.05" position="-0.332 0.147 -0.007" color="yellow" onclick="mobileOpacityHandler('class2')"></a-box>
-    <a-text scale="0.1 0.1 0.1" color="black" value="Years \: 30333" id="button2" position="-0.294 0.138 0.004"></a-text>
-</a-entity>
-  
-<a-entity>
-    <a-box scale="0.05 0.05 0.05" position="-0.005 0.280 -0.006" color="yellow" onclick="mobileOpacityHandler('class3')"></a-box>
-  <a-text scale="0.1 0.1 0.1" color="black" value="Years \: 2022" id="button3" position="0.021 0.282 0.006"></a-text>
-</a-entity>
-
-<a-entity>
-  <a-box scale="0.05 0.05 0.05" position="-0.005 0.147 -0.007" color="yellow" onclick="mobileOpacityHandler('class4')"></a-box>
-  <a-text scale="0.1 0.1 0.1" color="black" value="Years \: 1999" id="button4" position="0.021 0.282 0.006"></a-text>
-</a-entity>
-`
