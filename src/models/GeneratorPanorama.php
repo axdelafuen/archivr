@@ -13,22 +13,22 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-    <script src="./ressources/javaScript/functions.js"></script>
-    <script src="./ressources/javaScript/components.js"></script>
-    <script src="./ressources/javaScript/deviceHandler.js"></script>
-    <script src="./ressources/javaScript/slider/smartphoneSliderComponent.js"></script>
-    <script src="./ressources/javaScript/slider/computerSliderComponent.js"></script>
+    <script src="./scripts/functions.js"></script>
+    <script src="./scripts/components.js"></script>
+    <script src="./scripts/deviceHandler.js"></script>
+    <script src="./scripts/smartphoneSliderComponent.js"></script>
+    <script src="./scripts/computerSliderComponent.js"></script>
     
-    <script src="ressources/javaScript/menu.js"></script>
-    <script src="ressources/javaScript/slider.js"></script>
-    <script src="ressources/javaScript/pinchable.js"></script>
-    <script src="ressources/javaScript/colorChanged.js"></script>
-    <script src="ressources/javaScript/time-change.js"></script>
-    <script src="ressources/javaScript/button.js"></script>
-    <script src="ressources/javaScript/pressable.js"></script>
-    <script src="ressources/javaScript/event-manager.js"></script>
-    <script src="ressources/javaScript/pinchBar.js"></script>
-    <script src="ressources/javaScript/buttonVr.js"></script>
+    <script src="scripts/menu.js"></script>
+    <script src="scripts/slider.js"></script>
+    <script src="scripts/pinchable.js"></script>
+    <script src="scripts/colorChanged.js"></script>
+    <script src="scripts/time-change.js"></script>
+    <script src="scripts/button.js"></script>
+    <script src="scripts/pressable.js"></script>
+    <script src="scripts/event-manager.js"></script>
+    <script src="scripts/pinchBar.js"></script>
+    <script src="scripts/buttonVr.js"></script>
   </head>
 
   <body>
@@ -53,14 +53,19 @@ class GeneratorPanorama{
     public static function generateTimeline($timeline) : Template{
       $template = new Template();
       $body = '<div class="hud" id="div">';
+      $vr_button = '<a-entity button-vr="';
       
       $classNumber = 1;
       foreach($timeline->getViews() as $view){
         $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
+        $vr_button .= 'class' . $classNumber . ': ' . $view->getDate() . ';';
         $classNumber++;
       }
 
+      $vr_button .= '" rotation="-50 0 0" position="0.1 -0.6 -0.5"></a-entity>';
+
       $body .= "</div>";
+      $body .= $vr_button;
 
       $classNumber = 1;
       foreach($timeline->getViews() as $view){
@@ -93,15 +98,7 @@ class GeneratorPanorama{
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           
             $body .= '
-              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' " >
-              <a-entity ' . $opacity . ' class="class' . $classNumber . ' gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
-                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-                // onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
-                look-at="#pointer' . $elementId .'">
-              </a-entity>
-                <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
-                </a-entity>
-              </a-entity>
+              <a-image src="./assets/images/right-arrow.png" position=" ' . $element->getPosition()->getPosition() . ' " rotation=" ' . $element->getRotation()->getRotation() . ' " id=" ' . $element->getId() . ' " scale=" ' . $element->getScale() . ' " onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"></a-image>
             ';
           } elseif(get_class($element) == AssetImported::class)
           {
@@ -146,11 +143,12 @@ class GeneratorPanorama{
 
       // create the html of all the timelines templates
       foreach($panorama->getTimelines() as $key => $timeline) {
+        $timelineModel = new TimelineModel($timeline);
         $template = self::generateTimeline($timeline);
         array_push($elements, $template);
         if($timeline->getId() == $fisrtView) {
           $firstViewBody = $template->body;
-          $firstViewObject = $timeline->getFirstView();
+          $firstViewObject = $timelineModel->getFirstView();
         }
       }
 
@@ -212,13 +210,13 @@ class GeneratorPanorama{
 
         $data = file('./.datas/out/scripts/computerSliderComponent.js');
         $data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
-        $data[72] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
+        $data[71] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
         file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
 
         $data = file('./.datas/out/scripts/event-manager.js');
         $data[13] = 'goTo("./templates/'.$map->name.'","0 0 0")';
         file_put_contents('./.datas/out/scripts/event-manager.js', $data);
-      }
+      } 
 
       // copy all the images in the out directory
       foreach($images as $image){
@@ -318,21 +316,14 @@ class GeneratorPanorama{
           }
 
           if(get_class($element->getView()) == Timeline::class){
-            $cameraRotation = strval($element->getView()->getFirstView()->getCameraRotation());
+            $viewModel = new TimelineModel($element->getView());
+            $cameraRotation = strval($viewModel->getFirstView()->getCameraRotation());
           } else {
             $cameraRotation = strval($element->getView()->getCameraRotation());
           }
         
           $body .= '
-            <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
-            <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
-              animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-              onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
-              look-at="#pointer' . $elementId .'">
-            </a-entity>
-              <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
-              </a-entity>
-            </a-entity>
+            <a-image src="./assets/images/right-arrow.png" position=" ' . $element->getPosition()->getPosition() . ' " rotation=" ' . $element->getRotation()->getRotation() . ' " id=" ' . $element->getId() . ' " scale=" ' . $element->getScale() . '" onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"></a-image>
           ';
         } elseif(get_class($element) == AssetImported::class){ 
           $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
