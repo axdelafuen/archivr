@@ -12,12 +12,23 @@ class GeneratorPanorama{
     <title>'.$panoramaName.'</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-      <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-      <script src="scripts/functions.js"></script>
-      <script src="scripts/components.js"></script>
-      <script src="scripts/deviceHandler.js"></script>
-      <script src="scripts/smartphoneSliderComponent.js"></script>
-      <script src="scripts/computerSliderComponent.js"></script>
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="./ressources/javaScript/functions.js"></script>
+    <script src="./ressources/javaScript/components.js"></script>
+    <script src="./ressources/javaScript/deviceHandler.js"></script>
+    <script src="./ressources/javaScript/slider/smartphoneSliderComponent.js"></script>
+    <script src="./ressources/javaScript/slider/computerSliderComponent.js"></script>
+    
+    <script src="ressources/javaScript/menu.js"></script>
+    <script src="ressources/javaScript/slider.js"></script>
+    <script src="ressources/javaScript/pinchable.js"></script>
+    <script src="ressources/javaScript/colorChanged.js"></script>
+    <script src="ressources/javaScript/time-change.js"></script>
+    <script src="ressources/javaScript/button.js"></script>
+    <script src="ressources/javaScript/pressable.js"></script>
+    <script src="ressources/javaScript/event-manager.js"></script>
+    <script src="ressources/javaScript/pinchBar.js"></script>
+    <script src="ressources/javaScript/buttonVr.js"></script>
   </head>
 
   <body>
@@ -203,6 +214,10 @@ class GeneratorPanorama{
         $data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
         $data[72] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
         file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
+
+        $data = file('./.datas/out/scripts/event-manager.js');
+        $data[13] = 'goTo("./templates/'.$map->name.'","0 0 0")';
+        file_put_contents('./.datas/out/scripts/event-manager.js', $data);
       }
 
       // copy all the images in the out directory
