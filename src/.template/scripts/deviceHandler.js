@@ -17,6 +17,8 @@ AFRAME.registerComponent('scene', {
   },
 });
 
+
+
 function computerComponent(scene)
 {
   /////////////////////////
@@ -27,6 +29,7 @@ function computerComponent(scene)
   panel.setAttribute("rotation","-50 0 0")
   panel.setAttribute("position","0 -0.8 -0.3")
   scene.append(panel) 
+  
 }
 
 function mobileComponent()

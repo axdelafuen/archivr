@@ -196,12 +196,13 @@ class GeneratorPanorama{
       // create the map
       if($panoramaModel->isMap()){
         $map = self::generateMap($panorama->getMap());
-        touch($basePath.'/templates/'.$map['template']->name);
-        file_put_contents($basePath.'/templates/'.$map['template']->name, $map['template']->body);
+        touch($basePath.'/templates/'.$map->name);
+        file_put_contents($basePath.'/templates/'.$map->name, $map->body);
 
-        $file = fopen('./.datas/out/scripts/computerSliderComponent.js', 'a');
-        fwrite($file, $map['script']);
-        fclose($file);
+        $data = file('./.datas/out/scripts/computerSliderComponent.js');
+        $data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
+        $data[72] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
+        file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
       }
 
       // copy all the images in the out directory
@@ -332,18 +333,9 @@ class GeneratorPanorama{
       return $template;
     }
 
-  public static function generateMap($map):array{
+  public static function generateMap($map):Template{
     $path = $map->getPath();
     $template = new Template();
-    $out = array();
-    $map_script = 'document.addEventListener("keydown",(event)=>{   
-      let key = event.key
-      console.log(key)
-      if(key === "m")
-      {
-        goTo("templates/' . explode('.', $path)[0] . '.html","0 0 0");
-      }
-    })';
 
     $body = '<a-sky id="skybox" src="assets/images/sky.png" class="classMap" animationcustom></a-sky>';
 
@@ -360,10 +352,7 @@ class GeneratorPanorama{
     $template->name = explode('.', $path)[0] . '.html';
     $template->body = $body;
 
-    $out['template'] = $template;
-    $out['script'] = $map_script;
-
-    return $out;
+    return $template;
   }
 
   public static function loadFromFile($data){
