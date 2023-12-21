@@ -11,7 +11,7 @@ AFRAME.registerComponent('button-vr', {
       let emptyPane = document.createElement("a-entity")
       emptyPane.setAttribute("position","0 -0.030 -0.015")
       let img = document.createElement("a-image")
-      img.setAttribute("src","./ressources/assets/emptyPane.png")
+      img.setAttribute("src","./assets/images/emptyPane.png")
       emptyPane.append(img)
 
       let button1 = document.createElement("a-box")
@@ -83,7 +83,7 @@ AFRAME.registerComponent('button-vr', {
 
 
 
-
+// To add when generating the file
 const HTMLPHONE = `
 <a-entity>
     <a-box scale="0.05 0.05 0.05" position="-0.332 0.147 -0.007" color="yellow" onclick="mobileOpacityHandler('class2')"></a-box>
