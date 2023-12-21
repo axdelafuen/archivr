@@ -8,6 +8,8 @@ class AssetImported extends Element implements JsonSerializable
 
     private float $scale;
 
+    private bool $animate = false;
+
     public function getModel(): string
     {
         return $this->model;
@@ -35,6 +37,16 @@ class AssetImported extends Element implements JsonSerializable
     public function getPath():string
     {
         return $this->path;
+    }
+
+    public function getAnimate():bool
+    {
+        return $this->animate;
+    }
+
+    public function setAnimate(bool $animate)
+    {
+        $this->animate = $animate;
     }
 
     public function __construct($path, $model)

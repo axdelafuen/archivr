@@ -6,6 +6,7 @@
     <script src="views/scripts/editView.js"></script>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
     <script src=".template/scripts/script.js"></script>
 </head>
 
@@ -224,7 +225,7 @@
             </div>
         </div>
         <?php
-                if(get_class($element) == "Waypoint" || get_class($element) == "AssetImported"){
+                if (get_class($element) == "Waypoint" || get_class($element) == "AssetImported") {
                     echo '
                     Scale:
                         <div>
@@ -233,8 +234,25 @@
                         </div>
                     ';
             }
-            ?>
 
+                if (get_class($element) == "AssetImported") {
+                    ?>
+                    <div class="d-flex flex-row">
+                        <form  method="post">
+                            Animation :
+                            <?php
+                            if ($element->getAnimate()) {
+                                echo '<input type="checkbox" checked onchange="this.form.submit()">';
+                            } else {
+                                echo '<input type="checkbox" onchange="this.form.submit()">';
+                            }
+                            ?>
+                            <input type="hidden" name="action" value="setAnimation">
+                        </form>
+                    </div>
+            <?php
+                }
+            ?>
         <div class="element-edit">
             <form  method="post">
                 <input type="submit" value="Delete">
@@ -365,7 +383,7 @@
         {
             ?>
             <a-entity position="<?php echo $element->getPosition()->getPosition() ?>" rotation="<?php echo $element->getRotation()->getRotation() ?>" id="<?php echo $element->getId() ?>" scale="<?php echo $element->getScale() ?>">
-                <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath()."/".$element->getModel() ?>">
+                <a-entity gltf-model=".datas/<?php echo $_SESSION['panorama']->getId()."/".$element->getPath()."/".$element->getModel() ?>" <?php if ($element->getAnimate()) { echo 'animation-mixer'; } ?> >
                 </a-entity>
             </a-entity>
             <?php

@@ -73,7 +73,7 @@ final class TestAssetImported extends TestCase
 
         $json = $asset->jsonSerialize();
 
-        $this->assertCount(6, $json);
+        $this->assertCount(7, $json);
 
         $this->assertArrayHasKey("id", $json);
         $this->assertArrayHasKey("position", $json);
@@ -81,5 +81,25 @@ final class TestAssetImported extends TestCase
         $this->assertArrayHasKey("path", $json);
         $this->assertArrayHasKey("model", $json);
         $this->assertArrayHasKey("scale", $json);
+        $this->assertArrayHasKey("animate", $json);
+    }
+
+    /**
+     * @covers AssetImported::getAnimate
+     * @covers AssetImported::setAnimate
+     */
+    public function testAniamteAttributes(): void
+    {
+        $nameZip = "&àcàç&cn&ciosc";
+
+        $path = $nameZip.".gltf";
+
+        $asset = new AssetImported($nameZip, $path);
+
+        $this->assertSame(false, $asset->getAnimate());
+
+        $asset->setAnimate(true);
+
+        $this->assertSame(true, $asset->getAnimate());
     }
 }
