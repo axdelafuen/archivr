@@ -98,15 +98,7 @@ class GeneratorPanorama{
             $path = explode('.', $element->getView()->getPath())[0].'.html';
           
             $body .= '
-              <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . ' " >
-              <a-entity ' . $opacity . ' class="class' . $classNumber . ' gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
-                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-                // onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
-                look-at="#pointer' . $elementId .'">
-              </a-entity>
-                <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
-                </a-entity>
-              </a-entity>
+              <a-image src="./assets/images/right-arrow.png" position=" ' . $element->getPosition()->getPosition() . ' " rotation=" ' . $element->getRotation()->getRotation() . ' " id=" ' . $element->getId() . ' " scale=" ' . $element->getScale() . ' " onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"></a-image>
             ';
           } elseif(get_class($element) == AssetImported::class)
           {
@@ -224,7 +216,7 @@ class GeneratorPanorama{
         $data = file('./.datas/out/scripts/event-manager.js');
         $data[13] = 'goTo("./templates/'.$map->name.'","0 0 0")';
         file_put_contents('./.datas/out/scripts/event-manager.js', $data);
-      }
+      } 
 
       // copy all the images in the out directory
       foreach($images as $image){
@@ -324,21 +316,14 @@ class GeneratorPanorama{
           }
 
           if(get_class($element->getView()) == Timeline::class){
-            $cameraRotation = strval($element->getView()->getFirstView()->getCameraRotation());
+            $viewModel = new TimelineModel($element->getView());
+            $cameraRotation = strval($viewModel->getFirstView()->getCameraRotation());
           } else {
             $cameraRotation = strval($element->getView()->getCameraRotation());
           }
         
           $body .= '
-            <a-entity position="' . strval($element->getPosition()) . '" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() . '">
-            <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
-              animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
-              onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"
-              look-at="#pointer' . $elementId .'">
-            </a-entity>
-              <a-entity id="pointer' . $elementId . '"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
-              </a-entity>
-            </a-entity>
+            <a-image src="./assets/images/right-arrow.png" position=" ' . $element->getPosition()->getPosition() . ' " rotation=" ' . $element->getRotation()->getRotation() . ' " id=" ' . $element->getId() . ' " scale=" ' . $element->getScale() . '" onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"></a-image>
           ';
         } elseif(get_class($element) == AssetImported::class){ 
           $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
