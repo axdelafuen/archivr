@@ -13,6 +13,7 @@ class GeneratorPanorama{
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
     <script src="./scripts/functions.js"></script>
     <script src="./scripts/components.js"></script>
     <script src="./scripts/deviceHandler.js"></script>
@@ -102,8 +103,12 @@ class GeneratorPanorama{
             ';
           } elseif(get_class($element) == AssetImported::class)
           {
+            $animation = "";
+            if($element->getAnimate()) {
+              $animation = "animation-mixer";
+            }
             $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'" class="class' . $classNumber . '" ' . $opacity . '>
-                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'"></a-entity>
+                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'" ' . $animation .'></a-entity>
                     </a-entity>';
           }
           $elementId += 1;
@@ -325,9 +330,13 @@ class GeneratorPanorama{
           $body .= '
             <a-image src="./assets/images/right-arrow.png" position=" ' . $element->getPosition()->getPosition() . ' " rotation=" ' . $element->getRotation()->getRotation() . ' " id=" ' . $element->getId() . ' " scale=" ' . $element->getScale() . '" onclick="goTo(\'templates/' . $path . '\', \'' . $cameraRotation . '\')"></a-image>
           ';
-        } elseif(get_class($element) == AssetImported::class){ 
+        } elseif(get_class($element) == AssetImported::class){
+          $animation = "";
+          if($element->getAnimate()) {
+            $animation = "animation-mixer";
+          } 
           $body .= '<a-entity id="' . $element->getId() . '" position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" scale="' . $element->getScale() .'">
-                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'"></a-entity>
+                      <a-entity gltf-model="./assets/models/'. $element->getPath() .'/'. $element->getModel().'" ' . $animation . '></a-entity>
                     </a-entity>';
         }
         $elementId += 1;
