@@ -58,6 +58,11 @@ function addPanel(computer)
       leftHand.setAttribute("raycaster","showLine: true;lineColor: blue; lineOpacity: 1;objects: [class]")
       rightHand.setAttribute("raycaster","showLine: true;lineColor: red; lineOpacity: 1;objects: [class]")
 
+      // new version of hands control for Vr headset 
+      // check https://glitch.com/edit/#!/aframe-hand-tracking?path=index.html%3A61%3A38 for more
+      // rightHand.setAttribute("hand-tracking-controls","hand:right")
+      // lefttHand.setAttribute("hand-tracking-controls","hand:left")
+
       camera.append(leftHand)
       camera.append(rightHand)
     }
