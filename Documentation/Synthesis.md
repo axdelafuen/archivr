@@ -57,6 +57,8 @@ Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/arc
 | Édition (Ajouter / Supprimer / modifier) des éléments (photos, panneaux et points d'intérêts)    |<div align="center">__X__</div> |
 | Modifier l'image de la carte et ses éléments                                                     |<div align="center">__X__</div> |
 | Sauvegarder / annuler les modifications                                                          |<div align="center">__X__</div> |
+| Créer un fichier JSON correspondant aux objets du Panorama créer | X |
+| Importer ce fichier et recréer les objets en fonction | X |
 
 **Implémentation des différents périphériques :**
 
@@ -340,6 +342,56 @@ file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
 ```
 
 ### Importation d'ancien Panorama 
+
+Une des fonctionnalités importante du projet était de pouvoir importer un de ses anciens projet à l'aide d'un fichier qui stockerai toute les informations importantes sur un Panorama.
+
+Nous avons donc implémenter dans le générateur la création d'un ficheir json qui sauvegarde les données des différents objets créés par l'utilisateur. Pour ce faire, toute nos classes métier implémente l'interface `JsonSerializable` ainsi donc que la fonction suivante
+
+```php
+public function jsonSerialize(): array
+{
+    return get_object_vars($this);
+}
+```
+
+Cette fonction permet donc de créer un tableau format json contenant toute les informations de l'objet lorsqu'on appelle la fonction `json_encode` sur l'objet. Étant donné que dans notre architecture tout les objets sont des attributs d'un objet Panorama, il nous suffit de faire le json_encode de celui ci afin de transformer tout les autres objets quand il le fera pour le Panorama.
+
+```php
+$json = json_encode($panorama, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+```
+
+Nous obtenons alors un fichier JSON contenant les informations du projet de la forme suivante.
+
+```json
+{
+    "id": "dqdz659c1817ab68c7.50113935",
+    "name": "dqdz",
+    "map": null,
+    "timelines": [],
+    "views": [
+        {
+            "path": "412974929_2333056303551950_1491315192000080061_n.jpg",
+            "elements": [],
+            "date": null,
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    ]
+}
+```
+
+Enfin, nous avons implémenté une fonction permettant de faire le travail dans l'autre sens. C'est à dire, que en important ce fichier json dans le site, nous pouvons recréer les différents objets de notre Panorama avec tout leurs attributs. Pour se faire, il existe une fonction déjà implémenté par PHP qui permet de transformer du JSON en objet. Cependant, étant donné que certain objets de notre architecture possède eux même d'autre objets, il est important de les créer dans le bon ordre. C'est pourquoi, nous avons été obligé de refaire nous même cette implémentation afin de controler l'ordre de création et ainsi éviter qui l'application ne soit pas focntionelle.
+
+Par exmple, si on créer une scène qui possède un waypoint on doit aussi avoir créer l'objet de la scène vers laquelle le waypoint amène. Cela implique que nous devons d'abord créer toute nos scènes complètement vide puis tout les éléments qui les composants puis mettre ces composants dans les scènes correspondantes. 
+
+La fonction permettant de faire ce travail est `loadFromFile` de la classe `GeneratorPanorama`. Elle nécessite de devoir être tenu à jour pour chaque ajout de fonctionnalitées. 
+
+La fonction est divisée en plusieurs étapes qui permettent de créer les différents objets et de les ajouter les uns les autres. Chaque étape est précédé d'un commentaire expliquant à quoi elle sert. 
+
+Cette partie du projet reste grandement améliorable notamment en créant un véritable parser qui serai plus optimisé et plus facile à maintenir. 
 
 # Panorama ([A-Frame](https://aframe.io/))
 
