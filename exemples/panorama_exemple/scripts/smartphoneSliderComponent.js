@@ -1,9 +1,13 @@
-// Set all element's visibilty on false and show only current temporality
 function mobileOpacityHandler(value)
 {
   let arrayElements = document.querySelectorAll("."+value)
-  arrayViews.forEach(element=> {
-    element.setAttribute("visible","false")
+  arrayViews.forEach(element =>{
+    // récup class
+    let classe = element.getAttribute("class")
+    let falseValue = document.querySelectorAll("."+classe)
+    falseValue.forEach(element=>{
+      element.setAttribute("visible","false")
+    })
   })
   arrayElements.forEach(element => {
     element.setAttribute("visible","true")
