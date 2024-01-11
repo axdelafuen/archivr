@@ -292,7 +292,7 @@ TODO()
 
 **Quelques problèmes connus de notre projet :**
 
-En ce qui concerne la ✨_façon de coder_✨, nous utilisons les sessions (`$_SESSION[]`) dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette utilisation des sessions avec `$_SESSION[]` dans les vues est une mauvaise pratique. Il aurait fallu utiliser une classe métier de vérification du contenu de `$_SESSION[]`, pour utiliser dans les vues des variables qui auraient été vérifié.
+En ce qui concerne la ✨ _façon de coder_ ✨, nous utilisons les sessions (`$_SESSION[]`) dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette utilisation des sessions avec `$_SESSION[]` dans les vues est une mauvaise pratique. Il aurait fallu utiliser une classe métier de vérification du contenu de `$_SESSION[]`, pour utiliser dans les vues des variables qui auraient été vérifié.
 
 Un autre problème peut arrivé lors de l'utilisation de l'application. En effet, si l'utilisateur importe deux fois la même image cela peut créer des conflits dans le futur. Au début, l'utilisateur aura seulement deux fois sont images, sans problèmes (chacune une entité distinct avec ses propres éléments). Seulement si l'utilisateur souhaite ajouter une des deux dans une _Timeline_, alors les deux images vont être ajoutés. Cela est causé par l'utilisation du nom de l'image pour ajouter dans une _Timeline_, plutôt qu'avec un _id_.
 
