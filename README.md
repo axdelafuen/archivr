@@ -75,6 +75,10 @@ This project was developed by students from the IUT of Aubière (UCA), as part o
 - [Vincent ASTOLFI](https://codefirst.iut.uca.fr/git/vincent.astolfi)
 - [Axel DE LA FUENTE](https://codefirst.iut.uca.fr/git/axel.de_la_fuente)
 
+# For the futur
+
+For those looking to modify the project, a thorough breakdown of its technical aspects is outlined in the file: `./Documentation/Synthesis.md`, offering a comprehensive understanding of how each component works.
+
 # Acknowledgements
 
 Thanks to ours professors for their guidance and feedback throughout the development of this project.
