@@ -77,7 +77,7 @@ This project was developed by students from the IUT of Aubière (UCA), as part o
 
 # For the futur
 
-For those looking to modify the project, a thorough breakdown of its technical aspects is outlined in the file: `./Documentation/Synthesis.md`, offering a comprehensive understanding of how each component works.
+For those looking to modify the project, a thorough breakdown of its technical aspects is outlined in this **[synthesis](https://codefirst.iut.uca.fr/git/archivr/archivr/src/branch/master/Documentation/Synthesis.md)** (`./Documentation/Synthesis.md`), offering a comprehensive understanding of how each component works.
 
 # Acknowledgements
 
