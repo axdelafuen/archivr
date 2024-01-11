@@ -328,6 +328,17 @@ De plus, on va aussi ajouter des classes et paramètre aux différents élément
 
 ### Modification des scripts JavaScript
 
+Les scripts JavaScript nécessaire ont été créés indépendamment du générateur et son expliqué [plus bas](#panorama-a-frame). Il faut donc, lors de la génération, simplement modifier certaine ligne de ces script afin de les rendres dynamique en fonction des éléments choisi par l'utilisateur. Par exemple, un des scripts permet d'accéder à la carte si le projet en possède une. Le script permet donc d'y accéder de différentes manières en fonction du périphérique sur lequel le projet est utilisé. Par exemple, sur ordinateur, on y accède grâce à la touche `M`.
+
+Pour modifier le fichier vers lequel on navigue lors de la pression sur la touche, on récupère le fichier JavaScript qui possède la fonction en question puis on modifie les lignes nécessaire avec les bonnes informations. Par exemple : 
+
+```php
+$data = file('./.datas/out/scripts/computerSliderComponent.js');
+$data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
+$data[71] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
+file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
+```
+
 ### Importation d'ancien Panorama 
 
 # Panorama ([A-Frame](https://aframe.io/))
