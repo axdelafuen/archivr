@@ -5,19 +5,15 @@ AFRAME.registerComponent('scene', {
       mobileComponent(this.el)
       this.el.addEventListener('enter-vr', function () {
       addPanel(false);
+
     });
-    }
-    else
-    {
+    } else {
       computerComponent(this.el)
       this.el.addEventListener('enter-vr', function () {
       addPanel(true);
-    });
+    })
     }
-  },
-});
-
-
+}});
 
 function computerComponent(scene)
 {
@@ -27,8 +23,13 @@ function computerComponent(scene)
   let panel = document.createElement("a-image")
   panel.setAttribute("src","./assets/images/computerBinding.png")
   panel.setAttribute("rotation","-50 0 0")
-  panel.setAttribute("position","0 -0.8 -0.3")
-  scene.append(panel) 
+  panel.setAttribute("position","0 -1 -0.3")
+  panel.addEventListener("click",function(){
+    console.log("EMITED")
+    goTo('./templates/batInfo.html')
+  })
+  panel.setAttribute("animationcustom")
+  scene.append(panel)
 }
 
 function mobileComponent()

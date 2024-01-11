@@ -1,4 +1,4 @@
-//////////////////////
+///////////////////////////////////////////
 //  SLIDER HANDLING //
 //////////////////////
 let yearsVector = 0
@@ -45,7 +45,7 @@ AFRAME.registerComponent('thumbstick-logging',{
   },
   // Must be edited during panorama generation to point on the right place
   xButtonListener: function(){
-    goTo("templates/planPrincipal.html","0 0 0")
+    goTo("test.html","0 0 0")
   }
 });
 
@@ -67,6 +67,10 @@ AFRAME.registerComponent('sliderelement',{
 // M key to go on map (must be also edited during the panorama's generation)
 document.addEventListener("keydown",(event)=>{ 
   let key = event.key
+  if(key === "m")
+  {
+    goTo("./templates/batInfo.html","0 0 0")
+  }
   let maxValue
   let step
   if(arrayViews.length === 4)
@@ -133,12 +137,12 @@ function changeOpa3Pics(value)
   if(value>50){
     let view1 = arrayViews[1]
     let view2 = arrayViews[2]
-
+    setOpacity(arrayViews[0].getAttribute('class'),false)
     view1.setAttribute("visible","true")
     view2.setAttribute("visible","true")
 
     let percentil = (value - 50)*0.02
-    if(percentil > 0.95)
+    if(percentil > 0.90)
     {
       view1.setAttribute("opacity","0.01")
       view2.setAttribute("opacity","0.99")
@@ -162,12 +166,15 @@ function changeOpa3Pics(value)
 
     let view1 = arrayViews[0]
     let view2 = arrayViews[1]
+    let view3 = arrayViews[2]
 
-    setOpacity(arrayViews[2].getAttribute("class"),false)
+
+    setOpacity(view3.getAttribute("class"),false)
+    view3.setAttribute("opacity","0.0")
     view1.setAttribute("visible","true")
 
     let percentil = value*0.02
-    if(percentil > 0.95)
+    if(percentil > 0.80)
     {
       view1.setAttribute("opacity","0.01")
       view2.setAttribute("opacity","0.99")
@@ -294,11 +301,3 @@ function setOpacity(className,value)
     element.setAttribute("visible",value)
   });
 }
-document.addEventListener("keydown",(event)=>{   
-      let key = event.key
-      console.log(key)
-      if(key === "m")
-      {
-        goTo("templates/planPrincipal.html","0 0 0");
-      }
-    })

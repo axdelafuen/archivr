@@ -296,7 +296,93 @@ En ce qui concerne la ✨_façon de coder_✨, nous utilisons les sessions (`$_S
 
 Un autre problème peut arrivé lors de l'utilisation de l'application. En effet, si l'utilisateur importe deux fois la même image cela peut créer des conflits dans le futur. Au début, l'utilisateur aura seulement deux fois sont images, sans problèmes (chacune une entité distinct avec ses propres éléments). Seulement si l'utilisateur souhaite ajouter une des deux dans une _Timeline_, alors les deux images vont être ajoutés. Cela est causé par l'utilisation du nom de l'image pour ajouter dans une _Timeline_, plutôt qu'avec un _id_.
 
-### Algorithme de génération
+## Algorithme de génération
+
+Une fois que l'utilisateur à créer son Panorama avec ses différentes scènes, timelines, éléments, map. Il peu générer son Panorama et ainsi télécherger le fichier zip de son projet.
+
+Avant de le générer, il a la possibilté de choisir la page de départ parmi, soit une timeline, soit une de ses scènes. À l'heure actuelle, il n'est donc pas possible de démarrer directement sur la map. Une fonctionnalité qui pourrait être ajouté à l'avenir.
+
+### Structure du Panorama Généré
+
+Le projet généré est un site web composé de plusieurs pages, scripts et ressources. Nous avons décidé de disposer nos fichiers de la façon suivante : un index.html qui contient la seule et unique page qui sera chargé du projet. Dans l'ancien projet, pour chaque scène on avait une page différente qui se chargeais. Cela impliquait que la page rechargeait à chaque changement de scène ce qui avais pour effet de quitter le mode VR en mode casque notamment et qui rendait donc l'expérience utilisateur moins bonnes. Pour contrer ce problème, nous avons donc choisi d'avoir une seule et unique page chargée puis nous modifions directement le code de cette page en JavaScript afin de changer la scène (explication du changement de scène en JavaScript [plus bas](#navigation)).
+
+En plus de la page d'index, nous ajoutons un dossier templates contenant tout le code des différentes scènes nous permettant ainsi d'effectuer le changement. Nous avons aussi un dossier pour les différents assets (images, modèle 3D, sons) et enfin un dossier contenant les scripts JS.
+
+L'architecture finale du dossier généré et donc la suivante : 
+
+    out
+    ├── assets
+    │   ├── images
+    │   │   ├── image1.png
+    │   │   └── image2.png
+    │   ├── models
+    │   │   └── model.gltf
+    │   ├── sounds
+    │   │   └── sound.mp4
+    │   ├── styles
+    │   │   └── style.css
+    ├── scripts
+    │   └── *.js
+    ├── templates
+    │   ├── page1.html
+    │   ├── page2.html
+    │   └── map.html
+    ├── index.html
+    ├── five-server.config.js
+    └── .holder.json
+
+L'intéré des fichiers `five-server.config.js` et `.holder.json` est expliqué plus bas
+
+### Création des scènes en html
+
+Afin de créer les scènes html, on récupère donc les différents objets créés par l'utilisateur puis pour chacun de ces objets on créer des strings reprenant les informations importantes choisi et enfin, on ajoute chacun de ces éléments dans le fichier correspondant.
+
+Par exemple si on veut générer un panneau dans une scène :
+
+```php
+$body .= '
+    <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
+';
+```
+
+On stock donc notre élément dans une variable `$element` et on récupère les informations qu'il contient grâce aux méthodes lié présente dans la classe métier. 
+
+Chaque type d'objet (panneau, point de navigation, élément 3D) doit générer une `a-entity` différente. Donc, quand on itère à travers chaque objet présent dans les différentes scène, on vérifie d'abord la classe de celui-ci puis on génère le code associé.
+
+De plus, certains éléments change en focntion du type de scène généré (timeline, scène basique, map). Donc, quand on itère dans les objets présent dans le panorama, en focntion de leurs type on appelle différentes méthodes.
+
+    scène basique -> fucntion generateBase()
+    timeline      -> fucntion generateTimeline()
+    map           -> function generateMap()
+
+Les éléments qui changent en fonction du type de scène sont, dans la plupart des cas, l'affichage de bouton lié à la navigation entre scène. Par exemple, dans le cas d'une timeline qu'on utiliserai sur mobile, il faut afficher des boutons sur la scène qui vont permettre la navigation entre les différentes temporalité de la timeline. On rajoute donc le bout de code suivant au début de la template html lié à la timeline :
+
+```php
+$classNumber = 1;
+foreach($timeline->getViews() as $view){
+    $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
+    $vr_button .= 'class' . $classNumber . ': ' . $view->getDate() . ';';
+    $classNumber++;
+}
+```
+
+De plus, on va aussi ajouter des classes et paramètre aux différents éléments de la scène en focntion du type de celle-ci.
+
+### Modification des scripts JavaScript
+
+Les scripts JavaScript nécessaire ont été créés indépendamment du générateur et son expliqué [plus bas](#panorama-a-frame). Il faut donc, lors de la génération, simplement modifier certaine ligne de ces script afin de les rendres dynamique en fonction des éléments choisi par l'utilisateur. Par exemple, un des scripts permet d'accéder à la carte si le projet en possède une. Le script permet donc d'y accéder de différentes manières en fonction du périphérique sur lequel le projet est utilisé. Par exemple, sur ordinateur, on y accède grâce à la touche `M`.
+
+Pour modifier le fichier vers lequel on navigue lors de la pression sur la touche, on récupère le fichier JavaScript qui possède la fonction en question puis on modifie les lignes nécessaire avec les bonnes informations. Par exemple : 
+
+```php
+$data = file('./.datas/out/scripts/computerSliderComponent.js');
+$data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
+$data[71] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
+file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
+```
+
+### Importation d'ancien Panorama 
+>>>>>>> 3dea2624ce20a99ff29bf710a051eb408ccf8610
 
 # Panorama ([A-Frame](https://aframe.io/))
 
