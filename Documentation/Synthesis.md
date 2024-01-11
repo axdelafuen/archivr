@@ -288,9 +288,30 @@ Contient les vues du générateur. _(N.B. le style des vues à été majoritaire
 
 **L'UX :**
 
-TODO()
+Le majeur partie du travail consacré au générateur, à été de créer une interface utilisateur intuitive.
 
-**Quelques problèmes connus de notre projet :**
+_[L'ancien projet](https://codefirst.iut.uca.fr/git/archivr/old-project) permettait de générer des panoramas comme demandé. Cependant son utilisation était plutôt compliquer. L'édition des images se faisait uniquement au clavier. Et une fois une modification terminé, il était impossible de re modifier cette dernière._
+
+Voici les deux grands changement du générateur :
+
+- Dashboard
+
+Cette page permet de sélectionner quelle image (ou timeline) modifier. Une fois une modification terminé, on est automatiquement ramené sur cette page. Cela permet de modifier une autre page, ou bien remodifier la même sans problème.
+
+![dashboard](./images/dashboard.png)
+
+- Edition
+
+La page d'édition à complétement changé par rapport à l'ancien projet. Nous sommes passés d'une édition au clavier, à une édition à la souris à l'aide de menu type **ATH** _(Affichage Tête Haute)_.
+
+![ath](./images/ath.png)
+
+En ce qui concerne l'ajout et la modification des points de navigation (_waypoints_), nous avons ajouté des _drop down menu_, listant toutes les images de destination possible. Contrairement à l'ancien projet où il fallait écrire sans faute le nom de l'image de destination, avec son extension exact.
+
+![drop-down](./images/drop-down.png)
+
+
+**Quelques problèmes connus du générateur :**
 
 En ce qui concerne la ✨ _façon de coder_ ✨, nous utilisons les sessions dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette mauvaise pratique peut laisser place à de nombreux bugs. Il aurait fallu utiliser une classe métier de vérification du contenu du tableaux `$_SESSION[]`, pour ensuite utiliser des variables vérifiés dans les vues.
 
@@ -382,7 +403,6 @@ file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
 ```
 
 ### Importation d'ancien Panorama 
->>>>>>> 3dea2624ce20a99ff29bf710a051eb408ccf8610
 
 # Panorama ([A-Frame](https://aframe.io/))
 
