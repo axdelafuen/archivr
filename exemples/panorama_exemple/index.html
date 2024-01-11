@@ -1,0 +1,37 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Présentation soutenance</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+      <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+      <script src="scripts/functions.js"></script>
+      <script src="scripts/components.js"></script>
+      <script src="scripts/deviceHandler.js"></script>
+      <script src="scripts/smartphoneSliderComponent.js"></script>
+      <script src="scripts/computerSliderComponent.js"></script>
+      <script src="scripts/buttonVr.js"></script>
+  </head>
+
+  <body>
+    <a-scene scene thumbstick-logging>
+
+    <a-entity id="player" position="0 -1.6 0" rotation="0 0 0">
+      <!-- Caméra -->
+      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: false"></a-camera>
+    </a-entity>
+
+      <a-entity id="base">
+        <a-sky id="skybox" src="assets/images/sky.png" animationcustom></a-sky><a-image src="assets/images/batInfo.jpg" position="0 0 -0.6" width="2.1"></a-image>
+        <a-image onclick="goTo('templates/projet.html')" animationcustom  position="-0.7 0.05 -0.5" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
+      
+        <a-image onclick="goTo('templates/couloirA12.html')" animationcustom  position="0.75 -0.3 -0.5" src="assets/images/blueWaypoint.png" color="#FFFFFF" rotation="0 90 0" look-at="#camera" height="0.1" width="0.1" map></a-image>
+ 
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
+      

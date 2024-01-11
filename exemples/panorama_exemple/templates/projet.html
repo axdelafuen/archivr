@@ -1,0 +1,17 @@
+<div class="hud" id="div"><button class="button-74" role="button" onclick="mobileOpacityHandler('class1')" id="button1">1</button><button class="button-74" role="button" onclick="mobileOpacityHandler('class2')" id="button2">2</button><button class="button-74" role="button" onclick="mobileOpacityHandler('class3')" id="button3">3</button></div>
+<a-sky src="./assets/images/jour.jpg" class="class1" sliderelement></a-sky>
+  <a-entity position="0 0.25 -0.5" rotation="15 2 0" text="value: Attention zone de travail !; align: center" animationcustom class="class1" opacity="1" ></a-entity>
+  <a-sky src="./assets/images/nuit.jpg" class="class2" opacity="0.0" sliderelement></a-sky>
+  <a-entity position="-0.9 0.15 -0.15" rotation="0 94 0" text="value: Axel en retard...; align: center" animationcustom class="class2" visible="false" ></a-entity>
+            
+              <a-entity opacity="0.0" position="-2 0 -2" rotation="0 0 90" class="class1" onclick="goTo('./templates/couloirA18A19.html','0 0 0')">
+              <a-image src="./assets/images/fleche.png" id="model" animationcuston scale="0.5 0.5 0.5" animationcustom></a-image>
+              </a-entity>
+              
+              <a-entity opacity="0.0" position="-2 0 -2" rotation="0 0 90" class="class2">
+              <a-image src="./assets/images/fleche.png" id="model" animationcuston scale="0.5 0.5 0.5" onclick="goTo('./templates/couloirA18A19.html','0 0 0')"></a-image>
+              </a-entity>
+
+            <a-sky src="./assets/images/nuit2.jpg" class="class3" opacity="0.0" sliderelement></a-sky>
+  <a-entity position="1.6 1.1 0.1" rotation="0 180 0" text="value: Pas content !; align: center" animationcustom class="class3" visible="false" ></a-entity>
+<a-entity button-vr="class1: jour;class2: nuit;class3: nuit 2" rotation="-50 0 0" position="0.1 -0.6 -0.5"></a-entity>

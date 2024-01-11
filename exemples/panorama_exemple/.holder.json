@@ -1,0 +1,360 @@
+{
+    "id": "Présentation soutenance6584811f8d0543.00937692",
+    "name": "Présentation soutenance",
+    "map": {
+        "path": "batInfo.jpg",
+        "elements": [
+            {
+                "id": "A12.JPG6584832f505664.81927816",
+                "position": {
+                    "x": -0.7,
+                    "y": 0.05,
+                    "z": -0.5
+                },
+                "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": 1,
+                "destination": "A12.JPG"
+            },
+            {
+                "id": "couloirA12.JPG6584834b3a63e9.66829464",
+                "position": {
+                    "x": 0.75,
+                    "y": -0.3,
+                    "z": -0.5
+                },
+                "rotation": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                },
+                "scale": 1,
+                "destination": "couloirA12.JPG"
+            }
+        ]
+    },
+    "timelines": [
+        {
+            "id": "Salle de projet65848139f39d04.49903465",
+            "name": "Salle de projet",
+            "views": [
+                {
+                    "path": "jour.jpg",
+                    "elements": [
+                        {
+                            "id": "Attention zone de travail !6584817539ee18.29505544",
+                            "position": {
+                                "x": 0,
+                                "y": 0.25,
+                                "z": -0.5
+                            },
+                            "rotation": {
+                                "x": 15,
+                                "y": 2,
+                                "z": 0
+                            },
+                            "content": "Attention zone de travail !"
+                        }
+                    ],
+                    "date": 1,
+                    "cameraRotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                },
+                {
+                    "path": "nuit.jpg",
+                    "elements": [
+                        {
+                            "id": "Axel en retard...658481cf8fbe27.47322602",
+                            "position": {
+                                "x": -0.9,
+                                "y": 0.15,
+                                "z": -0.15
+                            },
+                            "rotation": {
+                                "x": 0,
+                                "y": 94,
+                                "z": 0
+                            },
+                            "content": "Axel en retard..."
+                        },
+                        {
+                            "id": "couloirA23.JPG658482d3e39b09.27809898",
+                            "position": {
+                                "x": -2,
+                                "y": 0,
+                                "z": -2
+                            },
+                            "rotation": {
+                                "x": 0,
+                                "y": 56,
+                                "z": 0
+                            },
+                            "scale": 0.55,
+                            "destination": "couloirA23.JPG"
+                        }
+                    ],
+                    "date": 2,
+                    "cameraRotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                },
+                {
+                    "path": "nuit2.jpg",
+                    "elements": [
+                        {
+                            "id": "Pas content !6584822e8eb727.93574960",
+                            "position": {
+                                "x": 1.6,
+                                "y": 1.1,
+                                "z": 0.1
+                            },
+                            "rotation": {
+                                "x": 0,
+                                "y": 180,
+                                "z": 0
+                            },
+                            "content": "Pas content !"
+                        },
+                        {
+                            "id": "couloirA23.JPG65848260eb7262.97077016",
+                            "position": {
+                                "x": -0.1,
+                                "y": -0.35,
+                                "z": -2
+                            },
+                            "rotation": {
+                                "x": -2,
+                                "y": 8,
+                                "z": 2
+                            },
+                            "scale": 0.435,
+                            "destination": "couloirA23.JPG"
+                        }
+                    ],
+                    "date": 3,
+                    "cameraRotation": {
+                        "x": 1.5902773407317584e-15,
+                        "y": 293.010616429902,
+                        "z": 0
+                    }
+                }
+            ]
+        }
+    ],
+    "views": [
+        {
+            "path": "batInfo.jpg",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "couloirA23.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "couloirA21A22.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "couloirA18A19.JPG",
+            "elements": [
+                {
+                    "id": "A19.JPG658484bba72ad5.03081116",
+                    "position": {
+                        "x": 0.75,
+                        "y": -0.65,
+                        "z": 0.9
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": -97,
+                        "z": 0
+                    },
+                    "scale": 0.21,
+                    "destination": "A19.JPG"
+                },
+                {
+                    "id": "A18.JPG658484df85bf38.26565903",
+                    "position": {
+                        "x": -2,
+                        "y": 0,
+                        "z": -0.5
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 8,
+                        "z": 0
+                    },
+                    "scale": 0.23,
+                    "destination": "A18.JPG"
+                },
+                {
+                    "id": "Salle de projet6584850ec420c0.07545974",
+                    "position": {
+                        "x": 0.35,
+                        "y": -0.25,
+                        "z": 2
+                    },
+                    "rotation": {
+                        "x": 11,
+                        "y": 8,
+                        "z": 0
+                    },
+                    "scale": 0.25,
+                    "destination": "Salle de projet"
+                }
+            ],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "couloirA12.JPG",
+            "elements": [
+                {
+                    "id": "A12.JPG65848382b4abe3.09401840",
+                    "position": {
+                        "x": -2,
+                        "y": -0.5,
+                        "z": 0.1
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 107,
+                        "z": 0
+                    },
+                    "scale": 0.39,
+                    "destination": "A12.JPG"
+                },
+                {
+                    "id": "couloirA18A19.JPG658483bb08b3c5.11669708",
+                    "position": {
+                        "x": 0.5,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "rotation": {
+                        "x": 180,
+                        "y": 180,
+                        "z": 14
+                    },
+                    "scale": 0.25,
+                    "destination": "couloirA18A19.JPG"
+                }
+            ],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A23.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A22.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A21.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A19.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A18.JPG",
+            "elements": [],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "path": "A12.JPG",
+            "elements": [
+                {
+                    "id": "couloirA12.JPG65848429c02d85.43422005",
+                    "position": {
+                        "x": -1.5,
+                        "y": -0.05,
+                        "z": 0.1
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 110,
+                        "z": 0
+                    },
+                    "scale": 0.195,
+                    "destination": "couloirA12.JPG"
+                },
+                {
+                    "id": "J'adore la crypto65848495bc15c6.51970168",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.1
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 180,
+                        "z": 0
+                    },
+                    "content": "J'adore la crypto"
+                }
+            ],
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    ]
+}

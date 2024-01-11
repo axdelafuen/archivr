@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+
+<head>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="components.js"></script>
+  <script src="functions.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    
+  <a-assets>
+     <a-asset-item id="tree" src="./speakers.glb"></a-asset-item> 
+  </a-assets>
+    <a-camera id="camera">
+      <a-cursor></a-cursor>
+    </a-camera>
+
+    <a-plane color="grey" height="100" width="100" rotation="-90 0 0"></a-plane>
+    <a-sky color="lightblue"></a-sky>
+    <a-plane 
+      position="0 3 -4"
+      color="brown"
+      rotation="0 0 90"
+      opacity="0.3"
+      onmouseenter="fadeIn('classeObject1')"
+      onmouseleave="fadeOut('classeObject1')"
+      ></a-plane>
+    <a-box color="red" position="-2 2 -3" opacity="0.0" class='classeObject1'></a-box>
+    <a-ring color="teal" radius-inner="1" radius-outer="2" position="5 3 -8" class='classeObject1' opacity="0.0"></a-ring>
+    <a-text  rotation="0 0 0" value="Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat." align="center" width="2.5" color="black" position="0 1 -3" opacity="0.0" class='classeObject1'></a-text>
+
+
+    <a-box color="red" position="3 0 0" onclick="clickHandler(this)" houdini class="obj2"></a-box>
+      <a-box color="blue" position="3 2 0" class="obj2" opacity="0.0"></a-box>
+
+</a-scene>
+</body>
