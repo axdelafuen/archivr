@@ -38,10 +38,10 @@ Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/arc
 | Importer des images 360°   | Créer les animations et modèles 3D|
 | Ajouter/Placer des panneaux                                                 |<div align="center">__X__</div> |
 | Ajouter/Placer des points de navigations                           |<div align="center">__X__</div> |
+| Ajouter/Placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 | Lier les points de navigation vers des images 360° _(ou timelines)_              |<div align="center">__X__</div> |
 | Ajouter la carte                                                     |<div align="center">__X__</div> |
 | Ajouter des points de navigation de la carte aux images 360° _(ou timelines)_    |<div align="center">__X__</div> |
-| Importer et placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 
 **Timeline :**
 
@@ -69,7 +69,7 @@ Générateur| Panorama  |
 
 # Générateur (PHP)
 
-### Conception
+## Conception
 
 **Diagramme de classe :**
 
@@ -254,7 +254,49 @@ state if_editable <<choice>>
     end_element_edition --> image_edition
 ```
 
-### Site web
+## Site web
+
+Le générateur a été codé en PHP, pour être utilisé comme application Web local. _(cf. [Déploiement](#déploiement))_
+
+**Organisation du projet :**
+
+Notre projet repose sur le patron MVC (_Model - View - Controller)_. N'ayant qu'un seul type d'utilisateur sur notre application, nous avons un seul et unique _Controller_. 
+
+Le code source du générateur se trouve dans le répertoire `./src/`. Ce dernier contiens différents répertoires :
+
+- `.template/` :
+
+Contient tous les scripts `JS`, et template de pages `HTML` _(vues)_, utilisé lors de la génération d'un panorama.
+
+- `businesses/` :
+
+Contient les classes métiers du projet.
+
+- `config/` :
+
+Contient le fichier de configuration _(déclaration des constantes)_, ainsi que l'_Autoloder_, qui permet de charger automatiquement une seule fois toutes les classes du projet au lancement de l'application Web.
+
+- `controller/` :
+
+Contient le controleur du projet.
+
+- `models/` :
+
+Contient les classes modèles du projet
+
+- `views/` :
+
+Contient les vues du générateur. _(N.B. le style des vues à été majoritairement fait avec [Bootstrap](https://getbootstrap.com/))_
+
+**L'UX :**
+
+TODO()
+
+**Quelques problèmes connus de notre projet :**
+
+En ce qui concerne la ✨ _façon de coder_ ✨, nous utilisons les sessions dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette mauvaise pratique peut laisser place à de nombreux bugs. Il aurait fallu utiliser une classe métier de vérification du contenu du tableaux `$_SESSION[]`, pour ensuite utiliser des variables vérifiés dans les vues.
+
+Si l'utilisateur importe deux fois la même image, cela peut créer des évenements imprévu durant l'utilisation de l'application. Au début, l'utilisateur aura seulement deux fois son image, sans problèmes (chacune une entité distinct avec ses propres éléments). Seulement si l'utilisateur souhaite ajouter une des deux images dans une _Timeline_, alors les deux images vont être ajoutés. Cela est causé par l'utilisation du nom de l'image pour ajouter dans une _Timeline_, plutôt qu'avec un _id_.
 
 ## Algorithme de génération
 
@@ -342,6 +384,7 @@ file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
 ```
 
 ### Importation d'ancien Panorama 
+>>>>>>> 3dea2624ce20a99ff29bf710a051eb408ccf8610
 
 Une des fonctionnalités importante du projet était de pouvoir importer un de ses anciens projet à l'aide d'un fichier qui stockerai toute les informations importantes sur un Panorama.
 
