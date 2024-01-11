@@ -10,7 +10,7 @@ _par ASTOLFI Vincent, JAULT Aurian et DE LA FUENTE Axel_
 - [Introduction](#introduction)
     - [Qu'est ce qu'Archivr ?](#qu’est-ce-qu’archivr)
     - [Les fonctionnalités](#les-fonctionnalités)   
-- [Générateuri (PHP)](#générateur-(php))
+- [Générateur (PHP)](#générateur-(php))
     - [Conception](#conception)
     - [Site web](#site-web)
     - [Algorithme de génération](#algorithme-de-génération)
