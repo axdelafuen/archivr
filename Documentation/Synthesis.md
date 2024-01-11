@@ -294,7 +294,6 @@ Permet de lire des fichiers mp3 lorsqu'on appuie sur un élément.
 **Exemple :**
 
 ```html
-
       <a-box 
       position="1 1 -4"
       color="brown"
@@ -304,7 +303,7 @@ Permet de lire des fichiers mp3 lorsqu'on appuie sur un élément.
 ### Apparition d'éléments
 
 Il est possible de faire deux types d'animation d'apparition. En [cliquant sur un élément déjà présent](#apparition-au-clique) ou en regardant une [zone prédéfinie](#fuse-control).
-## Apparition au clique
+### Apparition au clique
 
 - **`Houdini` (component)** permet d'ajouter un booléen dans l'élement qui possède ce composant. Il permet de savoir s'il faut afficher ou cacher les éléments. Les élements apparaissant doivent avoir la __même__ classe que le bouton le déclanchant ainsi que d'une __opacité__ de 0.0.
 
@@ -319,11 +318,11 @@ Cet exemple utilise des `a-box` comme éléments, mais le composant peut être a
       <a-box class="toto" color="blue" position ="0 2 -3" opacity="0.0"></a-box>
 ```
 
+### Fuse control
 
-###  Fuse control
 Permet de faire apparaitre des éléments en regardant un endroit dans l'image. Pour que cela fonctionne, il faut créer une balise `<a-plane rotation="0 90 0" opacity="0.0">` avec une opacité de 0.0 pour qu'il soit invisible. Lorsque l'utilisateur regarde vers cet éléments il déclanche l'apparition des éléments avec les évènements `onmouseenter` et `onmouseleave` quand il ne regarde plus. Pour que cela fonctionne, il faut ajouter la balise `cursor` dans la camera du joueur.
 
-## Fades (Component)
+### Fades (Component)
 __Un nom de classe = 1 panneau d'affichage.__   
 Met l'opacité des éléments à 0 (invisible) et l'ajoute dans la classe `.default` si aucune n'est renseignée.  
 🛑 Si il y a plusieur panneaux à afficher, changez les classes 🛑 
@@ -427,7 +426,6 @@ Toutes les plateformes sont supportées, pour le casque VR, l'évenement `keyDow
 ```html
 <a-plane   animationcustom color="black" width="5" text="value: Amphi A;  align: center" position="0 1 1"></a-plane>
 ```
-
 
 # Extras
 
