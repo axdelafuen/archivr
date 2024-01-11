@@ -1,0 +1,27 @@
+<div class="hud" id="div"><button class="button-74" role="button" onclick="mobileOpacityHandler('class1')" id="button1">2023</button><button class="button-74" role="button" onclick="mobileOpacityHandler('class2')" id="button2">2024</button></div><a-sky src="./assets/images/jour.jpg" class="class1" sliderelement></a-sky>
+              <a-entity opacity="1" position="0.25 0 -1.95" rotation="5 11 2" scale="0.25 0.25 0.25">
+              <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model" class="class1" 
+                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+                // onclick="goTo('templates/devantAmphi.html', '0 0 0')"
+                look-at="#pointer1">
+              </a-entity>
+                <a-entity id="pointer1"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
+              </a-entity>
+            
+              <a-entity position="0 0.25 -0.5" rotation="11 2 -2" text="value: Go to Amphi v2; align: center" animationcustom class="class1" opacity="1" ></a-entity>
+            <a-entity id="stone-bench65772218eff219.95039799" position="-0.35 -0.4 -0.45" rotation="2 91 0" scale="0.105 0.105 0.105">
+                      <a-entity gltf-model="./assets/models/stone-bench/scene.gltf"></a-entity>
+                    </a-entity><a-sky src="./assets/images/nuit.jpg" class="class2" opacity="0.0" sliderelement></a-sky>
+              <a-entity position="-0.1 -0.5 2" rotation="0 -167 0" scale="0.3 0.3 0.3" >
+              <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model" class="class2" visible="false"
+                animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+                // onclick="goTo('templates/devantAmphi.html', '0 0 0')"
+                look-at="#pointer1">
+              </a-entity>
+                <a-entity id="pointer1"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+                </a-entity>
+              </a-entity>
+            
+              <a-entity position="0 0 0.4" rotation="0 180 0" text="value: Go to Amphi; align: center" animationcustom class="class2" visible="false" ></a-entity>
+            

@@ -1,0 +1,49 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My master piece</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+      <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+      <script src="scripts/functions.js"></script>
+      <script src="scripts/components.js"></script>
+      <script src="scripts/deviceHandler.js"></script>
+      <script src="scripts/smartphoneSliderComponent.js"></script>
+      <script src="scripts/computerSliderComponent.js"></script>
+  </head>
+
+  <body>
+    <a-scene scene thumbstick-logging>
+
+    <a-entity id="player" position="0 -1.6 0" rotation="0 0 0">
+      <!-- Caméra -->
+      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: false"></a-camera>
+    </a-entity>
+
+      <a-entity id="base">
+        <a-sky id="skybox" src="./assets/images/devantAmphi.jpg" animationcustom></a-sky>
+        <div class="hud" id="div">
+          <button class="button-74" role="button" onclick="goTo('templates/planPrincipal.html')" id="buttonMap">Map</button>
+        </div>
+        
+            <a-entity position="1 0 -0.15" rotation="-5 -81 -2" scale="0.125 0.125 0.125">
+            <a-entity gltf-model="./assets/models/direction_arrow/scene.gltf" id="model"
+              animation__2="property: position; from: 0 0 0; to: 0 -1 0; dur: 1000; easing: linear; dir: alternate; loop: true" animationcustom
+              class="empty"
+              onclick="goTo('templates/test.html', '0 0 0')"
+              look-at="#pointer1">
+            </a-entity>
+              <a-entity id="pointer1"  animation__2="property: position; from: 3 0 1; to: 3 -1.0 1; dur: 1000; easing: linear; dir: alternate;loop: true">
+              </a-entity>
+            </a-entity>
+          
+            <a-entity position="0.9 0.05 -0.05" rotation="-8 -94 0" text="value: Go back to 2nd floor; align: center" animationcustom"></a-entity>
+          
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
+      
