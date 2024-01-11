@@ -10,7 +10,7 @@ _par ASTOLFI Vincent, JAULT Aurian et DE LA FUENTE Axel_
 - [Introduction](#introduction)
     - [Qu'est ce qu'Archivr ?](#qu’est-ce-qu’archivr-%3F)
     - [Les fonctionnalités](#les-fonctionnalités)   
-- [Générateuri (PHP)](#générateur-(php))
+- [Générateur (PHP)](#générateur-(php))
     - [Conception](#conception)
     - [Site web](#site-web)
     - [Algorithme de génération](#algorithme-de-génération)
@@ -253,7 +253,81 @@ state if_editable <<choice>>
 
 ### Site web
 
-### Algorithme de génération
+## Algorithme de génération
+
+Une fois que l'utilisateur à créer son Panorama avec ses différentes scènes, timelines, éléments, map. Il peu générer son Panorama et ainsi télécherger le fichier zip de son projet.
+
+Avant de le générer, il a la possibilté de choisir la page de départ parmi, soit une timeline, soit une de ses scènes. À l'heure actuelle, il n'est donc pas possible de démarrer directement sur la map. Une fonctionnalité qui pourrait être ajouté à l'avenir.
+
+### Structure du Panorama Généré
+
+Le projet généré est un site web composé de plusieurs pages, scripts et ressources. Nous avons décidé de disposer nos fichiers de la façon suivante : un index.html qui contient la seule et unique page qui sera chargé du projet. Dans l'ancien projet, pour chaque scène on avait une page différente qui se chargeais. Cela impliquait que la page rechargeait à chaque changement de scène ce qui avais pour effet de quitter le mode VR en mode casque notamment et qui rendait donc l'expérience utilisateur moins bonnes. Pour contrer ce problème, nous avons donc choisi d'avoir une seule et unique page chargée puis nous modifions directement le code de cette page en JavaScript afin de changer la scène (explication du changement de scène en JavaScript [plus bas](#navigation)).
+
+En plus de la page d'index, nous ajoutons un dossier templates contenant tout le code des différentes scènes nous permettant ainsi d'effectuer le changement. Nous avons aussi un dossier pour les différents assets (images, modèle 3D, sons) et enfin un dossier contenant les scripts JS.
+
+L'architecture finale du dossier généré et donc la suivante : 
+
+    out
+    ├── assets
+    │   ├── images
+    │   │   ├── image1.png
+    │   │   └── image2.png
+    │   ├── models
+    │   │   └── model.gltf
+    │   ├── sounds
+    │   │   └── sound.mp4
+    │   ├── styles
+    │   │   └── style.css
+    ├── scripts
+    │   └── *.js
+    ├── templates
+    │   ├── page1.html
+    │   ├── page2.html
+    │   └── map.html
+    ├── index.html
+    ├── five-server.config.js
+    └── .holder.json
+
+L'intéré des fichiers `five-server.config.js` et `.holder.json` est expliqué plus bas
+
+### Création des scènes en html
+
+Afin de créer les scènes html, on récupère donc les différents objets créés par l'utilisateur puis pour chacun de ces objets on créer des strings reprenant les informations importantes choisi et enfin, on ajoute chacun de ces éléments dans le fichier correspondant.
+
+Par exemple si on veut générer un panneau dans une scène :
+
+```php
+$body .= '
+    <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
+';
+```
+
+On stock donc notre élément dans une variable `$element` et on récupère les informations qu'il contient grâce aux méthodes lié présente dans la classe métier. 
+
+Chaque type d'objet (panneau, point de navigation, élément 3D) doit générer une `a-entity` différente. Donc, quand on itère à travers chaque objet présent dans les différentes scène, on vérifie d'abord la classe de celui-ci puis on génère le code associé.
+
+De plus, certains éléments change en focntion du type de scène généré (timeline, scène basique, map). Donc, quand on itère dans les objets présent dans le panorama, en focntion de leurs type on appelle différentes méthodes.
+
+    scène basique -> fucntion generateBase()
+    timeline      -> fucntion generateTimeline()
+    map           -> function generateMap()
+
+Les éléments qui changent en fonction du type de scène sont, dans la plupart des cas, l'affichage de bouton lié à la navigation entre scène. Par exemple, dans le cas d'une timeline qu'on utiliserai sur mobile, il faut afficher des boutons sur la scène qui vont permettre la navigation entre les différentes temporalité de la timeline. On rajoute donc le bout de code suivant au début de la template html lié à la timeline :
+
+```php
+$classNumber = 1;
+foreach($timeline->getViews() as $view){
+    $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
+    $vr_button .= 'class' . $classNumber . ': ' . $view->getDate() . ';';
+    $classNumber++;
+}
+```
+
+De plus, on va aussi ajouter des classes et paramètre aux différents éléments de la scène en focntion du type de celle-ci.
+
+### Modification des scripts JavaScript
+
+### Importation d'ancien Panorama 
 
 # Panorama ([A-Frame](https://aframe.io/))
 
