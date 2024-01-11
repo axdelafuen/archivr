@@ -67,7 +67,7 @@ Générateur| Panorama  |
 
 # Générateur (PHP)
 
-### Conception
+## Conception
 
 **Diagramme de classe :**
 
@@ -252,7 +252,7 @@ state if_editable <<choice>>
     end_element_edition --> image_edition
 ```
 
-### Site web
+## Site web
 
 Le générateur a été codé en PHP, pour être utilisé comme application Web local. _(cf. [Déploiement](#déploiement))_
 
@@ -262,27 +262,27 @@ Notre projet repose sur le patron MVC (_Model - View - Controller)_. N'ayant qu'
 
 Le code source du générateur se trouve dans le répertoire `./src/`. Ce dernier contiens différents répertoires :
 
-- `.template` :
+- `.template/` :
 
 Contient tous les scripts `JS`, et template de pages `HTML` _(vues)_, utilisé lors de la génération d'un panorama.
 
-- `businesses` :
+- `businesses/` :
 
 Contient les classes métiers du projet.
 
-- `config` :
+- `config/` :
 
 Contient le fichier de configuration _(déclaration des constantes)_, ainsi que l'_Autoloder_, qui permet de charger automatiquement une seule fois toutes les classes du projet au lancement de l'application Web.
 
-- `controller` :
+- `controller/` :
 
 Contient le controleur du projet.
 
-- `models` :
+- `models/` :
 
 Contient les classes modèles du projet
 
-- `views` :
+- `views/` :
 
 Contient les vues du générateur. _(N.B. le style des vues à été majoritairement fait avec [Bootstrap](https://getbootstrap.com/))_
 
