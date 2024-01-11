@@ -300,7 +300,7 @@ Si l'utilisateur importe deux fois la même image, cela peut créer des éveneme
 
 ## Algorithme de génération
 
-Une fois que l'utilisateur à créer son Panorama avec ses différentes scènes, timelines, éléments, map. Il peu générer son Panorama et ainsi télécherger le fichier zip de son projet.
+Une fois que l'utilisateur a créé son Panorama avec ses différentes scènes, timelines, éléments, map. Il peu générer son Panorama et ainsi télécherger le fichier zip de son projet.
 
 Avant de le générer, il a la possibilté de choisir la page de départ parmi, soit une timeline, soit une de ses scènes. À l'heure actuelle, il n'est donc pas possible de démarrer directement sur la map. Une fonctionnalité qui pourrait être ajouté à l'avenir.
 
@@ -384,7 +384,6 @@ file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
 ```
 
 ### Importation d'ancien Panorama 
->>>>>>> 3dea2624ce20a99ff29bf710a051eb408ccf8610
 
 Une des fonctionnalités importante du projet était de pouvoir importer un de ses anciens projet à l'aide d'un fichier qui stockerai toute les informations importantes sur un Panorama.
 
