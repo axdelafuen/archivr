@@ -28,7 +28,7 @@ _par ASTOLFI Vincent, JAULT Aurian et DE LA FUENTE Axel_
 
 Dans le cadre de l'événement de l'université Foraine à Brioude, plusieurs IUT participent à des projets régionaux, le but de notre projet a était de résoudre une des problématiques de la ville qui est de rendre accessible les lieux culturels de la commune à tous les usagers en utilisant la réalité virtuelle. Une partie de la solution a déjà été réalisée par un ancien groupe de l’IUT en 2021, il permet d’ajouter de nouvelles images 360° ainsi que de naviguer parmi les points proposés. Ce projet nous à été fourni afin de prolonger son développement ainsi que d’ajouter de nouvelles fonctionnalités notamment la capacité à choisir la temporalité du lieu que l’on visite. 
 Actuellement, il comprend deux éléments; le panorama, une carte contenant plusieurs points d’intérêts autour de l’IUT. Il est possible de naviguer entre les différents lieux à l'aide de flèches rajouter sur les images.  
-Le deuxième élément permet de générer le premier,c'ets le générateur. il génére les images 360° compatibles avec la première partie, ainsi que d’ajouter des éléments interactifs. L’objectif principal de notre travail est de finaliser les éléments déjà créés.   
+Le deuxième élément permet de générer le premier,c'est le générateur. il génére les images 360° compatibles avec la première partie, ainsi que d’ajouter des éléments interactifs. L’objectif principal de notre travail est de finaliser les éléments déjà créés.   
 la principale fonctionnalité que nous avons implémenté est la notien de temporalité. En effet il est possible d'ajouter plusieur image pour un même lieux donné afin que les visiteurs pouissent voir un même lieu dans des contextes différents.
 
 Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/archivr/old-project)
@@ -294,9 +294,30 @@ Contient les vues du générateur. _(N.B. le style des vues à été majoritaire
 
 **L'UX :**
 
-TODO()
+Le majeur partie du travail consacré au générateur, à été de créer une interface utilisateur intuitive.
 
-**Quelques problèmes connus de notre projet :**
+_[L'ancien projet](https://codefirst.iut.uca.fr/git/archivr/old-project) permettait de générer des panoramas comme demandé. Cependant son utilisation était plutôt compliquer. L'édition des images se faisait uniquement au clavier. Et une fois une modification terminé, il était impossible de re modifier cette dernière._
+
+Voici les deux grands changement du générateur :
+
+- Dashboard
+
+Cette page permet de sélectionner quelle image (ou timeline) modifier. Une fois une modification terminé, on est automatiquement ramené sur cette page. Cela permet de modifier une autre page, ou bien remodifier la même sans problème.
+
+![dashboard](./images/dashboard.png)
+
+- Edition
+
+La page d'édition à complétement changé par rapport à l'ancien projet. Nous sommes passés d'une édition au clavier, à une édition à la souris à l'aide de menu type **ATH** _(Affichage Tête Haute)_.
+
+![ath](./images/ath.png)
+
+En ce qui concerne l'ajout et la modification des points de navigation (_waypoints_), nous avons ajouté des _drop down menu_, listant toutes les images de destination possible. Contrairement à l'ancien projet où il fallait écrire sans faute le nom de l'image de destination, avec son extension exact.
+
+![drop-down](./images/drop-down.png)
+
+
+**Quelques problèmes connus du générateur :**
 
 En ce qui concerne la ✨ _façon de coder_ ✨, nous utilisons les sessions dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette mauvaise pratique peut laisser place à de nombreux bugs. Il aurait fallu utiliser une classe métier de vérification du contenu du tableaux `$_SESSION[]`, pour ensuite utiliser des variables vérifiés dans les vues.
 
