@@ -42,10 +42,10 @@ Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/arc
 | Importer des images 360°   | Créer les animations et modèles 3D|
 | Ajouter/Placer des panneaux                                                 |<div align="center">__X__</div> |
 | Ajouter/Placer des points de navigations                           |<div align="center">__X__</div> |
+| Ajouter/Placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 | Lier les points de navigation vers des images 360° _(ou timelines)_              |<div align="center">__X__</div> |
 | Ajouter la carte                                                     |<div align="center">__X__</div> |
 | Ajouter des points de navigation de la carte aux images 360° _(ou timelines)_    |<div align="center">__X__</div> |
-| Importer et placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 
 **Timeline :**
 
@@ -61,6 +61,8 @@ Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/arc
 | Édition (Ajouter / Supprimer / modifier) des éléments (photos, panneaux et points d'intérêts)    |<div align="center">__X__</div> |
 | Modifier l'image de la carte et ses éléments                                                     |<div align="center">__X__</div> |
 | Sauvegarder / annuler les modifications                                                          |<div align="center">__X__</div> |
+| Créer un fichier JSON correspondant aux objets du Panorama créer | X |
+| Importer ce fichier et recréer les objets en fonction | X |
 
 **Implémentation des différents périphériques :**
 
@@ -71,7 +73,7 @@ Générateur| Panorama  |
 
 # Générateur (PHP)
 
-### Conception
+## Conception
 
 **Diagramme de classe :**
 
@@ -256,9 +258,186 @@ state if_editable <<choice>>
     end_element_edition --> image_edition
 ```
 
-### Site web
+## Site web
 
-### Algorithme de génération
+Le générateur a été codé en PHP, pour être utilisé comme application Web local. _(cf. [Déploiement](#déploiement))_
+
+**Organisation du projet :**
+
+Notre projet repose sur le patron MVC (_Model - View - Controller)_. N'ayant qu'un seul type d'utilisateur sur notre application, nous avons un seul et unique _Controller_. 
+
+Le code source du générateur se trouve dans le répertoire `./src/`. Ce dernier contiens différents répertoires :
+
+- `.template/` :
+
+Contient tous les scripts `JS`, et template de pages `HTML` _(vues)_, utilisé lors de la génération d'un panorama.
+
+- `businesses/` :
+
+Contient les classes métiers du projet.
+
+- `config/` :
+
+Contient le fichier de configuration _(déclaration des constantes)_, ainsi que l'_Autoloder_, qui permet de charger automatiquement une seule fois toutes les classes du projet au lancement de l'application Web.
+
+- `controller/` :
+
+Contient le controleur du projet.
+
+- `models/` :
+
+Contient les classes modèles du projet
+
+- `views/` :
+
+Contient les vues du générateur. _(N.B. le style des vues à été majoritairement fait avec [Bootstrap](https://getbootstrap.com/))_
+
+**L'UX :**
+
+TODO()
+
+**Quelques problèmes connus de notre projet :**
+
+En ce qui concerne la ✨ _façon de coder_ ✨, nous utilisons les sessions dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette mauvaise pratique peut laisser place à de nombreux bugs. Il aurait fallu utiliser une classe métier de vérification du contenu du tableaux `$_SESSION[]`, pour ensuite utiliser des variables vérifiés dans les vues.
+
+Si l'utilisateur importe deux fois la même image, cela peut créer des évenements imprévu durant l'utilisation de l'application. Au début, l'utilisateur aura seulement deux fois son image, sans problèmes (chacune une entité distinct avec ses propres éléments). Seulement si l'utilisateur souhaite ajouter une des deux images dans une _Timeline_, alors les deux images vont être ajoutés. Cela est causé par l'utilisation du nom de l'image pour ajouter dans une _Timeline_, plutôt qu'avec un _id_.
+
+## Algorithme de génération
+
+Une fois que l'utilisateur a créé son Panorama avec ses différentes scènes, timelines, éléments, map. Il peu générer son Panorama et ainsi télécherger le fichier zip de son projet.
+
+Avant de le générer, il a la possibilté de choisir la page de départ parmi, soit une timeline, soit une de ses scènes. À l'heure actuelle, il n'est donc pas possible de démarrer directement sur la map. Une fonctionnalité qui pourrait être ajouté à l'avenir.
+
+### Structure du Panorama Généré
+
+Le projet généré est un site web composé de plusieurs pages, scripts et ressources. Nous avons décidé de disposer nos fichiers de la façon suivante : un index.html qui contient la seule et unique page qui sera chargé du projet. Dans l'ancien projet, pour chaque scène on avait une page différente qui se chargeais. Cela impliquait que la page rechargeait à chaque changement de scène ce qui avais pour effet de quitter le mode VR en mode casque notamment et qui rendait donc l'expérience utilisateur moins bonnes. Pour contrer ce problème, nous avons donc choisi d'avoir une seule et unique page chargée puis nous modifions directement le code de cette page en JavaScript afin de changer la scène (explication du changement de scène en JavaScript [plus bas](#navigation)).
+
+En plus de la page d'index, nous ajoutons un dossier templates contenant tout le code des différentes scènes nous permettant ainsi d'effectuer le changement. Nous avons aussi un dossier pour les différents assets (images, modèle 3D, sons) et enfin un dossier contenant les scripts JS.
+
+L'architecture finale du dossier généré et donc la suivante : 
+
+    out
+    ├── assets
+    │   ├── images
+    │   │   ├── image1.png
+    │   │   └── image2.png
+    │   ├── models
+    │   │   └── model.gltf
+    │   ├── sounds
+    │   │   └── sound.mp4
+    │   ├── styles
+    │   │   └── style.css
+    ├── scripts
+    │   └── *.js
+    ├── templates
+    │   ├── page1.html
+    │   ├── page2.html
+    │   └── map.html
+    ├── index.html
+    ├── five-server.config.js
+    └── .holder.json
+
+L'intéré des fichiers `five-server.config.js` et `.holder.json` est expliqué plus bas
+
+### Création des scènes en html
+
+Afin de créer les scènes html, on récupère donc les différents objets créés par l'utilisateur puis pour chacun de ces objets on créer des strings reprenant les informations importantes choisi et enfin, on ajoute chacun de ces éléments dans le fichier correspondant.
+
+Par exemple si on veut générer un panneau dans une scène :
+
+```php
+$body .= '
+    <a-entity position="'.strval($element->getPosition()).'" rotation="' . strval($element->getRotation()) . '" text="value: '.$element->getContent().'; align: center" animationcustom"></a-entity>
+';
+```
+
+On stock donc notre élément dans une variable `$element` et on récupère les informations qu'il contient grâce aux méthodes lié présente dans la classe métier. 
+
+Chaque type d'objet (panneau, point de navigation, élément 3D) doit générer une `a-entity` différente. Donc, quand on itère à travers chaque objet présent dans les différentes scène, on vérifie d'abord la classe de celui-ci puis on génère le code associé.
+
+De plus, certains éléments change en focntion du type de scène généré (timeline, scène basique, map). Donc, quand on itère dans les objets présent dans le panorama, en focntion de leurs type on appelle différentes méthodes.
+
+    scène basique -> fucntion generateBase()
+    timeline      -> fucntion generateTimeline()
+    map           -> function generateMap()
+
+Les éléments qui changent en fonction du type de scène sont, dans la plupart des cas, l'affichage de bouton lié à la navigation entre scène. Par exemple, dans le cas d'une timeline qu'on utiliserai sur mobile, il faut afficher des boutons sur la scène qui vont permettre la navigation entre les différentes temporalité de la timeline. On rajoute donc le bout de code suivant au début de la template html lié à la timeline :
+
+```php
+$classNumber = 1;
+foreach($timeline->getViews() as $view){
+    $body .= '<button class="button-74" role="button" onclick="mobileOpacityHandler(\'class' . $classNumber . '\')" id="button' . $classNumber .'">' . $view->getDate() . '</button>';
+    $vr_button .= 'class' . $classNumber . ': ' . $view->getDate() . ';';
+    $classNumber++;
+}
+```
+
+De plus, on va aussi ajouter des classes et paramètre aux différents éléments de la scène en focntion du type de celle-ci.
+
+### Modification des scripts JavaScript
+
+Les scripts JavaScript nécessaire ont été créés indépendamment du générateur et son expliqué [plus bas](#panorama-a-frame). Il faut donc, lors de la génération, simplement modifier certaine ligne de ces script afin de les rendres dynamique en fonction des éléments choisi par l'utilisateur. Par exemple, un des scripts permet d'accéder à la carte si le projet en possède une. Le script permet donc d'y accéder de différentes manières en fonction du périphérique sur lequel le projet est utilisé. Par exemple, sur ordinateur, on y accède grâce à la touche `M`.
+
+Pour modifier le fichier vers lequel on navigue lors de la pression sur la touche, on récupère le fichier JavaScript qui possède la fonction en question puis on modifie les lignes nécessaire avec les bonnes informations. Par exemple : 
+
+```php
+$data = file('./.datas/out/scripts/computerSliderComponent.js');
+$data[47] = 'goTo("./templates/'.$map->name.'","0 0 0")';
+$data[71] = 'goTo("./.templates/'.$map->name.'","0 0 0")';
+file_put_contents('./.datas/out/scripts/computerSliderComponent.js', $data);
+```
+
+### Importation d'ancien Panorama 
+
+Une des fonctionnalités importante du projet était de pouvoir importer un de ses anciens projet à l'aide d'un fichier qui stockerai toute les informations importantes sur un Panorama.
+
+Nous avons donc implémenter dans le générateur la création d'un ficheir json qui sauvegarde les données des différents objets créés par l'utilisateur. Pour ce faire, toute nos classes métier implémente l'interface `JsonSerializable` ainsi donc que la fonction suivante
+
+```php
+public function jsonSerialize(): array
+{
+    return get_object_vars($this);
+}
+```
+
+Cette fonction permet donc de créer un tableau format json contenant toute les informations de l'objet lorsqu'on appelle la fonction `json_encode` sur l'objet. Étant donné que dans notre architecture tout les objets sont des attributs d'un objet Panorama, il nous suffit de faire le json_encode de celui ci afin de transformer tout les autres objets quand il le fera pour le Panorama.
+
+```php
+$json = json_encode($panorama, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+```
+
+Nous obtenons alors un fichier JSON contenant les informations du projet de la forme suivante.
+
+```json
+{
+    "id": "dqdz659c1817ab68c7.50113935",
+    "name": "dqdz",
+    "map": null,
+    "timelines": [],
+    "views": [
+        {
+            "path": "412974929_2333056303551950_1491315192000080061_n.jpg",
+            "elements": [],
+            "date": null,
+            "cameraRotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    ]
+}
+```
+
+Enfin, nous avons implémenté une fonction permettant de faire le travail dans l'autre sens. C'est à dire, que en important ce fichier json dans le site, nous pouvons recréer les différents objets de notre Panorama avec tout leurs attributs. Pour se faire, il existe une fonction déjà implémenté par PHP qui permet de transformer du JSON en objet. Cependant, étant donné que certain objets de notre architecture possède eux même d'autre objets, il est important de les créer dans le bon ordre. C'est pourquoi, nous avons été obligé de refaire nous même cette implémentation afin de controler l'ordre de création et ainsi éviter qui l'application ne soit pas focntionelle.
+
+Par exmple, si on créer une scène qui possède un waypoint on doit aussi avoir créer l'objet de la scène vers laquelle le waypoint amène. Cela implique que nous devons d'abord créer toute nos scènes complètement vide puis tout les éléments qui les composants puis mettre ces composants dans les scènes correspondantes. 
+
+La fonction permettant de faire ce travail est `loadFromFile` de la classe `GeneratorPanorama`. Elle nécessite de devoir être tenu à jour pour chaque ajout de fonctionnalitées. 
+
+La fonction est divisée en plusieurs étapes qui permettent de créer les différents objets et de les ajouter les uns les autres. Chaque étape est précédé d'un commentaire expliquant à quoi elle sert. 
+
+Cette partie du projet reste grandement améliorable notamment en créant un véritable parser qui serai plus optimisé et plus facile à maintenir. 
 
 # Panorama ([A-Frame](https://aframe.io/))
 
