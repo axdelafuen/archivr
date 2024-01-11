@@ -38,10 +38,10 @@ Lien vers l'ancien projet : [Ancien projet](https://codefirst.iut.uca.fr/git/arc
 | Importer des images 360°   | Créer les animations et modèles 3D|
 | Ajouter/Placer des panneaux                                                 |<div align="center">__X__</div> |
 | Ajouter/Placer des points de navigations                           |<div align="center">__X__</div> |
+| Ajouter/Placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 | Lier les points de navigation vers des images 360° _(ou timelines)_              |<div align="center">__X__</div> |
 | Ajouter la carte                                                     |<div align="center">__X__</div> |
 | Ajouter des points de navigation de la carte aux images 360° _(ou timelines)_    |<div align="center">__X__</div> |
-| Importer et placer ses propres modèles 3D                        |<div align="center">__X__</div> |
 
 **Timeline :**
 
@@ -253,6 +253,48 @@ state if_editable <<choice>>
 ```
 
 ### Site web
+
+Le générateur a été codé en PHP, pour être utilisé comme application Web local. _(cf. [Déploiement](#déploiement))_
+
+**Organisation du projet :**
+
+Notre projet repose sur le patron MVC (_Model - View - Controller)_. N'ayant qu'un seul type d'utilisateur sur notre application, nous avons un seul et unique _Controller_. 
+
+Le code source du générateur se trouve dans le répertoire `./src/`. Ce dernier contiens différents répertoires :
+
+- `.template` :
+
+Contient tous les scripts `JS`, et template de pages `HTML` _(vues)_, utilisé lors de la génération d'un panorama.
+
+- `businesses` :
+
+Contient les classes métiers du projet.
+
+- `config` :
+
+Contient le fichier de configuration _(déclaration des constantes)_, ainsi que l'_Autoloder_, qui permet de charger automatiquement une seule fois toutes les classes du projet au lancement de l'application Web.
+
+- `controller` :
+
+Contient le controleur du projet.
+
+- `models` :
+
+Contient les classes modèles du projet
+
+- `views` :
+
+Contient les vues du générateur. _(N.B. le style des vues à été majoritairement fait avec [Bootstrap](https://getbootstrap.com/))_
+
+**L'UX :**
+
+TODO()
+
+**Quelques problèmes connus de notre projet :**
+
+En ce qui concerne la ✨_façon de coder_✨, nous utilisons les sessions (`$_SESSION[]`) dans la majorité de nos vues, sans faire de vérification de ce qu'il y'a dedans. Cette utilisation des sessions avec `$_SESSION[]` dans les vues est une mauvaise pratique. Il aurait fallu utiliser une classe métier de vérification du contenu de `$_SESSION[]`, pour utiliser dans les vues des variables qui auraient été vérifié.
+
+Un autre problème peut arrivé lors de l'utilisation de l'application. En effet, si l'utilisateur importe deux fois la même image cela peut créer des conflits dans le futur. Au début, l'utilisateur aura seulement deux fois sont images, sans problèmes (chacune une entité distinct avec ses propres éléments). Seulement si l'utilisateur souhaite ajouter une des deux dans une _Timeline_, alors les deux images vont être ajoutés. Cela est causé par l'utilisation du nom de l'image pour ajouter dans une _Timeline_, plutôt qu'avec un _id_.
 
 ### Algorithme de génération
 
