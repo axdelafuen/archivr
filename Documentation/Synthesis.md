@@ -8,9 +8,9 @@ _par ASTOLFI Vincent, JAULT Aurian et DE LA FUENTE Axel_
 # Sommaire
 
 - [Introduction](#introduction)
-    - [Qu'est ce qu'Archivr ?](#qu’est-ce-qu’archivr-%3F)
+    - [Qu'est ce qu'Archivr ?](#qu’est-ce-qu’archivr)
     - [Les fonctionnalités](#les-fonctionnalités)   
-- [Générateuri (PHP)](#générateur-(php))
+- [Générateur (PHP)](#générateur-(php))
     - [Conception](#conception)
     - [Site web](#site-web)
     - [Algorithme de génération](#algorithme-de-génération)
@@ -19,10 +19,11 @@ _par ASTOLFI Vincent, JAULT Aurian et DE LA FUENTE Axel_
     - [Tests](#tests)
     - [Script Shell](#script-shell)
     - [Déploiement](#déploiement)
+    - [Intégration continue](#intégration-continue)
 
 # Introduction
 
-### Qu'est ce qu'ArchiVR ?
+### Qu'est ce qu'ArchiVR
 
 Notre projet repose sur un projet éxistant, réalisée par un ancien groupe de l’IUT en 2021. Ce dernier permet d’ajouter de nouvelles images 360° ainsi que de naviguer parmi les points proposés. Ce projet nous à été fourni afin de prolonger son développement ainsi que d’ajouter de nouvelles fonctionnalités notamment la capacité à choisir la temporalité du lieu que l’on visite. Actuellement, le générateur, permet de d'ajouter des images 360°, une carte, ainsi que d’ajouter des éléments interactifs. L’objectif principal de notre travail est de finaliser les éléments déjà créés. Notre client, Monsieur Salva, souahite de plus une amélioration du visuel de l’application se rapprochant d’un résultat professionnel. Comme cité précédemment, la possibilité de choisir la temporalité de lieu que l’on visite est une fonctionnalité clé de l’application car elle s’imbrique directement à notre contexte initial qui est de réaliser des visites de lieux historiques de la ville de Brioude.
 
@@ -468,4 +469,20 @@ php --ini
 
 ### Déploiement
 
-Nous avions pour idée initial de déployer notre générateur. Cependant...
+Suite à des performances insatisfaisantes lors de l'importation d'images et de modèles 3D depuis notre serveur, nous avons pris la décision de limiter l'utilisation de notre application web exclusivement en local, sur l'ordinateur de chaque utilisateur. Nous avons pris cette décision car nous avons constaté une grande lenteure lors de l'importation des images ou modèles 3D vers le serveur, compromettant ainsi l'expérience utilisateur.
+
+_Pour l'utilisation du générateur en local :_
+
+```shell
+php -S 127.0.0.1:8000 -t ./archivr/src/
+```
+
+Une fois un panorama généré, ce dernier peut être déployé sans problème sur un serveur, et accédé par PC, mobile et casque VR.
+
+### Intégration continue
+
+Notre projet possède une intégration continue. Cette dernière permet de lancer les tests sur les classes, ainsi que d'analyser le `reports.xml`, avec **[SonarQube](https://www.sonarsource.com/)**.
+
+Le code est disponible dans le fichier : `.drone.star` _(écrit en [Starlark](https://docs.drone.io/pipeline/scripting/starlark/))_
+
+Des jobs de déploiement sont écrits, mais ils ne sont jamais lancés car, comme vu plus tot, nous avons décidé de ne pas déployer le générateur.
