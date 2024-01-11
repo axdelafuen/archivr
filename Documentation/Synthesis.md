@@ -399,7 +399,7 @@ Toutes les plateformes sont supportées, pour le casque VR, l'évenement `keyDow
 ```
 ### Support des appareils
 
-- **`Scene (Component)`** permet d'inclure des fonctions, évènements et éléments en fonction du support utilisé.
+- **`Scene` (Component)** permet d'inclure des fonctions, évènements et éléments en fonction du support utilisé.
 
 - **`ComputerComponent()`** ajoute le panneau indiquant les touches de contrôles
 
