@@ -445,6 +445,27 @@ _Le script génère aussi un_ `reports.xml` _permettant d'obtenir toutes les inf
 
 À la racine du projet, un script "`./3d-models-support.sh`" est disponible.
 
+Ce script permet de mettre à jour les valeurs suivantes de votre `php.ini` :
+
+```
+upload_max_filesize=20M
+post_max_size=21M
+```
+
+La modification de ces valeurs est requise seulement si vous souhaitez importer vos propres modèles 3D (.gltf). Ces modèles 3D sont trop lourd pour être importer par PHP avec les valeurs par défauts.
+
+Pour utiliser le script :
+
+```shell
+sudo ./3d-models-support.sh
+```
+
+Pour connaître le path de votre `php.ini`
+
+```shell
+php --ini
+```
+
 ### Déploiement
 
 Nous avions pour idée initial de déployer notre générateur. Cependant...
