@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+<head>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="content.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    
+  <a-assets>
+     <a-asset-item id="tree" src="./speakers.glb"></a-asset-item> 
+  </a-assets>
+    <a-camera  id="camera" cursor="rayOrigin: mouse"></a-camera>
+
+    <a-plane color="grey" height="100" width="100" rotation="-90 0 0"></a-plane>
+    <a-sky color="lightblue"></a-sky>
+    <a-entity gltf-model="#tree" position="0 1 -3" rotation=" 0 -90 0" scale="0.3 0.3 0.3" onclick="soundhandler(this,'./dua.mp3')">   
+      <a-plane rotation="0 90 0" position="0 4 -1" width="4" height="2" color="black" opacity=" 0.6" text="value:Dualipa - Fever;align: center; width: 10"></a-plane>
+    </a-entity>
+
+    <a-entity gltf-model="#tree" position="-3 1 -2" rotation=" 0 -35 0" scale="0.3 0.3 0.3" onclick="soundhandler(this,'./xxx.mp3')">
+      <a-plane rotation="0 90 0" position="0 4 -1" width="5" height="2" color="black" opacity=" 0.6" text="value:Moonlight - xxxtentacion;align: center; width: 10"></a-plane>
+    </a-entity>
+
+    <a-entity gltf-model="#tree" position="3 1 -2" rotation=" 0 -180 0" scale="0.3 0.3 0.3" onclick="soundhandler(this,'./day.mp3')">
+      <a-plane rotation="0 90 0" position="0 4 -1" width="6" height="2" color="black" opacity=" 0.6" text="value:Lonely Day - System of a down;align: center; width: 10"></a-plane>
+    </a-entity>
+</a-scene>
+</body>

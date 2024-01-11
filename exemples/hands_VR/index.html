@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo for Panorama</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="./ressources/javaScript/functions.js"></script>
+    <script src="./ressources/javaScript/components.js"></script>
+    <script src="./ressources/javaScript/deviceHandler.js"></script>
+    <script src="./ressources/javaScript/slider/smartphoneSliderComponent.js"></script>
+    <script src="./ressources/javaScript/slider/computerSliderComponent.js"></script>
+    <script src="https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js"></script>
+    
+    <script src="ressources/javaScript/menu.js"></script>
+    <script src="ressources/javaScript/slider.js"></script>
+    <script src="ressources/javaScript/pinchable.js"></script>
+    <script src="ressources/javaScript/colorChanged.js"></script>
+    <script src="ressources/javaScript/time-change.js"></script>
+    <script src="ressources/javaScript/button.js"></script>
+    <script src="ressources/javaScript/pressable.js"></script>
+    <script src="ressources/javaScript/event-manager.js"></script>
+    <script src="ressources/javaScript/pinchBar.js"></script>
+    <script>
+    function debug(){
+      document.querySelector("#pinched").emit("pinchedmoved")
+    }
+    </script>
+  </head>
+  <body>
+    <div class="hud" id="div">
+      <button class="button-74" role="button" onclick="mobileOpacityHandler('classe1')" id="button1"></button>
+      <button class="button-74" role="button" onclick="mobileOpacityHandler('classe2')" id="button2"></button>
+      <button class="button-74" role="button" onclick="mobileOpacityHandler('classe3')" id="button3"></button>
+      <button class="button-74" role="button" onclick="mobileOpacityHandler('classe4')" id="button4"></button>
+    </div>
+    
+    <a-scene scene thumbstick-logging event-manager>
+      <!-- Caméra Rig -->
+    <a-entity id="player" position="0 0 0">
+      <!-- Caméra -->
+      <a-camera cursor="rayOrigin: mouse" id="camera" wasd-controls="enabled: true">
+      </a-camera>
+      </a-entity>
+
+  <a-entity id="base" time-change>
+        <a-box id="pinched" depth="0.060" height="0.060" width="0.4" color="black" rotation="-35 0 90" position="0.4 1 -0.5" pinchbar>
+          <a-entity id="menu" menu position="0.05 0.35 0.300" rotation="0 0 -90">
+            <a-entity id="darkModeButton" button="label: Map" position="-0.15 0.1 0"> </a-entity>
+            <a-entity slider position="0 0 0"></a-entity>
+          </a-entity>
+        </a-box>
+    <a-sky color="lightBlue" sliderelement></a-sky>
+    <a-sky color="Green" opacity="0.0" sliderelement></a-sky>
+    <a-sky color="red" opacity="0.0" sliderelement></a-sky>
+    <a-sky color="purple" opacity="0.0" sliderelement></a-sky>
+      
+  </a-entity>
+  <a-entity hand-tracking-controls="hand: left"></a-entity>
+  <a-entity hand-tracking-controls="hand: right"></a-entity>
+
+</a-scene>
+</body>
+</html>
+
