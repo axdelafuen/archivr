@@ -71,9 +71,9 @@ php --ini
 
 This project was developed by students from the IUT of Aubière (UCA), as part of a university project. The team members are:
 
-- [Aurian JAULT](https://codefirst.iut.uca.fr/git/aurian.jault)
-- [Vincent ASTOLFI](https://codefirst.iut.uca.fr/git/vincent.astolfi)
-- [Axel DE LA FUENTE](https://codefirst.iut.uca.fr/git/axel.de_la_fuente)
+- [Aurian JAULT](https://github.com/AurianJault)
+- [Vincent ASTOLFI](https://github.com/viastolfi)
+- [Axel DE LA FUENTE](https://github.com/axdelafuen)
 
 # For the futur
 
